@@ -12,4 +12,16 @@ export default defineConfig({
   esbuild: {
     jsx: 'automatic',
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'antv': ['@antv/x6', '@antv/layout'],
+          'ui': ['@radix-ui/react-select', '@radix-ui/react-slot', '@radix-ui/react-toast']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
+  }
 })
