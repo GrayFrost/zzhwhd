@@ -1,10 +1,73 @@
-export default function TreeDiagram() {
+import { ReactDiagram } from "gojs-react";
+import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/toaster";
+import { NodeForm } from "@/components/diagram/NodeForm";
+import { LinkForm } from "@/components/diagram/LinkForm";
+import { initDiagram } from "@/components/diagram/DiagramConfig";
+import { useDiagram } from "@/hooks/useDiagram";
+
+function TreeDiagram() {
+  const {
+    theme,
+    nodeDataArray,
+    setNodeDataArray,
+    linkDataArray,
+    setLinkDataArray,
+    newNodeText,
+    setNewNodeText,
+    newNodeTextDirection,
+    setNewNodeTextDirection,
+    newLink,
+    setNewLink,
+    showNodeIndex,
+    diagramRef,
+    handleAddNode,
+    handleAddLink,
+    handleToggleIndex,
+    toggleTheme,
+  } = useDiagram();
+
   return (
-    <main className="container mx-auto px-4 py-12">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 dark:text-white">树形图</h1>
-        {/* 后续添加内容 */}
+    <main className="p-4">
+      <h1 className="text-2xl font-bold mb-4">股权结构图</h1>
+
+      <div className="mb-4 space-y-4">
+        <NodeForm
+          newNodeText={newNodeText}
+          setNewNodeText={setNewNodeText}
+          newNodeTextDirection={newNodeTextDirection}
+          setNewNodeTextDirection={setNewNodeTextDirection}
+          handleAddNode={handleAddNode}
+        />
+        <Button variant="outline" onClick={handleToggleIndex}>
+          {showNodeIndex ? "隐藏节点序号" : "显示节点序号"}
+        </Button>
+        <Button variant="outline" onClick={toggleTheme}>
+          切换主题颜色
+        </Button>
+        <LinkForm
+          newLink={newLink}
+          setNewLink={setNewLink}
+          handleAddLink={handleAddLink}
+        />
       </div>
+      <ReactDiagram
+        ref={diagramRef}
+        initDiagram={() => initDiagram(showNodeIndex, theme)}
+        divClassName="diagram-component"
+        nodeDataArray={nodeDataArray}
+        linkDataArray={linkDataArray}
+        onModelChange={(e) => {
+          if (e.isTransactionFinished) {
+            setNodeDataArray(e.model.nodeDataArray);
+            setLinkDataArray(e.model.linkDataArray);
+          }
+        }}
+      />
+      <Toaster />
     </main>
-  )
+  );
 }
+
+export default TreeDiagram;
+
