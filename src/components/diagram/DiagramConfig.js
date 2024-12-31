@@ -28,6 +28,7 @@ export function registerCustomNode(theme, showIndex) {
           strokeWidth: 2,
           rx: 6,
           ry: 6,
+          magnet: true,
         },
         label: {
           fontSize: 14,
@@ -50,64 +51,6 @@ export function registerCustomNode(theme, showIndex) {
           refY2: 16,
           display: showIndex ? 'block' : 'none',
         },
-      },
-      ports: {
-        groups: {
-          top: {
-            position: 'top',
-            attrs: {
-              circle: {
-                r: 4,
-                magnet: true,
-                stroke: theme.nodeStroke,
-                fill: '#fff',
-                strokeWidth: 2,
-              },
-            },
-          },
-          right: {
-            position: 'right',
-            attrs: {
-              circle: {
-                r: 4,
-                magnet: true,
-                stroke: theme.nodeStroke,
-                fill: '#fff',
-                strokeWidth: 2,
-              },
-            },
-          },
-          bottom: {
-            position: 'bottom',
-            attrs: {
-              circle: {
-                r: 4,
-                magnet: true,
-                stroke: theme.nodeStroke,
-                fill: '#fff',
-                strokeWidth: 2,
-              },
-            },
-          },
-          left: {
-            position: 'left',
-            attrs: {
-              circle: {
-                r: 4,
-                magnet: true,
-                stroke: theme.nodeStroke,
-                fill: '#fff',
-                strokeWidth: 2,
-              },
-            },
-          },
-        },
-        items: [
-          { group: 'top' },
-          { group: 'right' },
-          { group: 'bottom' },
-          { group: 'left' },
-        ],
       },
     })
   } catch (error) {
@@ -138,8 +81,8 @@ export function initDiagram(showIndex, theme) {
         name: 'rounded',
         args: { radius: 8 },
       },
-      anchor: 'center',
-      connectionPoint: 'anchor',
+      anchor: 'orth',
+      connectionPoint: 'bbox',
       allowBlank: false,
       snap: {
         radius: 20,
@@ -164,14 +107,8 @@ export function initDiagram(showIndex, theme) {
           },
         })
       },
-      validateConnection({ sourceView, targetView, sourceMagnet, targetMagnet }) {
-        if (!sourceMagnet || !targetMagnet) {
-          return false
-        }
-        if (sourceView === targetView) {
-          return false
-        }
-        return true
+      validateConnection({ sourceView, targetView }) {
+        return sourceView !== targetView
       },
     },
     highlighting: {
@@ -192,6 +129,7 @@ export function initDiagram(showIndex, theme) {
     },
     interacting: {
       magnetConnectable: true,
+      nodeMovable: true,
     },
   })
 

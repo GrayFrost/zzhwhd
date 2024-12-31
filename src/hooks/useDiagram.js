@@ -12,7 +12,6 @@ export function useDiagram() {
   const [nodeDataArray, setNodeDataArray] = useState([
     { key: 0, text: "控股公司" },
   ]);
-
   const [linkDataArray, setLinkDataArray] = useState([]);
   const [newNodeText, setNewNodeText] = useState("");
   const [newNodeTextDirection, setNewNodeTextDirection] = useState("");
@@ -21,21 +20,13 @@ export function useDiagram() {
     to: "",
     shareRatio: "",
   });
-
   const [showNodeIndex, setShowNodeIndex] = useState(false);
   const graphRef = useRef(null);
 
   const handleAddNode = (updateLayout) => {
-    if (!newNodeText) {
+    if (!newNodeText || !newNodeTextDirection) {
       toast({
-        description: "请输入节点内容",
-        variant: "destructive",
-      });
-      return;
-    }
-    if (!newNodeTextDirection) {
-      toast({
-        description: "请选择内容排列方向",
+        description: !newNodeText ? "请输入节点内容" : "请选择内容排列方向",
         variant: "destructive",
       });
       return;
@@ -48,7 +39,7 @@ export function useDiagram() {
 
     const graph = graphRef.current;
     if (graph) {
-      const node = graph.addNode({
+      graph.addNode({
         shape: 'custom-node',
         x: 0,
         y: 0,
@@ -66,7 +57,6 @@ export function useDiagram() {
       setNewNodeText("");
       setNewNodeTextDirection("");
 
-      // 使用传入的updateLayout函数
       if (updateLayout) {
         updateLayout(graph, String(newKey));
       }
@@ -101,10 +91,9 @@ export function useDiagram() {
         },
       });
 
-      setLinkDataArray([...linkDataArray, { ...newLink }]);
+      setLinkDataArray(prev => [...prev, { ...newLink }]);
       setNewLink({ from: "", to: "", shareRatio: "" });
 
-      // 使用传入的updateLayout函数
       if (updateLayout) {
         updateLayout(graph);
       }
@@ -112,12 +101,11 @@ export function useDiagram() {
   };
 
   const handleToggleIndex = () => {
-    setShowNodeIndex(!showNodeIndex);
+    setShowNodeIndex(prev => !prev);
     const graph = graphRef.current;
     if (graph) {
       graph.getNodes().forEach((node) => {
-        const display = !showNodeIndex ? 'block' : 'none'
-        node.setAttrByPath('index/display', display)
+        node.setAttrByPath('index/display', !showNodeIndex ? 'block' : 'none');
       });
     }
   };
@@ -125,10 +113,9 @@ export function useDiagram() {
   const toggleTheme = () => {
     const newTheme = {
       nodeStroke: theme.nodeStroke === "#1890ff" ? "#f5222d" : "#1890ff",
-      linkStroke:
-        theme.linkStroke === "rgba(24, 144, 255, 0.8)"
-          ? "rgba(245, 34, 45, 0.8)"
-          : "rgba(24, 144, 255, 0.8)",
+      linkStroke: theme.linkStroke === "rgba(24, 144, 255, 0.8)"
+        ? "rgba(245, 34, 45, 0.8)"
+        : "rgba(24, 144, 255, 0.8)",
       textStroke: theme.textStroke,
     };
     setTheme(newTheme);
@@ -136,13 +123,19 @@ export function useDiagram() {
     const graph = graphRef.current;
     if (graph) {
       graph.getNodes().forEach((node) => {
-        node.attr({
-          'body/stroke': newTheme.nodeStroke,
-          'circle/stroke': newTheme.nodeStroke
+        node.setAttrs({
+          body: { stroke: newTheme.nodeStroke },
         });
       });
+
       graph.getEdges().forEach((edge) => {
-        edge.attr('line/stroke', newTheme.linkStroke);
+        edge.setAttrs({
+          line: {
+            stroke: newTheme.linkStroke,
+            strokeWidth: 2,
+            targetMarker: { name: 'classic', size: 8 },
+          },
+        });
       });
     }
   };
