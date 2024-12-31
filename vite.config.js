@@ -9,4 +9,7 @@ export default defineConfig({
       "@": path.resolve("./src"),
     },
   },
+  esbuild: {
+    jsx: 'automatic',
+  },
 })
