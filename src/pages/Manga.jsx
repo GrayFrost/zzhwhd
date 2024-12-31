@@ -1,16 +1,12 @@
-import Image from 'next/image'
-
 export default function MangaReader() {
   return (
     <main className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-6 mb-12">
-          <Image
+          <img
             src="/manga-icon.png"
             alt="漫画阅读器图标"
-            width={80}
-            height={80}
-            className="rounded-2xl shadow-lg"
+            className="w-20 h-20 rounded-2xl shadow-lg object-cover"
           />
           <div>
             <h1 className="text-4xl font-bold dark:text-white">macOS 漫画阅读器</h1>
