@@ -17,7 +17,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'antv': ['@antv/x6', '@antv/layout'],
           'ui': ['@radix-ui/react-select', '@radix-ui/react-slot', '@radix-ui/react-toast']
         }
       }
