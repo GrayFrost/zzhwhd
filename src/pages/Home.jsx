@@ -19,6 +19,11 @@ export default function Home() {
             <h2 className="text-2xl font-semibold mb-2 dark:text-white">蒜头蒜</h2>
             <p className="text-gray-600 dark:text-gray-300">个人博客</p>
           </Link>
+          <Link to="/tree-diagram" 
+             className="p-6 border rounded-lg hover:shadow-lg transition dark:border-gray-700 dark:hover:border-gray-600">
+            <h2 className="text-2xl font-semibold mb-2 dark:text-white">股权结构图</h2>
+            <p className="text-gray-600 dark:text-gray-300">一个简易的画图工具</p>
+          </Link>
         </div>
       </div>
     </main>
