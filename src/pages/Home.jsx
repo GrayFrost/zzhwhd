@@ -44,6 +44,19 @@ export default function Home() {
               一个简易的画图工具
             </p>
           </div>
+          <div
+            className="p-6 border rounded-lg hover:shadow-lg transition dark:border-gray-700 dark:hover:border-gray-600 cursor-pointer"
+            onClick={() => {
+              window.location.href = "https://zzhwhd.com/app-icon-generator";
+            }}
+          >
+            <h2 className="text-2xl font-semibold mb-2 dark:text-white">
+              App图标生成工具
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300">
+              一个生成多种尺寸图标的工具
+            </p>
+          </div>
         </div>
       </div>
     </main>
