@@ -4,20 +4,20 @@ const PrivacyPolicy = () => {
   return (
     <main className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 dark:text-white">漫阅 - 隐私政策</h1>
+        <h1 className="text-4xl font-bold mb-8 dark:text-white">MangaView - 隐私政策</h1>
         
         <div className="space-y-8">
           <section>
             <h2 className="text-2xl font-semibold mb-4 dark:text-white">引言</h2>
             <p className="text-gray-600 dark:text-gray-300">
-              欢迎使用漫阅应用。我们非常重视您的隐私保护。本隐私政策旨在说明我们如何处理用户信息。
+              欢迎使用MangaView应用。我们非常重视您的隐私保护。本隐私政策旨在说明我们如何处理用户信息。
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 dark:text-white">信息收集</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              漫阅是一个纯本地应用程序，用于在 macOS 系统上浏览本地漫画内容。我们承诺：
+              MangaView是一个纯本地应用程序，用于在 macOS 系统上浏览本地漫画内容。我们承诺：
             </p>
             <ul className="list-disc pl-6 space-y-2 text-gray-600 dark:text-gray-300">
               <li>不收集任何个人信息</li>
