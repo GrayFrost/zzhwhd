@@ -31,6 +31,9 @@ export default function Page() {
   return (
     <div>
       <h1>博客</h1>
+      <Link href="/blog/archives">归档</Link>
+      <Link href="/blog/tags">标签</Link>
+      <Link href="/blog/categories">分类</Link>
       {allPosts.map((post, idx) => (
         <PostCard key={idx} {...post} />
       ))}
