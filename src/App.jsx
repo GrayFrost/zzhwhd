@@ -8,7 +8,7 @@ const Privacy = lazy(() => import("./pages/manga/privacy"));
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#f6f2f2] dark:bg-[#0b0f11]">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#0b0f11]">
       <main className="flex-1">
         <div className="container mx-auto max-w-7xl pt-10 pb-[25px] md:pt-16">
           <Router>
