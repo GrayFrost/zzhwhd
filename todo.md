@@ -1,0 +1,25 @@
+
+关于想在自己服务器上部署nextjs所做的操作
+
+首先next要求的版本高，发现自己之前的系统是centos7，安装不了一些高版本的node
+于是决定升级系统，可以在阿里云实例里进行操作
+
+首先提示内存不够，在宝塔上操作了下清除内存，不知道起没起作用
+
+然后提示：当前实例安装有不支持的i386软件包: libstdc++ libgcc glibc nss-softokn-freeb
+
+
+检查系统中是否安装了这些 32 位软件包
+```bash
+rpm -qa | grep '\.i686\|\.i386'
+```
+这将列出所有已安装的 32 位软件包
+
+
+```bash
+sudo yum remove libstdc++.i686 libgcc.i686 glibc.i686 nss-softokn-freebl.i686
+```
+先把我原来centos系统上的这几个软件给删了
+
+然后进行系统升级
+
