@@ -1,35 +1,38 @@
-import { defineDocumentType, makeSource } from 'contentlayer2/source-files'
-import remarkGfm from 'remark-gfm'
+import { defineDocumentType, makeSource } from "contentlayer2/source-files";
+import remarkGfm from "remark-gfm";
 
 const Post = defineDocumentType(() => ({
-  name: 'Post',
-  filePathPattern: '**/*.mdx',
-  contentType: 'mdx',
+  name: "Post",
+  filePathPattern: "**/*.mdx",
+  contentType: "mdx",
   fields: {
     title: {
-      type: 'string',
-      description: 'The title of the post',
+      type: "string",
       required: true,
     },
     date: {
-      type: 'date',
-      description: 'The date of the post',
+      type: "date",
       required: true,
     },
+    tags: { type: "list", of: { type: "string" }, default: [] },
+    category: {
+      type: "string",
+    },
+    layout: { type: "string" },
   },
   computedFields: {
     url: {
-      type: 'string',
-      resolve: (doc) => `/blog/${doc._raw.flattenedPath}`,
+      type: "string",
+      resolve: (doc) => `/blog/detail/${doc._raw.flattenedPath}`,
     },
   },
-}))
+}));
 
 export default makeSource({
-  contentDirPath: 'posts',
+  contentDirPath: "posts",
   documentTypes: [Post],
   mdx: {
     cwd: process.cwd(),
     remarkPlugins: [remarkGfm],
-  }
-})
+  },
+});

@@ -28,6 +28,7 @@ function PostCard(post: Post) {
 }
 
 export default function Page() {
+  console.log('zzh post', allPosts);
   return (
     <div>
       <h1>博客</h1>
