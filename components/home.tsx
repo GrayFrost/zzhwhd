@@ -24,14 +24,14 @@ export function Home() {
       width={width}
       margin={[16, 16]}
     >
-      <Link key="manga" href="/manga" className={cardClass}>
+      {/* <Link key="manga" href="/manga" className={cardClass}>
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
           漫画阅读器
         </h2>
         <p className="text-gray-600 dark:text-gray-300">
           专为 macOS 设计的漫画阅读应用
         </p>
-      </Link>
+      </Link> */}
       <Link key="blog" href="/blog" className={cardClass}>
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">蒜头蒜</h2>
         <p className="text-gray-600 dark:text-gray-300">个人博客</p>
