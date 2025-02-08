@@ -6,7 +6,6 @@ import Pagination from "@/components/pagination";
 const POSTS_PER_PAGE = 10;
 
 export default function Page() {
-  console.log("zzh post", allPosts);
   const pageNumber = 1;
   const displayPosts = allPosts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),

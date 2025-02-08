@@ -1,0 +1,139 @@
+---
+title: Sveaflet的开源总结
+date: '2024-08-02'
+tags: ['svelte']
+category: "建站"
+---
+
+[![Star History Chart](https://api.star-history.com/svg?repos=GrayFrost/sveaflet&type=Date)](https://star-history.com/#GrayFrost/sveaflet&Date)
+
+## 前言
+关于Sveaflet的开发已经告一段落，现在有时间可以好好总结一下开发历程。
+
+关于开源，我一直都有一种开源精神，也可以成为造轮子的精神，奈何没有过硬的能力和持续精神，导致我的大部分项目都是半途而废。因为最近一直在学习Svelte相关的知识，就想在这方面做一些开源的东西，比如想做个Svelte版的Antd库，然而看Antd的源码时发现关于动画的实现也是一个复杂的难题，导致我迟迟得不到推进。结果一拖再拖，导致项目最终太监。
+
+此次的Sveaflet，则是Svelte版的Leaflet组件库。按照常规的流程，我先去看有没有类似的库，有是有，但不全面，接着去看了React版和Vue版的Leaflet组件库的代码，然后从中总结了一些规律，而且这玩意相对来说实现比较简单，于是Sveaflet诞生了。
+
+## 开发
+
+首先我想实现的是一个组件库，依托于我曾经开发Svelte版Antd的经验，我能够很快地决定使用Sveltekit来管理我的项目，Sveltekit天然地支持了管理组件库的这一开发模式。同时我为了让自己的组件库能够直观的展示出来，我有去找了一些使用Sveltekit来开发组件库的开源项目，最终我找到了Flowbite Svelte这个组件库，于是我便照葫芦画瓢，把flowbite-svelte的项目管理方式直接照搬了过来。
+
+接下来的开发过程，便是一边实现组件的逻辑，一边修改在搬运过程中遇到的问题。
+
+### 组件
+
+#### 文件名
+
+关于文件名的命名逻辑，一开始我也是直接Circle.svelte、CirleMarker.svelte诸如此类，然而到了打包阶段，打包后的d.ts里的文件名变量会和Leaflet本身的类名冲突，比如Circle.svelte和`import { Circle } from 'leaflet'`中的Circle冲突，于是在每个组件前都加了个S，即代表Svelte版的组件，依次来规避冲突。
+
+#### 组件的分层
+
+关于组件之间的分层逻辑组织。经过阅读其他组件库的源码和在编程过程中的反复实践，最终得出，leaflet之间的不同类存在着一种层级结构，大概如下：
+
+- 最顶层是Map层，其他的类要展示都得依托于这个顶层的类；
+- 其次是Layer层，这个层用来管理一些瓦片Layer，比如管理TileLayer和TileLayerWMS，目前只有LayerGroup属于这一层
+- 然后是一种特殊的ControlLayer层，用来控制Control相关组件，目前只有ControlLayers属于这一层
+- 最后是Overlay层，大部分的组件都属于这一层，比如：Circle、CirMarker、GeoJSON、Marker、Polygon、Polyline、Rectangle、ImageOverlay、SVGOverlay、VideoOverlay。
+- 剩余的则依附于Overlay，比如Icon、Popup、Tooltip等。
+
+#### props更新
+
+关于组件之间的props更新。最开始是每个组件都有自己的关于props更新处理的逻辑，然而写着写着，除了变量名不同，大部分逻辑甚至可以从另一个组件复制粘贴，于是我从所有组件更新的逻辑中抽象了公共的处理方式，最后实现了一个叫Compare的类，用来关于所有组件的prop更新。
+
+#### 组件内的逻辑
+
+关于组件内部的逻辑。前面的几个关键点都是为了处理组件逻辑而铺垫。大多数组件的逻辑大同小异：首先是对外暴露props，然后拿到上面我们所说的分层，之后是在onMount中生成组件实例，同时加入对props更新的监听，最后则是判断组件的层级，然后一层层的addLayer。
+
+### 网站
+
+说实话，对于Sveaflet组件库网站的搭建，比实现组件本身耗费了更多精力。
+
+#### window is not defined
+
+最开始遇到的问题，也是大部分开发都会遇到的问题。`window is not defined`。目前我的解决方式是直接在`+page.ts`中添加`export const ssr = false;`这一行代码。
+
+#### 项目的目录结构
+Sveltekit中代码的组织方式
+
+#### md转换
+
+关于Markdown文件转页面的处理，经过这个过程，我也是大致了解这些SSR框架的静态文件转换套路。
+
+首先我们定义一个接口，在项目里定义在了`api/posts/+server.ts`里，大致内容如下：
+
+```typescript
+import { fetchMarkdownPosts } from '../../utils/index.ts';
+import { json } from '@sveltejs/kit';
+
+export const GET = async () => {
+  const allPosts = await fetchMarkdownPosts();
+  return json(allPosts);
+};
+```
+
+fetchMarkdownPosts内容大致如下：
+```typescript
+import type Mdsvex from '*.md';
+
+const basename = (path: string) => path.split('/').pop()?.split('.').shift() ?? '';
+const filePath = (path: string) => '/' + basename(path);
+
+export const fetchMarkdownPosts = async () => {
+	const componentFiles = import.meta.glob<Mdsvex>('/src/routes/docs/components/*.md');
+
+	const iterableComponentFiles = Object.entries(componentFiles);
+
+	const allComponents = await Promise.all(
+		iterableComponentFiles.map(async ([path, resolver]) => {
+			const { metadata } = await resolver();
+			return {
+				meta: metadata,
+				path: filePath(path)
+			};
+		})
+	);
+
+	return {
+		components: allComponents,
+	};
+};
+```
+通过vite中的`import.meta.glob`抓取对应目录的所有md文件，再经过json序列化，于是我们便能拿到文件数据。
+
+
+然后再`doc/+layout.ts`里请求定义好的api，这里的`/api/posts`则对应了我们的api目录结构：
+```typescript
+export const load = async ({ fetch }) => {
+  try {
+    const response = await fetch('/api/posts');
+
+    return { posts: await response.json() };
+  } catch (error) {
+    console.error(`Error in load function for /: ${error}`);
+  }
+};
+```
+然后在`+layout.svelte`中对外`export let data;`，用来接收接口的请求，此时我们便能拿到markdown转化后的数据，剩余的便是对所有markdown文件的目录结构进行组织，用正确的路由进行导航。
+
+接着要把markdown数据正确展示到页面上，则用到了mdsvex这个库。
+
+#### 组件功能演示
+关于markdown example的展示，组件的替换。mdx, mdsvexamples
+
+
+
+#### 搜索
+- algolia 搜索
+
+## 测试
+
+## 发布
+### npm包的发布
+standard-version
+
+### vercel部署
+相对于npm把lib目录下的内容发到npm上，vercel部署的东西则是把routes目录下的东西发到网上，给用户一个较为精美的浏览文档的界面。
+
+根据官方文档，我们只需要把`svelte.config.js`中的adapter替换为`@sveltejs/adapter-vercel`，然后在Vercel上关联Github上的Sveaflet项目就ok了。
+
+非常喜欢这种不用操心配置的部署的模式。

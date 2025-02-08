@@ -1,0 +1,79 @@
+---
+title: 安装和使用CocoaPods
+date: '2024-12-13'
+tags: ['ruby']
+---
+
+## 前言
+
+最近打算学习一下SwiftUI，所以从github上找了个项目，然而在跑项目时，毫无疑问报错了。
+遇到的问题便是pod安装依赖的问题，找ai查了一下，是我得先把这些依赖正确的安装一下。
+
+## 安装CocoaPods
+
+大多数ios的项目的包依赖的管理都依赖于CocoaPods，可以把它看成是ios版的npm。
+不过这个CocoaPods其实是一个Ruby的包，而Ruby管理包的工具则是RubyGems。
+所以我们可以通过RubyGems来安装CocoaPods。
+
+> 注意：使用RubyGems之前，请先安装Ruby环境。
+
+```bash
+# 使用清华的源，经过实验这是最靠谱的
+gem sources --add https://mirrors.tuna.tsinghua.edu.cn/rubygems/ --remove https://rubygems.org/
+
+# 查看当前源
+gem sources -l
+
+# 安装 cocoapods
+sudo gem install cocoapods
+```
+
+使用`-V` (大写的V，代表Verbose模式)选项，这将显示详细的安装进度, 防止安装进程挂掉了还在傻乎乎的等着。
+
+```bash
+sudo gem install cocoapods -V
+```
+
+## 配置CocoaPods依赖源
+
+```bash
+cd ~/.cocoapods/repos 
+rm -rf master
+pod repo add master https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git
+```
+
+这段命令有个问题，`mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git`这个仓库很大，安装非常慢，而且没有进度展示。
+
+更改为以下命令：  
+```bash
+cd ~/.cocoapods/repos 
+pod repo remove master
+git clone https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git master
+```
+这样可以清晰地看到安装进度。
+
+最后，我们需要在项目中找到Podfile文件，在文件的*第一行*配置如下命令：
+```ruby
+source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
+```
+
+## CocoaPods的使用
+
+配置完CocoaPods，我们就可以开始使用它了。直接在项目目录下执行以下命令即可：
+```bash
+pod install
+```
+然后就是把项目编译抱起来来。
+
+比较常用的Pod命令：
+
+- `pod init` 初始化CocoaPods项目，在工程目录下执行之后，会生成一个Podfile文件
+- `pod install` 装Podfile中指定的库到项目中
+- `pod update`  更新所有依赖包
+- `pod update xxx`  单独更新xxx依赖
+- `pod search xxx`：在本地的spec库中搜索名为xxx的库
+
+
+## 参考
+
+- [CocoaPods清华镜像源](https://mirrors.tuna.tsinghua.edu.cn/help/CocoaPods/)
