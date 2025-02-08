@@ -36,7 +36,7 @@ export function Home() {
       <Link
         key="manga" // todo
         href="/about"
-        className="group bg-white dark:bg-darkBg border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
+        className="group bg-white dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
       >
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">关于我</h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
@@ -44,14 +44,14 @@ export function Home() {
       <Link
         key="blog"
         href="/blog"
-        className="group bg-white dark:bg-darkBg border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
+        className="group bg-white dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
       >
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">蒜头蒜</h2>
         <p className="text-gray-600 dark:text-gray-300">个人博客</p>
       </Link>
       <Link
         key="tree-diagram" // todo
-        className="group bg-white dark:bg-darkBg border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
+        className="group bg-white dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
         href="life"
       >
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
@@ -61,7 +61,7 @@ export function Home() {
       </Link>
       <Link
         key="app-icon-generator" // todo
-        className="group bg-white dark:bg-darkBg border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
+        className="group bg-white dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
         href="/project"
       >
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
@@ -71,7 +71,7 @@ export function Home() {
       </Link>
       <div
         key="setting"
-        className="group bg-white dark:bg-darkBg border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
+        className="group bg-white dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
       >
         <ThemeToggle />
       </div>

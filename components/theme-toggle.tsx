@@ -11,5 +11,12 @@ export default function ThemeToggle() {
     }
   };
 
-  return <div onClick={toggleTheme}>主题切换</div>;
+  return (
+    <div
+      onClick={toggleTheme}
+      className="text-2xl font-semibold mb-2 dark:text-white"
+    >
+      主题切换：{theme}
+    </div>
+  );
 }
