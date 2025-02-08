@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Responsive } from "react-grid-layout";
 import { useWindowWidth } from "../hooks/use-window-width";
 import { layouts } from "../config/layout";
-
+import ThemeToggle from "@/components/theme-toggle";
 export function Home() {
   const width = useWindowWidth();
 
@@ -38,12 +38,8 @@ export function Home() {
         href="/about"
         className="group bg-white dark:bg-darkBg border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
       >
-        <h2 className="text-2xl font-semibold mb-2 dark:text-white">
-          关于我
-        </h2>
-        <p className="text-gray-600 dark:text-gray-300">
-          hello world
-        </p>
+        <h2 className="text-2xl font-semibold mb-2 dark:text-white">关于我</h2>
+        <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
       <Link
         key="blog"
@@ -71,10 +67,14 @@ export function Home() {
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
           我的项目
         </h2>
-        <p className="text-gray-600 dark:text-gray-300">
-          hello world
-        </p>
+        <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
+      <div
+        key="setting"
+        className="group bg-white dark:bg-darkBg border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
+      >
+        <ThemeToggle />
+      </div>
     </Responsive>
   );
 }
