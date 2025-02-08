@@ -27,30 +27,28 @@ const Page = async ({ params }: { params: { page: string } }) => {
   };
 
   return (
-    <div>
+    <div className="mx-auto">
       <h1>博客文章分页</h1>
       <ul>
         {displayPosts.map((post) => {
           const { url, title } = post;
           return (
             <li key={url} className="py-4">
-              <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                <div className="space-y-3 xl:col-span-3">
-                  <div>
-                    <h3 className="text-2xl font-bold leading-8 tracking-tight">
-                      <Link
-                        href={`/${url}`}
-                        className="text-gray-900 dark:text-gray-100"
-                      >
-                        {title}
-                      </Link>
-                    </h3>
-                    {/* <div className="flex flex-wrap">
+              <div className="space-y-3 xl:col-span-3">
+                <div>
+                  <h3 className="text-2xl font-bold leading-8 tracking-tight">
+                    <Link
+                      href={`/${url}`}
+                      className="text-gray-900 dark:text-gray-100"
+                    >
+                      {title}
+                    </Link>
+                  </h3>
+                  {/* <div className="flex flex-wrap">
                         {tags?.map((tag) => <Tag key={tag} text={tag} />)}
                       </div> */}
-                  </div>
                 </div>
-              </article>
+              </div>
             </li>
           );
         })}

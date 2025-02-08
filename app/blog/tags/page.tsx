@@ -18,7 +18,7 @@ export default function Page() {
   // 列出所有的标签，和对应标签下文章的数量
   const entries = Object.entries(getTagMap());
   return (
-    <div>
+    <div className="mx-auto">
       文章标签
       <div className="flex gap-2">
         {entries.map(([tag, count]) => {
