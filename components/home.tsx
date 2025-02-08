@@ -11,7 +11,7 @@ export function Home() {
   if (!width) return null;
 
   const cardClass =
-    "group bg-white dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700";
+    "group bg-white dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700";
 
   return (
     <Responsive
@@ -24,25 +24,13 @@ export function Home() {
       width={width}
       margin={[16, 16]}
     >
-      {/* <Link
-        key="manga"
-        href="/manga"
-        className="group bg-white dark:bg-darkBg border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg hover:scale-[1.02] mx-auto w-full max-w-[400px]"
-      >
+      <Link key="manga" href="/manga" className={cardClass}>
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
           漫画阅读器
         </h2>
         <p className="text-gray-600 dark:text-gray-300">
           专为 macOS 设计的漫画阅读应用
         </p>
-      </Link> */}
-      <Link
-        key="manga" // todo
-        href="/about"
-        className={cardClass}
-      >
-        <h2 className="text-2xl font-semibold mb-2 dark:text-white">关于我</h2>
-        <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
       <Link key="blog" href="/blog" className={cardClass}>
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">蒜头蒜</h2>
@@ -67,6 +55,15 @@ export function Home() {
       <div key="setting" className={cardClass}>
         <ThemeToggle />
       </div>
+      <div key="social-media" className={cardClass}>
+        <div>github</div>
+        <div>juejin</div>
+        <div>邮箱</div>
+      </div>
+      <Link key="about" href="/about" className={cardClass}>
+        <h2 className="text-2xl font-semibold mb-2 dark:text-white">关于我</h2>
+        <p className="text-gray-600 dark:text-gray-300">hello world</p>
+      </Link>
     </Responsive>
   );
 }
