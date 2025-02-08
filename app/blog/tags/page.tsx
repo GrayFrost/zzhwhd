@@ -24,18 +24,21 @@ export default function Page() {
         {entries.map(([tag, count]) => {
           const TagIcon = tagConfigMap[tag];
           return (
-            <div key={tag} className="inline-flex items-center border h-12 rounded-lg p-2">
+            <div
+              key={tag}
+              className="inline-flex items-center border h-12 rounded-lg p-2"
+            >
               <Link href={`/blog/tags/${tag}`}>
-                <div className="flex items-center">
+                <div className="flex items-center mr-2">
                   {TagIcon && (
                     <TagIcon
-                      className={`fill-current text-gray-700 hover:text-primary-500 dark:text-gray-200 dark:hover:text-primary-400 h-8 w-8`}
+                      className={`fill-current text-gray-700 hover:text-primary-500 dark:text-gray-200 dark:hover:text-primary-400 h-6 w-6 mr-2`}
                     />
                   )}
-                  {tag}
+                  <span className="text-base">{tag}</span>
                 </div>
               </Link>
-              <span>({count})</span>
+              <span className="text-base">({count})</span>
             </div>
           );
         })}

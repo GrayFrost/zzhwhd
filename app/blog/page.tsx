@@ -18,10 +18,13 @@ export default function Page() {
 
   return (
     <div className="mx-auto">
-      <h1>博客</h1>
-      <Link href="/blog/archives">归档</Link>
-      <Link href="/blog/tags">标签</Link>
-      <Link href="/blog/categories">分类</Link>
+      <div className="text-black dark:text-white">
+        <h1>博客</h1>
+        <Link href="/blog/archives">归档</Link>
+        <Link href="/blog/tags">标签</Link>
+        <Link href="/blog/categories">分类</Link>
+      </div>
+
       <ul>
         {displayPosts.map((post) => {
           const { url, title } = post;

@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased`}>
         <ThemeProvider>
-          <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+          <div className="relative min-h-screen flex flex-col bg-white dark:bg-gray-900">
             <Back />
             {children}
           </div>

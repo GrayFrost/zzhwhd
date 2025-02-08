@@ -1,5 +1,5 @@
 import { JSX, SVGProps } from "react";
-import { ReactIcon, SvelteIcon, VueIcon } from "@/components/icons";
+import { ReactIcon, SvelteIcon, VueIcon, RubyIcon } from "@/components/icons";
 
 export const tagConfigMap: Record<
   string,
@@ -8,4 +8,5 @@ export const tagConfigMap: Record<
   react: ReactIcon,
   vue: VueIcon,
   svelte: SvelteIcon,
+  ruby: RubyIcon,
 };
