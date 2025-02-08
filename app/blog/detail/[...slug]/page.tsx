@@ -29,14 +29,19 @@ const PostLayout = async ({ params }: { params: { slug: string[] } }) => {
   const MDXContent = post ? getMDXComponent(post.body.code) : null;
 
   return (
-    <div className="container max-w-5xl px-6 mx-auto">
-      <article className="mt-5 prose lg:prose-lg dark:prose-invert prose-img:w-full prose-img:max-w-lg prose-img:mx-auto prose-img:shadow-2xl prose-img:rounded-3xl prose-a:text-slate-500 max-w-none">
+    <div className="container max-w-3xl mx-auto p-4 md:p-6">
+      <article className="prose dark:prose-invert mx-auto w-full prose-headings:tracking-wide prose-p:tracking-wide prose-a:tracking-wide max-w-none">
         <div className="mb-8 text-center">
-          <h1>{post?.title}</h1>
+          <h1 className="text-2xl font-bold leadi md:text-3xl text-heading tracking-wide">
+            {post?.title}
+          </h1>
           {post?.date && (
-            <time dateTime={post.date} className="mb-1 text-xs text-gray-600">
-              {dayjs(post.date).format("YYYY-MM-DD")}
-            </time>
+            <p className="text-xs text-muted">
+              {"发表于 "}
+              <time dateTime={post.date} className="mb-1 text-xs text-gray-600">
+                {dayjs(post.date).format("YYYY 年 MM 月 DD 日")}
+              </time>
+            </p>
           )}
         </div>
         {!!MDXContent && <MDXContent components={components} />}

@@ -20,7 +20,7 @@ export default function Page() {
   // 列出所有的标签，和对应标签下文章的数量
   const entries = Object.entries(getCategoryMap());
   return (
-    <div className="mx-auto">
+    <div className="container max-w-3xl mx-auto p-4 md:p-6">
       文章分类
       <div>
         {entries.map(([category, count]) => (

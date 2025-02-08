@@ -17,14 +17,7 @@ export default function Page() {
   };
 
   return (
-    <div className="mx-auto">
-      <div className="text-black dark:text-white">
-        <h1>博客</h1>
-        <Link href="/blog/archives">归档</Link>
-        <Link href="/blog/tags">标签</Link>
-        <Link href="/blog/categories">分类</Link>
-      </div>
-
+    <div className="container max-w-3xl mx-auto p-4 md:p-6">
       <ul>
         {displayPosts.map((post) => {
           const { url, title } = post;
