@@ -1,19 +1,19 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
+  basePath: string;
 }
 
 export default function Pagination({
   totalPages,
   currentPage,
+  basePath,
 }: PaginationProps) {
-  const pathname = usePathname();
-  const basePath = pathname.split("/")[1];
+  // const basePath = pathname.split("/")[1];
   const prevPage = currentPage - 1 > 0;
   const nextPage = currentPage + 1 <= totalPages;
 
