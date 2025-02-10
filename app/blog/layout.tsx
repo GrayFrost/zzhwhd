@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GarlicImage } from '@/components/garlic';
 
 export default function Layout({
   children,
@@ -9,7 +10,9 @@ export default function Layout({
     "block py-2 px-3 md:p-0 rounded text-heading md:hover:text-secondary hover:bg-gray-100 dark:hover:bg-gray-700 md:hover:bg-transparent md:dark:hover:bg-transparent tracking-widest";
   return (
     <div className="w-full">
-      <div className="h-[174px] bg-[#f9fafb]">banner</div>
+      <div className="h-[174px] bg-[#f9fafb] flex items-center justify-center">
+        <GarlicImage />
+      </div>
       <div className="sticky top-0 bg-[#f9fafb] z-50 p-2">
         <div className="max-w-5xl flex flex-wrap items-center justify-between mx-auto p-2 sm:p-0">
           <h1 className="space-x-2 font-bold">
