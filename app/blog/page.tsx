@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { allPosts } from "contentlayer/generated";
 import Pagination from "@/components/pagination";
-import dayjs from 'dayjs'
+import { DateFormat } from '@/components/date-format';
+import { BlogTag } from "@/components/blog-tag";
 // import { getMDXComponent } from "next-contentlayer2/hooks";
 
 const POSTS_PER_PAGE = 10;
@@ -26,23 +27,16 @@ export default function Page() {
           return (
             <div
               key={url}
-              className="max-w-4xl px-2 sm:px-4 py-6 mx-auto rounded-lg cursor-pointer sm:hover:bg-slate-300 group"
+              className="max-w-4xl px-2 sm:px-4 py-6 mx-auto rounded-lg cursor-pointer sm:hover:bg-[#f9fafb] group"
             >
               <Link href={`${url}`}>
                 <div className="text-xl font-bold text-heading group-hover:text-slate-700 group-hover:dark:text-white tracking-wide">
                   {title}
                 </div>
                 <div className="flex  justify-start items-center space-x-2 mt-2">
-                  <time>{dayjs(date).format('YYYY 年 MM 月 DD 日')}</time>
+                  <DateFormat date={date} />
                   {tags.map((tag) => {
-                    return (
-                      <span
-                        key={tag}
-                        className="text-xxs font-semibold mx-2 text-rose-700 hover:text-heading pointer-events-auto"
-                      >
-                        <Link href={`/blog/tags/${tag}`}>{tag}</Link>
-                      </span>
-                    );
+                    return <BlogTag key={tag} tag={tag} />;
                   })}
                 </div>
                 <p className="mt-3 text-muted dark:text-gray-400/90 text-sm leading-loose line-clamp-4 group-hover:sm:text-heading tracking-wide"></p>

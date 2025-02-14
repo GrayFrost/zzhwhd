@@ -2,7 +2,7 @@
 import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer2/hooks";
 import { components } from "@/components/mdx-components";
-import dayjs from "dayjs";
+import { DateFormat } from "@/components/date-format";
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({
     slug: post._raw.flattenedPath
@@ -38,9 +38,7 @@ const PostLayout = async ({ params }: { params: { slug: string[] } }) => {
           {post?.date && (
             <p className="text-xs text-muted">
               {"发表于 "}
-              <time dateTime={post.date} className="mb-1 text-xs text-gray-600">
-                {dayjs(post.date).format("YYYY 年 MM 月 DD 日")}
-              </time>
+              <DateFormat date={post.date} />
             </p>
           )}
         </div>

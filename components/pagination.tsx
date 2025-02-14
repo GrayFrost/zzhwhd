@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowBigRightDash, ArrowBigLeftDash } from "lucide-react";
 
 interface PaginationProps {
   totalPages: number;
@@ -25,7 +26,7 @@ export default function Pagination({
             className="cursor-auto disabled:opacity-50"
             disabled={!prevPage}
           >
-            上一页
+            <ArrowBigLeftDash />
           </button>
         )}
         {prevPage && (
@@ -37,23 +38,29 @@ export default function Pagination({
             }
             rel="prev"
           >
-            上一页
+            <ArrowBigLeftDash />
           </Link>
         )}
-        <span>
-          {currentPage} of {totalPages}
-        </span>
+        <div className="flex items-center justify-center gap-2">
+          <div className="h-6 px-2 bg-[#f9fafb] rounded-sm flex items-center justify-center">
+            {currentPage}
+          </div>
+          /
+          <div className="h-6 px-2 bg-[#f9fafb] rounded-sm flex items-center justify-center">
+            {totalPages}
+          </div>
+        </div>
         {!nextPage && (
           <button
             className="cursor-auto disabled:opacity-50"
             disabled={!nextPage}
           >
-            下一页
+            <ArrowBigRightDash />
           </button>
         )}
         {nextPage && (
           <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-            下一页
+            <ArrowBigRightDash />
           </Link>
         )}
       </nav>
