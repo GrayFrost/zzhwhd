@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { Responsive } from "react-grid-layout";
-import { useWindowWidth } from "../hooks/use-window-width";
-import { layouts } from "../config/layout";
+import { useWindowWidth } from "@/hooks/use-window-width";
+import { layouts } from "@/config/layout";
 import ThemeToggle from "@/components/theme-toggle";
 export function Home() {
   const width = useWindowWidth();

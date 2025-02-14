@@ -1,6 +1,6 @@
 import { allPosts, Post } from "contentlayer/generated";
 import Link from "next/link";
-import { tagConfigMap } from "../../../config/tags";
+import { tagConfigMap } from "@/config/tags";
 function getTagMap() {
   const tagMap: Record<string, number> = {};
   allPosts.forEach((post: Post) => {

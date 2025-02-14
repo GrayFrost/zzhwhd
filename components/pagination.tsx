@@ -20,7 +20,7 @@ export default function Pagination({
 
   return (
     <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-      <nav className="flex justify-between">
+      <nav className="flex justify-between dark:text-[#c6c6c6]">
         {!prevPage && (
           <button
             className="cursor-auto disabled:opacity-50"
@@ -42,11 +42,11 @@ export default function Pagination({
           </Link>
         )}
         <div className="flex items-center justify-center gap-2">
-          <div className="h-6 px-2 bg-[#f9fafb] rounded-sm flex items-center justify-center">
+          <div className="h-6 px-2 bg-[#f9fafb] dark:bg-[#1f2937]  rounded-sm flex items-center justify-center">
             {currentPage}
           </div>
           /
-          <div className="h-6 px-2 bg-[#f9fafb] rounded-sm flex items-center justify-center">
+          <div className="h-6 px-2 bg-[#f9fafb] dark:bg-[#1f2937] rounded-sm flex items-center justify-center">
             {totalPages}
           </div>
         </div>

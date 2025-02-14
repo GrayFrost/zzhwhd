@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Responsive } from "react-grid-layout";
-import { useWindowWidth } from "../hooks/use-window-width";
+import { useWindowWidth } from "@/hooks/use-window-width";
 
 const layouts = {
   lg: [
