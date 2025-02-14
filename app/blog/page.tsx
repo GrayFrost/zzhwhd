@@ -30,7 +30,7 @@ export default function Page() {
               className="max-w-4xl px-2 sm:px-4 py-6 mx-auto rounded-lg cursor-pointer sm:hover:bg-[#f9fafb] group"
             >
               <Link href={`${url}`}>
-                <div className="text-xl font-bold text-heading group-hover:text-slate-700 group-hover:dark:text-white tracking-wide">
+                <div className="text-xl font-bold text-heading group-hover:text-slate-700 group-hover:dark:text-white tracking-wide dark:text-[#c6c6c6]">
                   {title}
                 </div>
                 <div className="flex  justify-start items-center space-x-2 mt-2">

@@ -7,13 +7,15 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   const linkClass =
-    "block py-2 px-3 md:p-0 rounded text-heading md:hover:text-secondary hover:bg-gray-100 dark:hover:bg-gray-700 md:hover:bg-transparent md:dark:hover:bg-transparent tracking-widest flex items-center gap-2";
+    "block py-2 px-3 md:p-0 rounded hover:bg-gray-100 dark:hover:bg-gray-700 md:hover:bg-transparent md:dark:hover:bg-transparent tracking-widest flex items-center gap-2 dark:text-[#c6c6c6]";
   return (
     <div className="w-full">
-      <div className="h-[174px] bg-[#f9fafb] flex items-center justify-center">
-        <GarlicImage />
+      <div className="h-[174px] bg-[#f9fafb] dark:bg-[#1f2937] flex items-center justify-center">
+        <Link href="/blog">
+          <GarlicImage />
+        </Link>
       </div>
-      <div className="sticky top-0 bg-[#f9fafb] z-50 p-2">
+      <div className="sticky top-0 bg-[#f9fafb] dark:bg-[#1f2937] z-50 p-2">
         <div className="max-w-5xl flex flex-wrap items-center justify-between mx-auto p-2 sm:p-0">
           <h1 className="space-x-2 font-bold">
             <Link href="/" className={linkClass}>
