@@ -1,5 +1,13 @@
 import { defineDocumentType, makeSource } from "contentlayer2/source-files";
 import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+
+import langJavascript from "highlight.js/lib/languages/javascript";
+import langBash from "highlight.js/lib/languages/bash";
+import langXml from "highlight.js/lib/languages/xml";
+import langDiff from "highlight.js/lib/languages/diff";
+import langJson from "highlight.js/lib/languages/json";
+import languageTypescript from "highlight.js/lib/languages/typescript";
 
 const Post = defineDocumentType(() => ({
   name: "Post",
@@ -34,5 +42,20 @@ export default makeSource({
   mdx: {
     cwd: process.cwd(),
     remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      [
+        rehypeHighlight,
+        {
+          languages: {
+            javascript: langJavascript,
+            bash: langBash,
+            html: langXml,
+            diff: langDiff,
+            json: langJson,
+            typescript: languageTypescript,
+          },
+        },
+      ],
+    ],
   },
 });

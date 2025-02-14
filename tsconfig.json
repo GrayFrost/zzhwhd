@@ -24,6 +24,7 @@
       "@/hooks/*": ["hooks/*"],
       "@/config/*": ["config/*"],
       "@/layouts/*": ["layouts/*"],
+      "@/styles/*": ["styles/*"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     }
   },

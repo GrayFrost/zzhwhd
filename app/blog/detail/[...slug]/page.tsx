@@ -3,6 +3,7 @@ import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer2/hooks";
 import { components } from "@/components/mdx-components";
 import { DateFormat } from "@/components/date-format";
+import "@/styles/atom-one-dark-reasonable.css";
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({
     slug: post._raw.flattenedPath
