@@ -1,21 +1,23 @@
 import Link from "next/link";
-import { Post } from "contentlayer/generated";
+import { allPosts } from "contentlayer/generated";
 import Pagination from "@/components/pagination";
 import { DateFormat } from "@/components/date-format";
 import { BlogTag } from "@/components/blog-tag";
 // import { getMDXComponent } from "next-contentlayer2/hooks";
 
-export default function BlogLayout({
-  displayPosts,
-  pagination,
-}: {
-  displayPosts: Post[];
-  pagination: {
-    currentPage: number;
-    totalPages: number;
-    basePath: string;
+const POSTS_PER_PAGE = 10;
+
+export default function BlogLayout({ pageNumber }: { pageNumber: number }) {
+  const displayPosts = allPosts.slice(
+    POSTS_PER_PAGE * (pageNumber - 1),
+    POSTS_PER_PAGE * pageNumber
+  );
+  const pagination = {
+    currentPage: pageNumber,
+    totalPages: Math.ceil(allPosts.length / POSTS_PER_PAGE),
+    basePath: "blog",
   };
-}) {
+
   return (
     <div className="container max-w-3xl mx-auto p-4 md:p-6">
       <div>

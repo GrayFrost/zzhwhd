@@ -16,17 +16,8 @@ const Page = async ({ params }: { params: { page: string } }) => {
   const { page } = await params;
   const pageNumber = parseInt(page);
 
-  const displayPosts = allPosts.slice(
-    POSTS_PER_PAGE * (pageNumber - 1),
-    POSTS_PER_PAGE * pageNumber
-  );
-  const pagination = {
-    currentPage: pageNumber,
-    totalPages: Math.ceil(allPosts.length / POSTS_PER_PAGE),
-    basePath: "blog",
-  };
 
-  return <BlogLayout displayPosts={displayPosts} pagination={pagination} />;
+  return <BlogLayout pageNumber={pageNumber} />;
 };
 
 export default Page;
