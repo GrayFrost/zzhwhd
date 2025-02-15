@@ -1,0 +1,135 @@
+---
+title: 在Mac中安装flutter环境
+date: '2019-07-19 23:20:00'
+tags: ['flutter']
+categories: 环境搭建
+---
+
+## 安装
+
+### 使用镜像
+
+在国内访问Flutter有时可能会受到限制，Flutter官方为中国开发者搭建了临时镜像。
+进入到解压后的目录。打开终端，执行
+
+``` bash
+vim ~/.bash_profile
+```
+
+打开该文件后，输入
+```bash
+export PUB_HOSTED_URL=https://pub.flutter-io.cn
+export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+```
+
+编辑好后，esc退出并:wq保存。
+
+### flutter sdk
+
+选一个目录作为flutter的安装目录，进入该目录。
+```bash
+git clone -b beta https://github.com/flutter/flutter.git
+```
+
+这下载速度不是一般的满，我起码等了半个钟...
+
+下完之后，重新打开我们之前的 `.bash_profile` 。添加一行
+```bash
+export PATH=/Users/zzh/flutter/bin:$PATH
+```
+ `/Users/zzh` 为我的fullter文件夹的存放地址，请针对修改。
+
+保存后，运行 `flutter doctor` 。
+
+### iterm2相应配置
+
+如果安装成功，应该是可以正常执行该命令的。但我在执行 `flutter doctor` 时，发现一直报错。
+
+因为终端使用的是iterm2 + on my zsh, 
+
+一直提示 `zsh: command flutter not found` 
+
+编辑zsh的配置
+
+vim ~/.zshrc
+
+在最后一行加入以下命令
+```bash
+source ~/.bash_profile
+```
+
+保存退出，之后重启终端。
+
+再次执行flutter doctor，发现生效了。
+
+![](/images/20190719flutter/1.png)
+
+### flutter doctor问题解决
+
+目前只在mac上开发，先针对没有装的ios内容做处理。
+
+根据图片内容，一步步来处理，但第一步 `brew update` 就失败了。
+
+#### homebrew问题
+
+homebrew替换成国内镜像试一下。使用中科大源
+
+ 一、替换默认源
+```bash
+cd "$(brew --repo)"
+
+git remote set-url origin https://mirrors.ustc.edu.cn/brew.git
+
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+
+git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git
+
+brew update
+```
+
+二、替换Homebrew Bottles源
+
+我使用的是iterm+on my zsh，所以对于zsh用户
+
+```bash
+echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles' >> ~/.zshrc
+
+source ~/.zshrc
+```
+
+#### xcode
+
+安装xcode，直接在app store上下载即可。安装xcode主要是为了要有一个模拟器。
+
+#### libimobiledevice
+
+按照提示的步骤：
+```bash
+brew update
+brew install --HEAD usbmuxd
+brew link usbmuxd
+brew install --HEAD libimobiledevice
+brew install ideviceinstaller
+```
+
+#### ios-deploy
+
+```bash
+brew install ios-deploy
+```
+
+#### cocoapods
+
+一直安装下来，发现最后一步的cocoapods安装特别慢，而且最后还失败了。搞了一下午，无奈只能从云盘下载后，解压拷贝到指定目录下。
+```bash
+cp -r master ~/.cocoapods/repos
+```
+
+再一次flutter doctor，神清气爽。
+![](/images/20190719flutter/2.png)
+
+### 运行flutter
+
+我们试着运行一个flutter项目。
+![](/images20190719flutter/3.png)
+
