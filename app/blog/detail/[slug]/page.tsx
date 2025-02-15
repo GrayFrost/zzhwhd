@@ -3,6 +3,7 @@ import { getAllPosts, getPostDetails } from "@/api/posts";
 import Mdx from "@/components/mdx-components";
 import { DateFormat } from "@/components/date-format";
 import "@/styles/atom-one-dark-reasonable.css";
+import 'katex/dist/katex.css'
 
 export const generateStaticParams = async () => {
   const { posts: allPosts } = await getAllPosts();
