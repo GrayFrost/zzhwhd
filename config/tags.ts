@@ -7,7 +7,8 @@ import {
   GitIcon,
   FlutterIcon,
   D3Icon,
-  MatrixIcon
+  MatrixIcon,
+  HexoIcon,
 } from "@/components/icons";
 
 export const tagConfigMap: Record<
@@ -21,5 +22,6 @@ export const tagConfigMap: Record<
   git: GitIcon,
   flutter: FlutterIcon,
   d3: D3Icon,
-  math: MatrixIcon
+  math: MatrixIcon,
+  hexo: HexoIcon,
 };
