@@ -20,13 +20,13 @@ export default async function Page() {
   const entries = Object.entries(getTagMap(posts));
   return (
     <div className="container max-w-3xl mx-auto p-4 md:p-6">    
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-3">
         {entries.map(([tag, count]) => {
           const TagIcon = tagConfigMap[tag];
           return (
             <div
               key={tag}
-              className="inline-flex items-center border h-12 rounded-lg p-2"
+              className="inline-flex items-center border hover:border-primary-500 dark:hover:border-primary-400 h-12 rounded-lg p-2 transition-colors duration-200"
             >
               <Link href={`/blog/tags/${tag}`}>
                 <div className="flex items-center mr-2">
@@ -35,10 +35,10 @@ export default async function Page() {
                       className={`fill-current text-gray-700 hover:text-primary-500 dark:text-gray-200 dark:hover:text-primary-400 h-6 w-6 mr-2`}
                     />
                   )}
-                  <span className="text-base">{tag}</span>
+                  <span className="text-base hover:text-primary-500 dark:hover:text-primary-400">{tag}</span>
                 </div>
               </Link>
-              <span className="text-base">({count})</span>
+              <span className="text-base text-gray-500 dark:text-gray-400">({count})</span>
             </div>
           );
         })}

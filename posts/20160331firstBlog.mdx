@@ -1,0 +1,88 @@
+---
+title: Github+Hexo搭建个人博客
+date: 2016-03-31 21:42:32
+tags: [hexo]
+category: 建站
+---
+
+## 简介
+这是本人的第一篇博客。由友人介绍，接触到Github+Hexo搭建个人博客这么高大上的东西。我觉得写博客首先要简单明了，然后再专业比较好，毕竟看懂弄懂最重要。
+
+## 准备工作
+1. [申请Github账号](http://jingyan.baidu.com/article/455a9950abe0ada167277864.html)
+2. 安装Node，用来生成静态页面，到[Node.js官网](https://nodejs.org/en/)下载相应平台的最新版本，一路安装即可
+3. [安装Git](https://git-scm.com/)，把本地的hexo内容提交到github上去
+4. 安装Hexo
+
+## 安装Hexo过程
+在安装Hexo之前，先要创建Github个人仓库，再配置SSH keys，最后在安装Hexo。
+
+### 创建仓库
+### 配置SSH keys
+```bash
+cd ~/.ssh
+ls
+```
+如果没有则提示： No such file or directory
+如果有则进入~/.ssh路径下（ls查看当前路径文件，rm *删除所有文件）
+```bash
+$ cd ~  #保证当前路径在”~”下
+$ ssh-keygen -t rsa -C "xxxxxx@yy.com"  #建议填写自己真实有效的邮箱地址
+```
+这时会在Users/Administrator/.ssh下生成两个文件，打开.pub结尾的文件，复制内容到github的add ssh key中。
+顺便
+```bash
+$ git config --global user.name “your_username”  #设置用户名
+$ git config --global user.email “your_registered_github_Email”  #设置邮箱地址
+```
+测试ssh keys是否设置成功。
+```bash
+$ ssh -T git@github.com
+```
+
+### 安装Hexo
+首先win+R,cmd打开命令行界面，因联网安装，到[Hexo官网](https://hexo.io/)复制安装命令到命令行界面，等待安装完成。打开Git Bash(安装完Git后，右键就有Git Bash)，输入初始化命令
+```bash
+hexo init
+```
+初始化结束后，输入
+```bash
+hexo g 或 hexo generate
+```
+后面是前面的缩写
+
+输入完成后，就生成一个Hexo博客框架。输入
+```bash
+hexo s 或 hexo server
+```
+顾名思义，开启服务器，访问localhost:4000。之前就有一次一直访问都访问不了，原来就是忘了输入该命令，我这记性！写完博客，先在本地浏览一下，确认无误再上传，省麻烦。
+在这次安装过程中，唯一遇到的问题是右键Git Bash打开闪退。因为原来是朋友直传的文件，卸了后，去官网重下就解决了，虽然下载速度有点慢。
+
+## 常用命令
+```bash
+hexo new "文章名" //新建文章
+hexo new page "新建页面名" //新建页面
+hexo g //生成
+hexo d //部署
+```
+
+## 部署到Github
+修改本地博客文件夹根目录下的<strong>_config.yml</strong>文件**deploy**的**repo**，这个以用户为标准
+```bash
+deploy:
+  type: git
+  repo: git@github.com:GrayFrost/GrayFrost.github.io.git
+  branch: master
+```
+在目录下右键打开Git Bash，输入
+```bash
+hexo g
+hexo d
+```
+以后每次在本地修改完博客，输入以上两条命令，就完成博客了。
+
+## 问题
+`hexo ERROR Deployer not found: github`
+
+解决：安装`npm install hexo-deployer-git --save`，再将deploy 的 type由github改为git。
+顺便说下，如果使用ssh部署不成功的话，请使用https的方式试试，即type下一个选项repository的值进行相应更改。（2016-08-15重装系统后，弄了一下午Orz）

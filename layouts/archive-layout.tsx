@@ -13,7 +13,7 @@ interface Archive {
 function getArchiveList(allPosts: Post[], pageNumber: number): Archive[] {
   const displayPosts = allPosts
     .sort((a, b) => {
-      return dayjs(b.metadata.date).valueOf()- dayjs(a.metadata.date).valueOf()
+      return dayjs(b.metadata.date).valueOf() - dayjs(a.metadata.date).valueOf()
     })
     .slice((pageNumber - 1) * POSTS_PER_PAGE, pageNumber * POSTS_PER_PAGE);
   const archiveList: Archive[] = [];
