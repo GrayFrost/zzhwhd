@@ -2,6 +2,7 @@
 
 import fs from "fs";
 import matter from "gray-matter";
+import readingTime, { ReadTimeResults } from "reading-time";
 import path from "path";
 import { serialize } from "next-mdx-remote/serialize";
 
@@ -12,8 +13,8 @@ export interface Post {
   metadata: {
     [key: string]: any;
   };
-  raw: string;
-  content: any;
+  content: string;
+  readTime?: ReadTimeResults;
 }
 
 export async function getAllPosts(): Promise<{ posts: Post[] }> {
@@ -27,14 +28,15 @@ export async function getAllPosts(): Promise<{ posts: Post[] }> {
 
       // 解析内容
       const { data, content } = matter(fileContents);
-      const serializeContent = await serialize(content)
+      const readTime = readingTime(content);
+
       return {
         id: filename.split(".")[0], // 确保每个文件名唯一
         url: `/blog/detail/${filename.split(".")[0]}`,
         filename,
         metadata: data,
-        raw: content,
-        content: serializeContent,
+        content,
+        readTime,
       };
     })
   );
@@ -54,12 +56,15 @@ export async function getPostDetails(
 
   // 解析内容
   const { data, content } = matter(fileContents);
+  const readTime = readingTime(content);
   const post = {
     id: filenameId, // 确保每个文件名唯一
     url: `/blog/detail/${filenameId}`,
     filename,
     metadata: data,
+    raw: content,
     content,
+    readTime,
   };
 
   return {

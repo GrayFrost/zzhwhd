@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Post } from "../api/posts";
+import { Post } from "@/api/posts";
 import Pagination from "@/components/pagination";
 import { DateFormat } from "@/components/date-format";
 import { BlogTag } from "@/components/blog-tag";

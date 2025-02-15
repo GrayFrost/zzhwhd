@@ -1,5 +1,5 @@
 import BlogLayout from "@/layouts/blog-layout";
-import { getAllPosts } from "../../api/posts";
+import { getAllPosts } from "@/api/posts";
 
 export default async function Page() {
   const pageNumber = 1;

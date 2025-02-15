@@ -1,4 +1,4 @@
-import { getAllPosts } from "../../../../api/posts";
+import { getAllPosts } from "@/api/posts";
 import BlogLayout from "@/layouts/blog-layout";
 
 const POSTS_PER_PAGE = 10;
