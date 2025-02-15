@@ -1,5 +1,5 @@
-import { allPosts, Post } from "contentlayer/generated";
-
+import { Post } from "@/api/posts";
+import dayjs from 'dayjs';
 import Pagination from "@/components/pagination";
 import { ArchiveListItem } from "@/components/archive-list-item";
 
@@ -10,13 +10,15 @@ interface Archive {
   posts: Post[];
 }
 
-function getArchiveList(pageNumber: number): Archive[] {
+function getArchiveList(allPosts: Post[], pageNumber: number): Archive[] {
   const displayPosts = allPosts
-    .sort((a, b) => b.date.localeCompare(a.date))
+    .sort((a, b) => {
+      return dayjs(b.metadata.date).valueOf()- dayjs(a.metadata.date).valueOf()
+    })
     .slice((pageNumber - 1) * POSTS_PER_PAGE, pageNumber * POSTS_PER_PAGE);
   const archiveList: Archive[] = [];
   for (const post of displayPosts) {
-    const year = post.date.slice(0, 4);
+    const year = dayjs(post.metadata.date).format('YYYY');
     const archive = archiveList.find((archive) => archive.year === year);
     if (archive) {
       archive.posts.push(post);
@@ -27,8 +29,8 @@ function getArchiveList(pageNumber: number): Archive[] {
   return archiveList;
 }
 
-export default function Page({ pageNumber }: { pageNumber: number }) {
-  const displayPosts = getArchiveList(pageNumber);
+export default function Page({ pageNumber, posts: allPosts }: { pageNumber: number, posts: Post[] }) {
+  const displayPosts = getArchiveList(allPosts, pageNumber);
 
   const pagination = {
     currentPage: pageNumber,

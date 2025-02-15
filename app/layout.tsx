@@ -4,7 +4,7 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
 import Back from "@/components/back";
-import ThemeProvider from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Garlic Garlic | 蒜头蒜",
@@ -19,7 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <div className="relative min-h-screen flex flex-col bg-white dark:bg-gray-900">
             <Back />
             {children}

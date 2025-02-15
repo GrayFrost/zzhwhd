@@ -1,10 +1,10 @@
-import { allPosts, Post } from "contentlayer/generated";
+import { getAllPosts, Post } from "@/api/posts";
 import Link from "next/link";
 import { tagConfigMap } from "@/config/tags";
-function getTagMap() {
+function getTagMap(allPosts: Post[]) {
   const tagMap: Record<string, number> = {};
   allPosts.forEach((post: Post) => {
-    post.tags.forEach((tag) => {
+    post.metadata.tags?.forEach((tag: string) => {
       if (!tagMap[tag]) {
         tagMap[tag] = 0;
       }
@@ -14,9 +14,10 @@ function getTagMap() {
   return tagMap;
 }
 
-export default function Page() {
+export default async function Page() {
+  const { posts } = await getAllPosts();
   // 列出所有的标签，和对应标签下文章的数量
-  const entries = Object.entries(getTagMap());
+  const entries = Object.entries(getTagMap(posts));
   return (
     <div className="container max-w-3xl mx-auto p-4 md:p-6">    
       <div className="flex gap-2">

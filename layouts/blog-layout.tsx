@@ -1,13 +1,19 @@
 import Link from "next/link";
-import { allPosts } from "contentlayer/generated";
+import { Post } from "../api/posts";
 import Pagination from "@/components/pagination";
 import { DateFormat } from "@/components/date-format";
 import { BlogTag } from "@/components/blog-tag";
-// import { getMDXComponent } from "next-contentlayer2/hooks";
 
 const POSTS_PER_PAGE = 10;
 
-export default function BlogLayout({ pageNumber }: { pageNumber: number }) {
+export default function BlogLayout({
+  pageNumber,
+  posts,
+}: {
+  pageNumber: number;
+  posts: Post[];
+}) {
+  const allPosts = posts || [];
   const displayPosts = allPosts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),
     POSTS_PER_PAGE * pageNumber
@@ -22,7 +28,8 @@ export default function BlogLayout({ pageNumber }: { pageNumber: number }) {
     <div className="container max-w-3xl mx-auto p-4 md:p-6">
       <div>
         {displayPosts.map((post) => {
-          const { url, title, date, tags } = post;
+          const { metadata, url } = post;
+          const { title, date, tags } = metadata;
           return (
             <div
               key={url}
@@ -34,7 +41,7 @@ export default function BlogLayout({ pageNumber }: { pageNumber: number }) {
                 </div>
                 <div className="flex  justify-start items-center space-x-2 mt-2">
                   <DateFormat date={date} />
-                  {tags.map((tag) => {
+                  {tags.map((tag: string) => {
                     return <BlogTag key={tag} tag={tag} />;
                   })}
                 </div>

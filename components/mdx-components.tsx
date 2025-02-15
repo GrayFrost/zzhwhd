@@ -1,8 +1,12 @@
-import type { MDXComponents } from 'mdx/types';
-import Image from './image';
+
+import { MDXRemote, MDXRemoteProps } from 'next-mdx-remote/rsc'
+import Image from "./image";
 // import Pre from "./pre";
 
-export const components: MDXComponents = {
+const components = {
   Image,
-  // pre: Pre,
+};
+
+export default function Mdx(props: MDXRemoteProps) {
+  return <MDXRemote {...props} components={components} />;
 }

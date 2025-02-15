@@ -25,7 +25,7 @@
       "@/config/*": ["config/*"],
       "@/layouts/*": ["layouts/*"],
       "@/styles/*": ["styles/*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
+      "@/api/*": ["api/*"],
     }
   },
   "include": [
@@ -35,8 +35,6 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.json",
-    ".contentlayer/generated",
-    ".contentlayer/generated/**/*.json",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]

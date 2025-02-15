@@ -1,8 +1,8 @@
-import ArchiveLayout from '@/layouts/archive-layout';
+import { getAllPosts } from "@/api/posts";
+import ArchiveLayout from "@/layouts/archive-layout";
 
-export default function Page() {
+export default async function Page() {
   const pageNumber = 1;
-  return (
-    <ArchiveLayout pageNumber={pageNumber} />
-  );
+  const { posts } = await getAllPosts();
+  return <ArchiveLayout posts={posts} pageNumber={pageNumber} />;
 }
