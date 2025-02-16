@@ -32,41 +32,41 @@ export function Home() {
           专为 macOS 设计的漫画阅读应用
         </p>
       </Link> */}
-      <Link key="1" href="/blog" className={cardClass}>
+      <Link key="1" href="/blog" className={`${cardClass} bg-[#ee7982]`}>
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">蒜头蒜</h2>
         <p className="text-gray-600 dark:text-gray-300">个人博客</p>
       </Link>
-      <Link key="2" className={cardClass} href="life">
+      <Link key="2" className={`${cardClass} bg-[#f8cc49]`} href="life">
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
           生活日记
         </h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
-      <Link key="3" className={cardClass} href="/project">
+      <Link key="3" className={`${cardClass} bg-[#a3cbd3]`} href="/project">
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
           我的项目
         </h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
-      <div key="4" className={cardClass}>
+      <div key="4" className={`${cardClass} bg-[#dabdeb]`}>
         <ThemeToggle />
       </div>
-      <div key="5" className={cardClass}>
+      <div key="5" className={`${cardClass} bg-[#707dff]`}>
         <div>github</div>
         <div>juejin</div>
         <div>邮箱</div>
       </div>
-      <Link key="6" href="/about" className={cardClass}>
+      <Link key="6" href="/about" className={`${cardClass} bg-[#b4e78a]`}>
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">关于我</h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
-      <Link key="7" className={cardClass} href="/">
+      <Link key="7" className={`${cardClass} bg-[#f34f4e]`} href="/">
         hello world
       </Link>
-      <Link key="8" className={cardClass} href="/">
+      <Link key="8" className={`${cardClass} bg-[#f79319]`} href="/">
         hello world
       </Link>
-      <Link key="9" className={cardClass} href="/">
+      <Link key="9" className={`${cardClass} bg-[#77cfff]`} href="/">
         hello world
       </Link>
     </Responsive>
