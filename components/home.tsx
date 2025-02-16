@@ -17,7 +17,7 @@ export function Home() {
     <Responsive
       breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
       className="layout w-full h-full"
-      cols={{ lg: 4, md: 4, sm: 2, xs: 1, xxs: 1 }}
+      cols={{ lg: 4, md: 3, sm: 2, xs: 1, xxs: 1 }}
       layouts={layouts}
       isDraggable={false}
       isResizable={false}
@@ -32,37 +32,42 @@ export function Home() {
           专为 macOS 设计的漫画阅读应用
         </p>
       </Link> */}
-      <Link key="blog" href="/blog" className={cardClass}>
+      <Link key="1" href="/blog" className={cardClass}>
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">蒜头蒜</h2>
         <p className="text-gray-600 dark:text-gray-300">个人博客</p>
       </Link>
-      <Link
-        key="tree-diagram" // todo
-        className={cardClass}
-        href="life"
-      >
+      <Link key="2" className={cardClass} href="life">
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
           生活日记
         </h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
-      <Link key="project" className={cardClass} href="/project">
+      <Link key="3" className={cardClass} href="/project">
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
           我的项目
         </h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
-      <div key="setting" className={cardClass}>
+      <div key="4" className={cardClass}>
         <ThemeToggle />
       </div>
-      <div key="social-media" className={cardClass}>
+      <div key="5" className={cardClass}>
         <div>github</div>
         <div>juejin</div>
         <div>邮箱</div>
       </div>
-      <Link key="about" href="/about" className={cardClass}>
+      <Link key="6" href="/about" className={cardClass}>
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">关于我</h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
+      </Link>
+      <Link key="7" className={cardClass} href="/">
+        hello world
+      </Link>
+      <Link key="8" className={cardClass} href="/">
+        hello world
+      </Link>
+      <Link key="9" className={cardClass} href="/">
+        hello world
       </Link>
     </Responsive>
   );
