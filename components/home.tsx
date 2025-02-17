@@ -11,7 +11,7 @@ export function Home() {
   if (!width) return null;
 
   const cardClass =
-    "group bg-white dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700";
+    "group dark:bg-gray-700 border dark:border-knight transition-all duration-300 rounded-[32px] flex flex-col justify-between p-5 overflow-hidden z-[1] hover:shadow-lg dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700";
 
   return (
     <Responsive

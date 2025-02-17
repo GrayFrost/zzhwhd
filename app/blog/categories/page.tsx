@@ -22,15 +22,16 @@ export default async function Page() {
   const entries = Object.entries(getCategoryMap(posts));
   return (
     <div className="container max-w-3xl mx-auto p-4 md:p-6">
-      文章分类
-      <div>
-        {entries.map(([category, count]) => (
-          <div key={category}>
-            <Link href={`/blog/categories/${category}`}>{category}</Link>
-            <span>({count})</span>
-          </div>
-        ))}
-      </div>
+      {entries.map(([category, count]) => (
+        <Link
+          key={category}
+          href={`/blog/categories/${category}`}
+          className="flex max-w-4xl px-2 py-6 mx-auto rounded-lg cursor-pointer hover:bg-[#f9fafb] group dark:hover:bg-[#1f2937]"
+        >
+          {category}
+          <span>({count})</span>
+        </Link>
+      ))}
     </div>
   );
 }
