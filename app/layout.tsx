@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-import Back from "@/components/back";
+import BottomOperations from "@/components/bottom-operations";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="relative min-h-screen flex flex-col bg-white dark:bg-gray-900">
-            <Back />
+            <BottomOperations />
             {children}
           </div>
         </ThemeProvider>
