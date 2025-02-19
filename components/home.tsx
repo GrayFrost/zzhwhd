@@ -5,6 +5,7 @@ import { Responsive } from "react-grid-layout";
 import { useWindowWidth } from "@/hooks/use-window-width";
 import { layouts } from "@/config/layout";
 import ThemeToggle from "@/components/theme-toggle";
+import Clock from '@/components/clock';
 export function Home() {
   const width = useWindowWidth();
 
@@ -61,7 +62,7 @@ export function Home() {
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
       <Link key="7" className={`${cardClass} bg-[#f34f4e]`} href="/">
-        hello world
+        <Clock />
       </Link>
       <Link key="8" className={`${cardClass} bg-[#f79319]`} href="/">
         hello world
