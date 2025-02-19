@@ -73,9 +73,9 @@ export default function Time() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="text-white">{date}</div>
-      <div className="text-white">{time}</div>
-      <div className="clock">
+      <div className="text-[#4a5568]">{date}</div>
+      <div className="text-[#4a5568]">{time}</div>
+      <div className="flex items-center justify-center clock">
         <div className="hour" ref={hourRef}></div>
         <div className="min" ref={minRef}></div>
         <div className="sec" ref={secRef}></div>

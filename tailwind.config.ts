@@ -13,6 +13,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      boxShadow: {
+        'card': '.4em .4em .8em #99b5d2, -.4em -.4em .8em #fff',
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],
