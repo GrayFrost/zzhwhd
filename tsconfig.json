@@ -26,6 +26,7 @@
       "@/layouts/*": ["layouts/*"],
       "@/styles/*": ["styles/*"],
       "@/api/*": ["api/*"],
+      "@/animations/*": ["animations/*"]
     }
   },
   "include": [

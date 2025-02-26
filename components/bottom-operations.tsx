@@ -19,7 +19,7 @@ export default function BottomOperations() {
   const iconWrapClass =
     "flex items-center justify-center w-10 h-10 bg-slate-300 opacity-30 hover:opacity-100 cursor-pointer rounded-full";
   return (
-    <div className="fixed bottom-4 right-4">
+    <div className="fixed bottom-4 right-4 z-10">
       <div className="flex flex-col gap-2">
         <Link href="/" className={iconWrapClass}>
           <House />
