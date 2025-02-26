@@ -3,7 +3,7 @@ import { getAllPosts, getPostDetails } from "@/api/posts";
 import Mdx from "@/components/mdx-components";
 import { DateFormat } from "@/components/date-format";
 import "@/styles/atom-one-dark-reasonable.css";
-import 'katex/dist/katex.css'
+import "katex/dist/katex.css";
 
 export const generateStaticParams = async () => {
   const { posts: allPosts } = await getAllPosts();
@@ -20,8 +20,7 @@ export const generateMetadata = async ({
   const { slug } = await params;
   const { post } = await getPostDetails(slug);
   const {
-    metadata: { title, date },
-    content,
+    metadata: { title },
   } = post;
   return { title };
 };
