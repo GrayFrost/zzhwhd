@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import dayjs from 'dayjs';
+import { useWindowWidth } from "@/hooks/use-window-width";
 import "@/styles/clock.css";
 
 const week = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -9,6 +11,7 @@ const deg = 6;
 export default function Time() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const width = useWindowWidth();
   const timerID = useRef<NodeJS.Timeout | null>(null);
   const hourRef = useRef<HTMLDivElement>(null);
   const minRef = useRef<HTMLDivElement>(null);
@@ -49,14 +52,15 @@ export default function Time() {
       zeroPadding(cd.getMinutes(), 2) +
       ":" +
       zeroPadding(cd.getSeconds(), 2);
-    const clockDate =
-      zeroPadding(cd.getFullYear(), 4) +
-      "-" +
-      zeroPadding(cd.getMonth() + 1, 2) +
-      "-" +
-      zeroPadding(cd.getDate(), 2) +
-      " " +
-      week[cd.getDay()];
+    // const clockDate =
+    //   zeroPadding(cd.getFullYear(), 4) +
+    //   "-" +
+    //   zeroPadding(cd.getMonth() + 1, 2) +
+    //   "-" +
+    //   zeroPadding(cd.getDate(), 2) +
+    //   " " +
+    //   week[cd.getDay()];
+    const clockDate = `${dayjs(cd).format('YYYY-MM-DD')} ${week[cd.getDay()]}`
 
     setDate(clockDate);
     setTime(clockTime);
@@ -72,14 +76,17 @@ export default function Time() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center flex-1">
       <div className="text-[#4a5568]">{date}</div>
       <div className="text-[#4a5568]">{time}</div>
-      <div className="flex items-center justify-center clock">
+      {(width && width > 768) && (
+        <div className="flex items-center justify-center clock">
         <div className="hour" ref={hourRef}></div>
         <div className="min" ref={minRef}></div>
         <div className="sec" ref={secRef}></div>
       </div>
+      )}
+      
     </div>
   );
 }

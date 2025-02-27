@@ -1,0 +1,36 @@
+.sprite-renderer {
+
+}
+
+.bee {
+  width: 36px;
+  height: 34px;
+
+  background:  url('../public/sprites/bee.png') no-repeat 0 0%;
+  animation: sprite 0.5s steps(5, end) infinite;
+}
+
+.bunny {
+  width: 34px;
+  height: 44px;
+  background: url('../public//sprites/bunny-run.png') no-repeat 0 0;
+  animation: sprite 0.5s steps(11, end) infinite;
+}
+
+.run {
+  animation: run 5s linear infinite;
+}
+
+@keyframes sprite {
+  from { background-position: 0%; }
+  to { background-position: 100%}
+}
+
+@keyframes run {
+  from {
+    transform: translateX(105%);
+  }
+  to {
+    transform: translateX(-5%);
+  }
+}
