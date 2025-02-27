@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <>
       <main className="flex-1">
-        <div className="absolute inset-0 h-full w-full bg-[#edf2f7] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div className="absolute inset-0 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div className="container mx-auto max-w-7xl py-8">
           <Home />
         </div>
