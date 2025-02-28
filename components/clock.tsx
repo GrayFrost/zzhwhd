@@ -77,8 +77,8 @@ export default function Time() {
 
   return (
     <div className="flex flex-col justify-center items-center flex-1">
-      <div className="text-[#4a5568]">{date}</div>
-      <div className="text-[#4a5568]">{time}</div>
+      <div className="text-[#4a5568] dark:text-white">{date}</div>
+      <div className="text-[#4a5568] dark:text-white">{time}</div>
       {(width && width > 768) && (
         <div className="flex items-center justify-center clock">
         <div className="hour" ref={hourRef}></div>
