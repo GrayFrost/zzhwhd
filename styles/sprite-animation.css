@@ -49,9 +49,9 @@
 
 @keyframes run {
   from {
-    transform: translateX(130%);
+    transform: translateX(100%);
   }
   to {
-    transform: translateX(-30%);
+    transform: translateX(-15%);
   }
 }
