@@ -29,7 +29,7 @@ export default function BlogLayout({
       <div>
         {displayPosts.map((post) => {
           const { metadata, url } = post;
-          const { title, date, tags } = metadata;
+          const { title, date, tags, description } = metadata;
           return (
             <div
               key={url}
@@ -45,7 +45,9 @@ export default function BlogLayout({
                     return <BlogTag key={tag} tag={tag} />;
                   })}
                 </div>
-                <p className="mt-3 text-muted dark:text-gray-400/90 text-sm leading-loose line-clamp-4 group-hover:sm:text-heading tracking-wide"></p>
+                <p className="mt-3 text-[#64748b] dark:text-gray-400/90 text-sm leading-loose line-clamp-4 group-hover:sm:text-heading tracking-wide">
+                  {description}
+                </p>
               </Link>
             </div>
           );

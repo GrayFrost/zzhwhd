@@ -7,6 +7,7 @@ import { layouts } from "@/config/layout";
 import ThemeToggle from "@/components/theme-toggle";
 import Clock from "@/components/clock";
 import { twMerge } from "tailwind-merge";
+import { Socials } from './socials';
 import "../styles/sprite-animation.css";
 export function Home() {
   const width = useWindowWidth();
@@ -20,8 +21,7 @@ export function Home() {
     "group relative flex flex-col justify-between overflow-hidden rounded-xl bg-background [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] transform-gpu dark:bg-background dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset] col-span-3 lg:col-span-1 p-4";
 
   // , "bg-[#ee7982]", "bg-[#f8cc49]", "bg-[#a3cbd3]", "bg-[#dabdeb]", "bg-[#707dff]", "bg-[#b4e78a]", "bg-[#f34f4e]", "bg-[#f79319]", "bg-[#77cfff]"
-  const socialClass =
-    "w-full cursor-pointer rounded-md border bg-white px-2 py-1.5 transition-all hover:bg-transparent hover:shadow-[4px_4px_0px_0px] hover:shadow-gray-800 dark:bg-card dark:hover:bg-accent dark:hover:shadow-[4px_4px_0px_0px] dark:hover:shadow-accent";
+
   return (
     <Responsive
       breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
@@ -46,16 +46,12 @@ export function Home() {
         </h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
-      <Link key="4" className={twMerge(cardClass)} href="/about">
-        <div className={socialClass}>Github</div>
-        <div className={socialClass}>掘金</div>
-        <div className={socialClass}>邮箱</div>
-        <div className={socialClass}>知乎</div>
-        <div className={socialClass}>简书</div>
-      </Link>
-      <div key="5" className={twMerge(cardClass)}>
-        关于我
+      <div key="social" className={twMerge(cardClass)}>
+        <Socials />
       </div>
+      <Link key="5" className={twMerge(cardClass)} href="/about">
+        关于我
+      </Link>
 
       <div key="6" className={twMerge(cardClass)}>
         <ThemeToggle />

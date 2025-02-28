@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { GarlicImage } from "@/components/garlic";
 import { BlogNav } from "@/components/blog-nav";
-import ClickSpark from "@/animations/ClickSpark/ClickSpark";
+// import ClickSpark from "@/animations/ClickSpark/ClickSpark";
 export default function Layout({
   children,
 }: Readonly<{
@@ -9,13 +9,13 @@ export default function Layout({
 }>) {
   return (
     <div className="w-full">
-      <ClickSpark
+      {/* <ClickSpark
         sparkColor="#e87373"
         sparkSize={10}
         sparkRadius={15}
         sparkCount={8}
         duration={400}
-      >
+      > */}
         <div className="h-[174px] bg-[#f9fafb] dark:bg-[#1f2937] flex items-center justify-center">
           <Link href="/blog">
             <GarlicImage />
@@ -26,7 +26,7 @@ export default function Layout({
         </div>
 
         {children}
-      </ClickSpark>
+      {/* </ClickSpark> */}
     </div>
   );
 }
