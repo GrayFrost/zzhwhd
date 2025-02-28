@@ -7,7 +7,7 @@ import { layouts } from "@/config/layout";
 import ThemeToggle from "@/components/theme-toggle";
 import Clock from "@/components/clock";
 import { twMerge } from "tailwind-merge";
-import { Socials } from './socials';
+import { Socials } from "./socials";
 import "../styles/sprite-animation.css";
 export function Home() {
   const width = useWindowWidth();
@@ -59,13 +59,24 @@ export function Home() {
       <Link key="7" className={twMerge(cardClass)} href="/">
         <Clock />
       </Link>
-      <Link key="8" className={twMerge(cardClass)} href="/">
-        <div className="sprite-renderer bee"></div>
-        <div className="run flex items-end">
+      <Link key="8" className={twMerge(cardClass, 'relative p-0')} href="/">
+        {/* <div className="sprite-renderer bee"></div> */}
+        <div className="run flex items-end h-full hidden">
           <div className="bunny"></div>
           <div className="chicken"></div>
+          <div className="radish"></div>
+          <div className="rock1"></div>
+          <div className="rock2"></div>
+          <div className="rock3"></div>
+          <div className="trunk"></div>
+          {/* <div className="rino"></div> */}
           {/* <div className="chameleon"></div> */}
           {/* <div className="pig"></div> */}
+        </div>
+        <div className="fixed h-8 w-full left-0 right-0 bottom-0 overflow-hidden flex items-center">
+          <div className="ground h-full w-[96px]"></div>
+          <div className="ground h-full w-[96px]"></div>
+          <div className="ground h-full w-[96px]"></div>
         </div>
       </Link>
       <Link key="9" className={twMerge(cardClass)} href="/">
