@@ -60,8 +60,13 @@ export function Home() {
         <Clock />
       </Link>
       <Link key="8" className={twMerge(cardClass, 'relative p-0')} href="/">
+        <div className="absolute bg-1 top-0 bottom-0 left-0 right-0"></div>
+        <div className="absolute bg-2 top-0 bottom-0 left-0 right-0"></div>
+        <div className="absolute bg-3 top-0 bottom-0 left-0 right-0"></div>
+        <div className="absolute bg-4 top-0 bottom-0 left-0 right-0"></div>
+        <div className="absolute bg-5 top-0 bottom-0 left-0 right-0"></div>
         {/* <div className="sprite-renderer bee"></div> */}
-        <div className="run flex items-end h-full hidden">
+        <div className="run flex items-end h-full mb-7">
           <div className="bunny"></div>
           <div className="chicken"></div>
           <div className="radish"></div>
@@ -73,10 +78,17 @@ export function Home() {
           {/* <div className="chameleon"></div> */}
           {/* <div className="pig"></div> */}
         </div>
-        <div className="fixed h-8 w-full left-0 right-0 bottom-0 overflow-hidden flex items-center">
-          <div className="ground h-full w-[96px]"></div>
-          <div className="ground h-full w-[96px]"></div>
-          <div className="ground h-full w-[96px]"></div>
+        <div className="absolute h-8 w-full left-0 right-0 bottom-0 overflow-hidden flex items-center">
+          <div className="ground h-full w-[150px]"></div>
+          <div className="ground h-full w-[150px]"></div>
+          <div className="ground h-full w-[150px]"></div>
+          <div className="ground h-full w-[150px]"></div>
+          <div className="ground h-full w-[150px]"></div>
+          <div className="ground h-full w-[150px]"></div>
+          <div className="ground h-full w-[150px]"></div>
+          <div className="ground h-full w-[150px]"></div>
+          {/* <div className="ground h-full w-[80px]"></div>
+          <div className="ground h-full w-12"></div> */}
         </div>
       </Link>
       <Link key="9" className={twMerge(cardClass)} href="/">
