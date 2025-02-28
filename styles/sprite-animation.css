@@ -17,6 +17,27 @@
   animation: sprite 0.5s steps(11, end) infinite;
 }
 
+.chicken {
+  width: 32px;
+  height: 34px;
+  background: url('../public//sprites/chicken-run.png') no-repeat 0 0;
+  animation: sprite 0.5s steps(13, end) infinite;
+}
+
+.pig {
+  width: 32px;
+  height: 30px;
+  background: url('../public//sprites/pig-run.png') no-repeat 0 0;
+  animation: sprite 0.5s steps(11, end) infinite;
+}
+
+.chameleon {
+  width: 84px;
+  height: 38px;
+  background: url('../public//sprites/chameleon-run.png') no-repeat 0 0;
+  animation: sprite 0.5s steps(7, end) infinite;
+}
+
 .run {
   animation: run 5s linear infinite;
 }
@@ -28,9 +49,9 @@
 
 @keyframes run {
   from {
-    transform: translateX(105%);
+    transform: translateX(130%);
   }
   to {
-    transform: translateX(-5%);
+    transform: translateX(-30%);
   }
 }

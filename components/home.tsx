@@ -7,7 +7,7 @@ import { layouts } from "@/config/layout";
 import ThemeToggle from "@/components/theme-toggle";
 import Clock from "@/components/clock";
 import { twMerge } from "tailwind-merge";
-import '../styles/sprite-animation.css';
+import "../styles/sprite-animation.css";
 export function Home() {
   const width = useWindowWidth();
 
@@ -64,11 +64,12 @@ export function Home() {
         <Clock />
       </Link>
       <Link key="8" className={twMerge(cardClass)} href="/">
-        <div className="sprite-renderer bee">
-          
-        </div>
-        <div className="run">
-        <div className="bunny"></div>
+        <div className="sprite-renderer bee"></div>
+        <div className="run flex items-end">
+          <div className="bunny"></div>
+          <div className="chicken"></div>
+          {/* <div className="chameleon"></div> */}
+          {/* <div className="pig"></div> */}
         </div>
       </Link>
       <Link key="9" className={twMerge(cardClass)} href="/">
