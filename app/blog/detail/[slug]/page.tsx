@@ -15,7 +15,7 @@ export const generateStaticParams = async () => {
 export const generateMetadata = async ({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
   const { post } = await getPostDetails(slug);
@@ -25,7 +25,7 @@ export const generateMetadata = async ({
   return { title };
 };
 
-const PostLayout = async ({ params }: { params: { slug: string } }) => {
+const PostLayout = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   const slugNew = decodeURIComponent(slug);
 

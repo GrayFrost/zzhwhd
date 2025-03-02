@@ -2,7 +2,7 @@ import { getAllPosts, Post } from "@/api/posts";
 import Link from "next/link";
 import { BlogTag } from "@/components/blog-tag";
 
-const Page = async ({ params }: { params: { category: string } }) => {
+const Page = async ({ params }: { params: Promise<{ category: string }> }) => {
   const { category } = await params;
   const { posts: allPosts } = await getAllPosts();
   const categoryStr = decodeURIComponent(category);

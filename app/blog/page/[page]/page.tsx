@@ -13,7 +13,7 @@ export const generateStaticParams = async () => {
   return paths;
 };
 
-const Page = async ({ params }: { params: { page: string } }) => {
+const Page = async ({ params }: { params: Promise<{ page: string }> }) => {
   const { page } = await params;
   const pageNumber = parseInt(page);
   const { posts } = await getAllPosts();

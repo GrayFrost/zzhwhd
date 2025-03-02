@@ -2,7 +2,7 @@ import { getAllPosts, Post } from "@/api/posts";
 import Link from "next/link";
 import { BlogTag } from "@/components/blog-tag";
 
-const Page = async ({ params }: { params: { tag: string } }) => {
+const Page = async ({ params }: { params: Promise<{ tag: string }> }) => {
   const { tag } = await params;
   const { posts: allPosts } = await getAllPosts();
   const tagStr = decodeURIComponent(tag);
