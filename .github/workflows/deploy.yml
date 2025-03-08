@@ -38,7 +38,7 @@ jobs:
     needs: build-push
     steps:
       - name: SSH to ECS and Deploy
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v0.2.0
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USERNAME }}
