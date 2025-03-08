@@ -54,7 +54,6 @@ jobs:
             
             # 停止并删除旧容器
             docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
-            docker rm -f nextjs nginx
 
             # 清理旧镜像，只保留最新的一个
             docker images "$ACR_FULL_ADDRESS/website" -q | tail -n +2 | xargs -r docker rmi -f
