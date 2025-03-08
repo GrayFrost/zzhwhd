@@ -20,7 +20,7 @@ jobs:
 
       - name: Build and Push Docker Images
         run: |
-          export IMAGE_TAG=latest-${{ github.sha }}
+          export IMAGE_TAG=${{ github.sha }}
           export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
 
           # 只构建一次镜像
@@ -46,7 +46,7 @@ jobs:
               --password-stdin
 
             # 拉取最新镜像并启动容器
-            export IMAGE_TAG=latest-${{ github.sha }}
+            export IMAGE_TAG=${{ github.sha }}
             export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
 
             # 拉取新镜像
