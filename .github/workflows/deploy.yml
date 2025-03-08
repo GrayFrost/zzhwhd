@@ -63,4 +63,4 @@ jobs:
             docker image prune -f
 
             # 启动新容器
-            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d
+            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d --build
