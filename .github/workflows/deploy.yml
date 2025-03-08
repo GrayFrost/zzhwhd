@@ -40,10 +40,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           debug: true
           script: |
-            # 同步最新代码
-            cd /www/wwwroot/zzhwhd.com/zzhwhd
-            git pull origin main
-            
             # 登录阿里云镜像仓库
             echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_REGISTRY }} \
               -u ${{ secrets.ACR_USERNAME }} \
@@ -57,7 +53,7 @@ jobs:
             docker pull $ACR_FULL_ADDRESS/website:$IMAGE_TAG
             
             # 停止并删除旧容器
-            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
+            docker compose -f docker-compose.yml down
             docker rm -f nextjs nginx
 
             # 清理旧镜像，只保留最新的一个
@@ -67,4 +63,4 @@ jobs:
             docker image prune -f
 
             # 启动新容器
-            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d --build --force-recreate
+            docker compose -f docker-compose.yml up -d --build --force-recreate
