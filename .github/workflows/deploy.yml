@@ -1,0 +1,57 @@
+name: Build, Push, and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Aliyun ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and Push Docker Images
+        run: |
+          # 使用 Docker Compose 构建镜像并推送到 ACR
+          export IMAGE_TAG=latest-${{ github.sha }}
+          export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
+
+          # 构建镜像并打标签
+          docker compose -f docker-compose.yml build
+          docker tag nextjs:latest $ACR_FULL_ADDRESS/website:$IMAGE_TAG
+
+          # 推送镜像到 ACR
+          docker push $ACR_FULL_ADDRESS/website:$IMAGE_TAG
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-push
+    steps:
+      - name: SSH to ECS and Deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            # 登录阿里云镜像仓库
+            echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_REGISTRY }} \
+              -u ${{ secrets.ACR_USERNAME }} \
+              --password-stdin
+
+            # 拉取最新镜像并启动容器
+            export IMAGE_TAG=latest-${{ github.sha }}
+            export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
+
+            docker pull $ACR_FULL_ADDRESS/website:$IMAGE_TAG
+            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
+            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d
