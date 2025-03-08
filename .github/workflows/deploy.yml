@@ -20,19 +20,11 @@ jobs:
 
       - name: Build and Push Docker Images
         run: |
-          # 使用 Docker Compose 构建镜像并推送到 ACR
           export IMAGE_TAG=latest-${{ github.sha }}
           export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
 
-          # 构建镜像并直接使用正确的标签
-          docker compose -f docker-compose.yml build \
-            --build-arg IMAGE_TAG=$IMAGE_TAG \
-            --build-arg ACR_FULL_ADDRESS=$ACR_FULL_ADDRESS
-
-          # 直接构建带完整标签的镜像
+          # 只构建一次镜像
           docker build -t $ACR_FULL_ADDRESS/website:$IMAGE_TAG .
-
-          # 推送镜像到 ACR
           docker push $ACR_FULL_ADDRESS/website:$IMAGE_TAG
 
   deploy:
@@ -60,4 +52,8 @@ jobs:
             docker pull $ACR_FULL_ADDRESS/website:$IMAGE_TAG
             docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
             docker rm -f nextjs nginx
+            
+            # 清理悬空镜像
+            docker image prune -f
+            
             docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d
