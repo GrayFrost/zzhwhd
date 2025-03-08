@@ -24,11 +24,13 @@ jobs:
           export IMAGE_TAG=latest-${{ github.sha }}
           export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
 
-          # 构建镜像
-          docker compose -f docker-compose.yml build
+          # 构建镜像并直接使用正确的标签
+          docker compose -f docker-compose.yml build \
+            --build-arg IMAGE_TAG=$IMAGE_TAG \
+            --build-arg ACR_FULL_ADDRESS=$ACR_FULL_ADDRESS
 
-          # 为镜像打标签
-          docker tag nextjs:latest $ACR_FULL_ADDRESS/website:$IMAGE_TAG
+          # 直接构建带完整标签的镜像
+          docker build -t $ACR_FULL_ADDRESS/website:$IMAGE_TAG .
 
           # 推送镜像到 ACR
           docker push $ACR_FULL_ADDRESS/website:$IMAGE_TAG
