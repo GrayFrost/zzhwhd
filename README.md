@@ -14,3 +14,5 @@ nginx配置，一些关于nextjs的配置
 next-view-transitions
 
 docker
+
+docker build -t nextjs .
