@@ -57,4 +57,5 @@ jobs:
 
             docker pull $ACR_FULL_ADDRESS/website:$IMAGE_TAG
             docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
+            docker rm -f nextjs nginx
             docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d
