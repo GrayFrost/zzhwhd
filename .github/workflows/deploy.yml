@@ -53,7 +53,7 @@ jobs:
             docker pull $ACR_FULL_ADDRESS/website:$IMAGE_TAG
             
             # 停止并删除旧容器
-            docker compose -f docker-compose.yml down
+            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
             docker rm -f nextjs nginx
 
             # 清理旧镜像，只保留最新的一个
@@ -63,4 +63,4 @@ jobs:
             docker image prune -f
 
             # 启动新容器
-            docker compose -f docker-compose.yml up -d --build --force-recreate
+            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d
