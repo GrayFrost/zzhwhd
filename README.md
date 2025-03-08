@@ -35,3 +35,8 @@ docker build -t nextjs .
 docker run -p 3000:3000 nextjs
 
 第一个端口是主机端口（实际访问的页面端口），第二个是容器端口（docker 跑起来的服务的端口）
+
+docker compose up -d
+docker compose down
+
+nginx.conf 和default.conf区别导致的问题
