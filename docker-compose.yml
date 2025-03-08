@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  nextjs:
+    build:
+      context: .  # 使用当前目录作为构建上下文
+      dockerfile: Dockerfile  # 指定 Dockerfile 路径
+    container_name: nextjs
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - .:/app
+      - /app/node_modules
+    restart: always
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"  # 将宿主机的 80 端口映射到 Nginx 容器的 80 端口
+    volumes:
+      - ./nginx/nginx.conf:/usr/local/nginx/nginx.conf  # 挂载 Nginx 配置文件
+    depends_on:
+      - nextjs
+    restart: always
