@@ -43,7 +43,7 @@ export function Home() {
       </Link>
       <Link key="3" className={twMerge(cardClass)} href="/project">
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
-          我的项目
+          我的项目 test 123
         </h2>
         <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
