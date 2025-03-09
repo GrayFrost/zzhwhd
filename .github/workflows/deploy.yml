@@ -51,6 +51,12 @@ jobs:
 
             # 拉取新镜像
             docker pull $ACR_FULL_ADDRESS/website:$IMAGE_TAG
+
+            # 同步仓库信代码
+            cd /www/wwwroot/zzhwhd.com/zzhwhd
+            git reset --hard origin/main
+            git pull origin main
+            git checkout main
             
             # 停止并删除旧容器
             docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
