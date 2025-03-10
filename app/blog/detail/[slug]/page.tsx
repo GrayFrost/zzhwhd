@@ -4,7 +4,8 @@ import Mdx from "@/components/mdx-components";
 import { DateFormat } from "@/components/date-format";
 import "@/styles/atom-one-dark-reasonable.css";
 import "katex/dist/katex.css";
-
+import { getTOC } from "@/api/toc";
+import { TableOfContents } from '@/components/table-of-contents';
 export const generateStaticParams = async () => {
   const { posts: allPosts } = await getAllPosts();
   return allPosts.map((post) => ({
@@ -35,9 +36,11 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: string }> }) => 
     content,
     readTime,
   } = post;
+  const data = await getTOC(slug);
 
   return (
     <div className="container max-w-3xl mx-auto p-4 md:p-6">
+      <TableOfContents nodes={data || {}} />
       <article className="prose dark:prose-invert mx-auto w-full prose-headings:tracking-wide prose-p:tracking-wide prose-a:tracking-wide max-w-none">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold leadi md:text-3xl text-heading tracking-wide">
