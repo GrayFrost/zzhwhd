@@ -12,6 +12,8 @@ import langDiff from "highlight.js/lib/languages/diff";
 import langJson from "highlight.js/lib/languages/json";
 import languageTypescript from "highlight.js/lib/languages/typescript";
 import languageLatex from "highlight.js/lib/languages/latex";
+import languageYaml from "highlight.js/lib/languages/yaml";
+import languageDockerfile from "highlight.js/lib/languages/dockerfile";
 
 export interface SerializeOptions {
   /**
@@ -41,12 +43,15 @@ export const options: SerializeOptions = {
         {
           languages: {
             javascript: langJavascript,
+            js: langJavascript,
             bash: langBash,
             html: langXml,
             diff: langDiff,
             json: langJson,
             typescript: languageTypescript,
             latex: languageLatex,
+            yaml: languageYaml,
+            dockerfile: languageDockerfile,
           },
         },
       ],

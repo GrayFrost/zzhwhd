@@ -7,9 +7,29 @@ category: "建站"
 
 首先是分享自己网站的整体变迁流程
 
+## 第一阶段
+
 最开始是使用hexo + github pages 
 
-隔了几年，使用cra来搭建react项目，然后改成使用vite，打包后手动上传，再用nginx来起服务。
+## 第二阶段
+nextjs blog template vercel
+好处是方便，坏处是要翻墙。
+
+## 第三阶段
+隔了几年，使用cra来搭建react项目，然后改成使用vite，打包后手动上传，纯前端单页应用，再用nginx来起服务。
+
+## 第四阶段
+宝塔
+
+## 第五阶段
+docker容器化
+
+### Docker + Nginx
+单个nextjs镜像在本地运行起来后，使用nginx代理到3000端口
+
+### Docker-Compose + Github actions
+
+这应该是我个人网站的终极答案了，后续也不想继续折腾部署这块了。
 
 推荐一个xshell工具，termius。
 ![](/images/20250310website/1.png)
@@ -60,11 +80,142 @@ SSH_USERNAME 默认root
 
 所以我选用了github actions + docker来部署我的nextjs项目。
 
+修改next.config.js文件，我的项目里是next.config.mjs，把output设置为standalone，然后打包。
+
+```javascript
+import createMDX from "@next/mdx";
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  output: "standalone",
+};
+
+const withMDX = createMDX({
+  extension: /\.mdx?$/,
+});
+
+export default withMDX(nextConfig);
+```
+
 在服务器上安装docker。
 docker的一些命令。
 比如build打包镜像，run运行容器等。
 
+dockerfile内容，这里是直接参照[官网](https://nextjs.org/docs/app/building-your-application/deploying#docker-image)给的[示例](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile)，唯一的改动是把node的版本从18改成了我服务器上当前的node版本20
+```dockerfile
+# syntax=docker.io/docker/dockerfile:1
+
+FROM node:20-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry during the build.
+# ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+# Uncomment the following line in case you want to disable telemetry during runtime.
+# ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
+```
+
+这里遇到一个问题是，当我使用docker build运行时，直接报错
+```
+=> ERROR [internal] load metadata for docker.io/library/node:20-alpin  30.2s
+------
+ > [internal] load metadata for docker.io/library/node:20-alpine:
+------
+Dockerfile:3
+--------------------
+   1 |     # syntax=docker.io/docker/dockerfile:1
+   2 |     
+   3 | >>> FROM node:20-alpine AS base
+   4 |     
+   5 |     # Install dependencies only when needed
+--------------------
+ERROR: failed to solve: DeadlineExceeded: DeadlineExceeded: DeadlineExceeded: DeadlineExceeded: failed to resolve source metadata for docker.io/library/node:20-alpine: failed to do request: Head "https://registry-1.docker.io/v2/library/node/manifests/20-alpine": dial tcp 108.160.166.148:443: i/o timeout
+```
+因为一开始我配置的docker镜像地址是阿里云提供的，发现根本用不了，只能改daemon.json里的registry-mirrors地址。
+
 docker compose 管理nextjs容器和nginx容器。
+```yaml
+services:
+  nextjs:
+    # build:
+    #   context: .  # 使用当前目录作为构建上下文
+    #   dockerfile: Dockerfile  # 指定 Dockerfile 路径
+    image: ${ACR_FULL_ADDRESS}/website:${IMAGE_TAG}
+    container_name: nextjs
+    ports:
+      - "3000:3000"
+    restart: always
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"  # 将宿主机的 80 端口映射到 Nginx 容器的 80 端口
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # 挂载 Nginx 配置文件
+      - /usr/local/nginx/conf/cert:/etc/nginx/cert
+    depends_on:
+      - nextjs
+    restart: always
+```
 
 首先需要在项目下建dockerfile和nginx.conf。
 dockerfile的作用是用于打包一个nextjs项目镜像，然后把nextjs 在npm run build之后的一些文件映射到容器里去。
@@ -72,6 +223,79 @@ dockerfile的作用是用于打包一个nextjs项目镜像，然后把nextjs 在
 docker-compose里则是把我们nextjs项目里配置的nginx.conf映射到nginx容器的配置里去，同时把服务器上的https证书也映射进去。
 
 github actions的流程
+```yaml
+name: Build, Push, and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Aliyun ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and Push Docker Images
+        run: |
+          export IMAGE_TAG=${{ github.sha }}
+          export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
+
+          # 只构建一次镜像
+          docker build -t $ACR_FULL_ADDRESS/website:$IMAGE_TAG .
+          docker push $ACR_FULL_ADDRESS/website:$IMAGE_TAG
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-push
+    steps:
+      - name: SSH to ECS and Deploy
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          debug: true
+          script: |
+            # 登录阿里云镜像仓库
+            echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_REGISTRY }} \
+              -u ${{ secrets.ACR_USERNAME }} \
+              --password-stdin
+
+            # 拉取最新镜像并启动容器
+            export IMAGE_TAG=${{ github.sha }}
+            export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
+
+            # 拉取新镜像
+            docker pull $ACR_FULL_ADDRESS/website:$IMAGE_TAG
+
+            # 同步仓库信代码
+            cd /www/wwwroot/zzhwhd.com/zzhwhd
+            git reset --hard origin/main
+            git pull origin main
+            git checkout main
+            
+            # 停止并删除旧容器
+            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
+
+            # 清理旧镜像，只保留最新的一个
+            docker images "$ACR_FULL_ADDRESS/website" -q | tail -n +2 | xargs -r docker rmi -f
+            
+            # 清理悬空镜像
+            docker image prune -f
+
+            # 启动新容器
+            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d
+```
 
 阿里云docker镜像仓库 命名空间、项目名称
 
