@@ -30,9 +30,16 @@ const TOCLink = ({ node }) => {
       } hover:accent-color py-1`}
       onClick={(e) => {
         e.preventDefault();
-        document
-          .getElementById(id)
-          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        // document
+        //   .getElementById(id)
+        //   ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        const element = document.getElementById(id);
+        let y = 0;
+        const yOffset = -40; // 配合吸顶
+        if (element) {
+          y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+        }
+        window.scrollTo({top: y, behavior: 'smooth'});
       }}
     >
       {node.value}
