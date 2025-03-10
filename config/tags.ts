@@ -9,6 +9,11 @@ import {
   D3Icon,
   MatrixIcon,
   HexoIcon,
+  NextIcon,
+  NginxIcon,
+  DockerIcon,
+  SwiftIcon,
+  CocoapodsIcon,
 } from "@/components/icons";
 
 export const tagConfigMap: Record<
@@ -24,4 +29,9 @@ export const tagConfigMap: Record<
   d3: D3Icon,
   math: MatrixIcon,
   hexo: HexoIcon,
+  nextjs: NextIcon,
+  nginx: NginxIcon,
+  docker: DockerIcon,
+  swift: SwiftIcon,
+  cocoapods: CocoapodsIcon,
 };
