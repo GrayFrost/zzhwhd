@@ -12,6 +12,19 @@ category: "建站"
 隔了几年，使用cra来搭建react项目，然后改成使用vite，打包后手动上传，再用nginx来起服务。
 
 推荐一个xshell工具，termius。
+![](/images/20250310website/1.png)
+
+ACR_NAMESPACE是阿里云的容器镜像仓库的命名空间
+ARC_USERNAME是阿里云的容器镜像仓库的用户名
+ARC_PASSWORD是阿里云的容器镜像仓库的密码，
+ARC_REGISTRY是阿里云的容器镜像仓库的仓库地址，这个在网页上有展示
+
+SERVER_IP是服务器的公网ip地址
+SERVER_SSH_KEY是服务器的ssh密钥，这里需要注意，读取的是哪种格式的内容，之前我因为一直用rsa格式的，结果authorize_keys里的不是这种格式。
+
+SSH_PORT ssh端口，默认22
+SSH_USERNAME 默认root
+
 
 后来尝试了一下宝塔
 
@@ -84,5 +97,7 @@ github actions的流程
 
 现在在登录到阿里云服务器是，我的deploy流程还有一步，是会去git pull拉取一遍代码，确保是最新的，因为比如我的docker compose运行是基于这个远程目录下的docker-compose.yml，所以我要确保它也是最新的，
 免得我有时更新了这些配置，在运行的时候却还是用老配置。
+
+目前我的网站已经完全自主可控啦，撒花！
 
 
