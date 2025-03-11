@@ -4,8 +4,37 @@ import path from "path";
 import { toString } from "mdast-util-to-string";
 import { visit } from "unist-util-visit";
 import { remark } from "remark";
+import type { Node } from "unist";
+import type { VFile } from "vfile";
+import { createHeaderId } from "@/utils/h-id";
 
-function transformNode(node, output, indexMap) {
+interface HeadingNode {
+  depth: number;
+  children: HeadingNode[];
+  value: string;
+  data: {
+    hProperties: {
+      id: string;
+    };
+  };
+}
+
+export interface TransformedNode {
+  value: string;
+  depth: number;
+  data: HeadingNode["data"];
+  children: TransformedNode[];
+}
+
+interface IndexMap {
+  [depth: number]: TransformedNode;
+}
+
+function transformNode(
+  node: HeadingNode,
+  output: TransformedNode[],
+  indexMap: IndexMap
+) {
   const transformedNode = {
     value: toString(node),
     depth: node.depth,
@@ -24,26 +53,22 @@ function transformNode(node, output, indexMap) {
     }
   }
 }
-function addID(node, nodes) {
+function addID(node: HeadingNode, nodes: Record<string, number>) {
   const id = node.children.map((c) => c.value).join("");
-  console.log('zzh addic ', node);
+
   nodes[id] = (nodes[id] || 0) + 1;
   node.data = node.data || {
     hProperties: {
-      id: `${id}${nodes[id] > 1 ? ` ${nodes[id] - 1}` : ""}`
-        // .replace(/[^a-zA-Z\d\s-]/g, "")
-        .split(" ")
-        .join("-")
-        // .toLowerCase(),
+      id: createHeaderId(`${id}${nodes[id] > 1 ? ` ${nodes[id] - 1}` : ""}`),
     },
   };
 }
 
-function getHeadings(root) {
-  const nodes = {};
-  const output = [];
-  const indexMap = {};
-  visit(root, "heading", (node) => {
+function getHeadings(root: Node) {
+  const nodes: Record<string, number> = {};
+  const output: TransformedNode[] = [];
+  const indexMap: IndexMap = {};
+  visit(root, "heading", (node: HeadingNode) => {
     addID(node, nodes);
     transformNode(node, output, indexMap);
   });
@@ -51,12 +76,12 @@ function getHeadings(root) {
   return output;
 }
 function headingTree() {
-  return (node, file) => {
+  return (node: Node, file: VFile) => {
     file.data.headings = getHeadings(node);
   };
 }
 
-export async function getTOC(filenameId: string) {
+export async function getTOC(filenameId: string): Promise<TransformedNode[]> {
   const filename = `${filenameId}.mdx`;
   const postsDirectory = path.resolve(process.cwd(), "./posts");
   const fullPath = path.join(postsDirectory, filename);
@@ -70,5 +95,5 @@ export async function getTOC(filenameId: string) {
     .use(headingTree)
     .process(matterResult.content);
 
-  return processedContent.data.headings;
+  return processedContent.data.headings as TransformedNode[];
 }

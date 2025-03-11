@@ -5,7 +5,7 @@ import { DateFormat } from "@/components/date-format";
 import "@/styles/atom-one-dark-reasonable.css";
 import "katex/dist/katex.css";
 import { getTOC } from "@/api/toc";
-import { TableOfContents } from '@/components/table-of-contents';
+import { TableOfContents } from "@/components/table-of-contents";
 export const generateStaticParams = async () => {
   const { posts: allPosts } = await getAllPosts();
   return allPosts.map((post) => ({
@@ -26,7 +26,11 @@ export const generateMetadata = async ({
   return { title };
 };
 
-const PostLayout = async ({ params }: { params: Promise<{ slug: string }> }) => {
+const PostLayout = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
   const { slug } = await params;
   const slugNew = decodeURIComponent(slug);
 
@@ -40,7 +44,6 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: string }> }) => 
 
   return (
     <div className="container max-w-3xl mx-auto p-4 md:p-6">
-      <TableOfContents nodes={data || {}} />
       <article className="prose dark:prose-invert mx-auto w-full prose-headings:tracking-wide prose-p:tracking-wide prose-a:tracking-wide max-w-none">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold leadi md:text-3xl text-heading tracking-wide">
@@ -56,7 +59,12 @@ const PostLayout = async ({ params }: { params: Promise<{ slug: string }> }) => 
             </p>
           )}
         </div>
-        <Mdx source={content} />
+        <div className="relative">
+          <div className="sticky top-20 ml-[-210px] h-0 text-nowrap overflow-visible md:block">
+            <TableOfContents nodes={data || {}} />
+          </div>
+          <Mdx source={content} />
+        </div>
       </article>
     </div>
   );
