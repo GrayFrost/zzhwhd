@@ -60,7 +60,7 @@ const PostLayout = async ({
           )}
         </div>
         <div className="relative">
-          <div className="sticky top-20 ml-[-210px] h-0 text-nowrap overflow-visible md:block">
+          <div className="sticky top-20 ml-[-210px] h-0 text-nowrap overflow-visible lg:block md:hidden sm:hidden">
             <TableOfContents nodes={data || {}} />
           </div>
           <Mdx source={content} />
