@@ -15,7 +15,7 @@ export const BlogNav = () => {
   const pathname = usePathname();
   const linkClass =
     "block py-2 px-3 md:p-0 rounded hover:bg-gray-100 dark:hover:bg-gray-700 md:hover:bg-transparent md:dark:hover:bg-transparent tracking-widest flex items-center gap-2 dark:text-[#c6c6c6]";
-  console.log("zzh current pathname", pathname);
+
   return (
     <div className="max-w-5xl flex flex-wrap items-center justify-between mx-auto p-2 sm:p-0">
       <h1 className="flex space-x-2 font-bold">

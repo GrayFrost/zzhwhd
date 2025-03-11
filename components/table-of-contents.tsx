@@ -63,7 +63,6 @@ export const TableOfContents = ({ nodes }: { nodes: TransformedNode[] }) => {
   if (!nodes?.length) {
     return null;
   }
-  console.log("zzh nodes", nodes);
 
   return (
     <div className="w-[200px] h-auto sticky top-10">
