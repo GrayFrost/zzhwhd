@@ -36,7 +36,7 @@ export function Home() {
         <p className="text-gray-600 dark:text-gray-300">个人博客</p>
       </Link>
       <Link key="2" className={twMerge(cardClass)} href="life">
-        <p className="text-gray-600 dark:text-gray-300">hello world</p>
+        life
       </Link>
       <Link key="3" className={twMerge(cardClass)} href="/project">
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
@@ -60,9 +60,8 @@ export function Home() {
       <Link key="sprite" className={twMerge(cardClass, "relative p-0")} href="/">
         <SpriteAnimation />
       </Link>
-      <Link key="9" className={twMerge(cardClass)} href="/">
-        {/* <Link key="9" href="/" className="card"> */}
-        hello world
+      <Link key="9" className={twMerge(cardClass)} href="/photo-gallery">
+        记忆长廊
       </Link>
     </Responsive>
   );

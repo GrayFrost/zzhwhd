@@ -25,12 +25,12 @@ cd ~/.ssh
 ls
 ```
 如果没有则提示： No such file or directory
-如果有则进入~/.ssh路径下（ls查看当前路径文件，rm *删除所有文件）
+如果有则进入`~/.ssh`路径下（`ls`查看当前路径文件，`rm *`删除所有文件）
 ```bash
 $ cd ~  #保证当前路径在”~”下
 $ ssh-keygen -t rsa -C "xxxxxx@yy.com"  #建议填写自己真实有效的邮箱地址
 ```
-这时会在Users/Administrator/.ssh下生成两个文件，打开.pub结尾的文件，复制内容到github的add ssh key中。
+这时会在`Users/Administrator/.ssh`下生成两个文件，打开.pub结尾的文件，复制内容到github的add ssh key中。
 顺便
 ```bash
 $ git config --global user.name “your_username”  #设置用户名
