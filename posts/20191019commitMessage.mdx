@@ -13,7 +13,7 @@ category: Git操作
 
 格式如下
 
-``` 
+```bash
 <type>(<scope>): <subject>
 <BLANK LINE>
 <body>
@@ -53,7 +53,7 @@ type是提交的类型。通常为以下几种
 
 我不想全局安装，选择项目安装
 
-``` shell
+```bash
 npm install commitizen --save-dev
 npm install cz-conventional-changelog --save-dev
 ```
@@ -80,13 +80,13 @@ npm install cz-conventional-changelog --save-dev
 
 如果我们不想用别人约定好的adaptor，我们想自己约定。可以使用cz-customizable 
 
-``` shell
+```bash
 npm i -D cz-customizable
 ```
 
 然后将我们之前在package.json中写的config调整为
 
-``` json
+```json
 "config": {
     "commitizen": {
       "path": "node_modules/cz-customizable"
@@ -102,7 +102,7 @@ npm i -D cz-customizable
 
 配置如下
 
-``` javascript
+```javascript
 module.exports = {
     types: [{
             value: 'feat',
@@ -203,19 +203,19 @@ commitlint可以帮我们校验，同样它也需要一份配置文件。
 
 首先安装commitlint
 
-``` shell
+```bash
 npm i -D @commitlint/cli
 ```
 
 然后安装校验的配置
 
-``` shell
+```bash
 npm i -D @commitlint/config-conventional
 ```
 
 然后我们创建配置文件
 
-``` shell
+```bash
 echo "module.exports = {extends: ['@commitlint/config-conventional']};" > commitlint.config.js
 ```
 
@@ -225,13 +225,13 @@ echo "module.exports = {extends: ['@commitlint/config-conventional']};" > commit
 
 就如刚才我们使用了自定义的adaptor来约定commit的格式，我们也可以自定义校验的规则
 
-``` shell
+```bash
 npm i -D commitlint-config-cz
 ```
 
 然后我们修改刚才生成的校验配置
 
-``` javascript
+```javascript
 module.exports = { 
   extends: ["cz"] 
 };
@@ -239,7 +239,7 @@ module.exports = {
 
 查看官网[rules](https://commitlint.js.org/#/reference-rules), 我们随便在 `commitlint.config.js` 中添加一些rules
 
-``` javascript
+```javascript
 module.exports = {
     extends: ["cz"],
     rules: {
@@ -257,13 +257,13 @@ module.exports = {
 
 使用commitlint需要搭配husky使用
 
-``` shell
+```bash
 npm install --save-dev husky
 ```
 
 然后在package.json中添加配置
 
-``` json
+```json
 {
   ...,
   "husky": {

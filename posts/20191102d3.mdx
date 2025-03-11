@@ -13,19 +13,19 @@ categories: 图像处理
 
 安装d3
 
-``` shell
+```bash
 npm install d3 --save
 ```
 
 引用d3
 
-``` javascript
+```javascript
 import * as d3 from 'd3';
 ```
 
 ## 模拟数据
 
-``` javascript
+```javascript
 const nodes = [{
         id: 1,
         name: "a"
@@ -70,7 +70,7 @@ const edges = [{
 
 ## 模型
 
-``` javascript
+```javascript
 const simulation = d3
     .forceSimulation(nodes)
     .force("link", d3.forceLink(edges).id(d => d.id))
@@ -89,7 +89,7 @@ const simulation = d3
 
 因为这些图形是使用svg画的，需要先添加svg。选择指定的div，添加svg
 
-``` javascript
+```javascript
 const svg = d3
     .select("#container")
     .append("svg")
@@ -103,7 +103,7 @@ g是svg中的一个元素，是用于管理子元素的容器。我们可以把�
 
 为svg添加g
 
-``` javascript
+```javascript
 const g = svg.append('g');
 ```
 
@@ -111,7 +111,7 @@ const g = svg.append('g');
 
 添加节点
 
-``` javascript
+```javascript
 const nodeCircle = svg
     .select('g')
     .selectAll('circle')
@@ -126,7 +126,7 @@ const nodeCircle = svg
 
 添加节点文字
 
-``` javascript
+```javascript
 const nodeText = svg
     .select('g')
     .selectAll('text')
@@ -141,7 +141,7 @@ const nodeText = svg
 
 ## 添加线
 
-``` javascript
+```javascript
 const edgeLine = svg
     .select("g")
     .selectAll("line")
@@ -171,13 +171,13 @@ const edgeLine = svg
 
 ## 添加箭头
 
-``` 
+```javascript
 const defs = g.append("defs");
 ```
 
 记住这个defs，后续还会使用
 
-``` javascript
+```javascript
 const arrowHead = defs
     .append("marker")
     .attr("id", "arrow")
@@ -199,7 +199,7 @@ arrowHead
 
 重新定位节点和节点文字和线的位置
 
-``` javascript
+```javascript
 simulation.on('tick', () => {
     nodeCircle.attr('transform', d => {
         return d && "translate(" + d.x + "," + d.y + ")"
@@ -237,7 +237,7 @@ simulation.on('tick', () => {
 
 ## 添加缩放
 
-``` diff
+```diff
 const svg = d3
     .select("#container")
     .append("svg")
@@ -248,7 +248,7 @@ const svg = d3
 
 ```
 
-``` javascript
+```javascript
 function onZoomStart(d) {
     // console.log('start zoom');
 }
@@ -273,7 +273,7 @@ const zoom = d3
 
 ## 调整距离
 
-``` diff
+```diff
 d3.forceLink(edges)
 	.id(d => d.id)
 
@@ -283,7 +283,7 @@ d3.forceLink(edges)
 
 ## 调整测试数据
 
-``` javascript
+```javascript
 const nodes = [{
         id: 1,
         name: "炭治郎",
@@ -338,7 +338,7 @@ const edges = [{
 
 在circle节点上添加图片
 
-``` javascript
+```javascript
 const nodeImage = svg
     .select("g")
     .selectAll("image")
@@ -354,7 +354,7 @@ const nodeImage = svg
 
 同理调整节点位置
 
-``` diff
+```diff
 simulation.on("tick", () => {
       ...
 
@@ -372,7 +372,7 @@ simulation.on("tick", () => {
 
 还记得刚才说的defs吗？我们在这里添加一个路径裁剪元素。
 
-``` javascript
+```javascript
 const round = defs
     .append("clipPath")
     .attr("id", "avatar-clip")
@@ -382,7 +382,7 @@ const round = defs
     .attr("r", 25);
 ```
 
-``` diff
+```diff
 const nodeImage = svg
       .select("g")
       .selectAll("image")
@@ -403,7 +403,7 @@ const nodeImage = svg
 
 ## 为边线添加文字
 
-``` javascript
+```javascript
 const edgeText = svg
     .select("g")
     .selectAll(".edgelabel")
@@ -429,7 +429,7 @@ edgeText
 
 ## 为节点添加拖拽
 
-``` diff
+```diff
 const nodeImage = svg
       .select("g")
       .selectAll("image")
@@ -447,7 +447,7 @@ const nodeImage = svg
 
 ```
 
-``` javascript
+```javascript
 function onDragStart(d) {
     if (!d3.event.active) {
         simulation.alphaTarget(1).restart();
@@ -470,7 +470,7 @@ const drag = d3
 
 ## 添加节点悬浮标题
 
-``` javascript
+```javascript
 nodeImage.append("title").text(d => d.name);
 ```
 
@@ -484,7 +484,7 @@ nodeImage.append("title").text(d => d.name);
 
 在添加代码前，我们先把图片上的文字隐藏，一是碍眼，二是影响鼠标悬浮图片的判断。
 
-``` javascript
+```javascript
 nodeImage.on("mouseover", d => {
         nodeImage.style("opacity", o => {
             return isConnected(d, o) ? 1 : 0.3;
@@ -509,7 +509,7 @@ nodeImage.on("mouseover", d => {
     });
 ```
 
-``` javascript
+```javascript
  var linkedByIndex = {};
  edges.forEach(d => {
      linkedByIndex[d.source.index + "," + d.target.index] = 1;
@@ -527,7 +527,7 @@ nodeImage.on("mouseover", d => {
 ![](/images/20191102d3/7.png)
 我们看到，设置透明度后，底部的线都显示出来了，这不是我们想要的效果，所以我们需要把下面这段代码注释
 
-``` javascript
+```javascript
 nodeCircle.style("opacity", o => {
     return isConnected(d, o) ? 1 : 0.3;
 });

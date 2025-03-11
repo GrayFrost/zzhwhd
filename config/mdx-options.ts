@@ -14,6 +14,7 @@ import languageTypescript from "highlight.js/lib/languages/typescript";
 import languageLatex from "highlight.js/lib/languages/latex";
 import languageYaml from "highlight.js/lib/languages/yaml";
 import languageDockerfile from "highlight.js/lib/languages/dockerfile";
+import languageSwift from "highlight.js/lib/languages/swift";
 
 export interface SerializeOptions {
   /**
@@ -52,6 +53,7 @@ export const options: SerializeOptions = {
             latex: languageLatex,
             yaml: languageYaml,
             dockerfile: languageDockerfile,
+            swift: languageSwift,
           },
         },
       ],

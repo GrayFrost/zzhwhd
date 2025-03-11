@@ -2,6 +2,7 @@ import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
 import { options } from "@/config/mdx-options";
 import Image from "./image";
 import { createHeaderId } from "@/utils/h-id";
+import { ReactNode } from "react";
 // import Pre from "./pre";
 
 const components = {
@@ -29,6 +30,11 @@ const components = {
         id={createHeaderId(props.children ? `h4-${props.children}` : "")}
       />
     );
+  },
+  code(props: { children: ReactNode; className?: string }) {
+    const { className } = props;
+    const codeClassName = className ? className : "text-rose-700";
+    return <code {...props} className={codeClassName} />;
   },
 };
 
