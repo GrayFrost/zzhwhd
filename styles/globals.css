@@ -14,3 +14,13 @@ body {
   /* box-shadow: .4em .4em .8em #99b5d2, -.4em -.4em .8em #fff; */
   /* border-radius: .5rem; */
 }
+
+.stroke-color {
+  -webkit-text-stroke: 2px #f7d621;
+  -webkit-text-fill-color: #1c050f;
+}
+
+html.dark .stroke-color {
+  -webkit-text-stroke: 2px #f7d621;
+  -webkit-text-fill-color: white;
+}

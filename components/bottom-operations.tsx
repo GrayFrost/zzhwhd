@@ -1,11 +1,13 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { House, ArrowBigLeft, ArrowBigUp } from "lucide-react";
+import { House, ArrowBigLeft, ArrowBigUp, Sun, Moon } from "lucide-react";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 export default function BottomOperations() {
   const pathname = usePathname();
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const onBack = () => {
     router.back();
   };
@@ -24,6 +26,25 @@ export default function BottomOperations() {
         <Link href="/" className={iconWrapClass}>
           <House />
         </Link>
+        <div className={iconWrapClass}>
+          {theme === "dark" ? (
+            <div
+              onClick={() => {
+                setTheme("light");
+              }}
+            >
+              <Sun />
+            </div>
+          ) : (
+            <div
+              onClick={() => {
+                setTheme("dark");
+              }}
+            >
+              <Moon />
+            </div>
+          )}
+        </div>
         <div className={iconWrapClass} onClick={onBack}>
           <ArrowBigLeft />
         </div>
