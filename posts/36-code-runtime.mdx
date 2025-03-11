@@ -313,7 +313,7 @@ function instance($$self, $$props, $$invalidate) {
 
 调用`$$invalidate`，会对某个改动的变量进行标记，然后在微任务中调用`flush`函数，根据变量改动的dirty标记进行局部更新。
 
-##### make_dirty
+make_dirty
 
 源码路径：`packages/svelte/src/runtime/internal/Component.js`
 ```javascript
@@ -332,7 +332,7 @@ function make_dirty(component, i) {
 - 将组件的dirty标志位数组原来是`[-1]`的填充为`[0]`，既标记了组件是dirty状态，又方便后续的位运算操作
 - 最后将参数i指定的部分标记为dirty，通过将dirty标志位数组的相应元素设置为1来实现的。终于轮到位运算上场！
 
-###### schedule_update
+schedule_update
 
 ```typescript
 const resolved_promise = /* @__PURE__ */ Promise.resolve();

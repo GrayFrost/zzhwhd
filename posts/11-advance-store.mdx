@@ -148,7 +148,7 @@ const unsubscribe = count.subscribe(c => {
 #### 第二个参数
 开头我们已经介绍了`writable`的两个传参的含义，现在我们来演示一下第二个参数的使用。第二个参数接受的是一个方法。这个方法接收两个参数`set`和`update`。
 
-##### set
+- set
 
 ```html
 <script>
@@ -171,7 +171,7 @@ export const count = writable(1 ,(set, update) => {
 ![](/images/svelte/11-6.gif)
 相当于在初始化数据时调用了set。
 
-##### update
+- update
 
 ```javascript
 import { writable } from 'svelte/store';
@@ -184,7 +184,7 @@ export const count = writable(1 ,(set, update) => {
 ![](/images/svelte/11-7.gif)  
 相当于在初始化数据时调用了update。
 
-##### return () => void
+- return () => void
 ```javascript
 // store.js
 import { writable } from 'svelte/store';

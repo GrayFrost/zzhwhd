@@ -1112,7 +1112,7 @@ export default class Renderer {
 
 ```
 
-##### Block
+- Block
 ```javascript
 import { b, x } from 'code-red';
 import { is_head } from './wrappers/shared/is_head.js';
@@ -1305,7 +1305,7 @@ export default class Block {
 ```
 从代码中我们可以知道，`Block`主要是为代码块添加生命周期，比如我们常见的c`create`、m`mount`、p`update`、d`destroy`等。
 
-##### FragmentWrapper
+- FragmentWrapper
 ```javascript
 ...
 const wrappers = {
@@ -1395,7 +1395,7 @@ export default class FragmentWrapper {
 
 ![alt text](/images/svelte/35-13.png)
 
-##### render
+- render
 前面说到每个Wrapper都会实现自己的`render`方法，之后便是调用各自的`render`。
 ```javascript
 this.fragment.render(this.block, null, /** @type {import('estree').Identifier} */ (x`#nodes`));

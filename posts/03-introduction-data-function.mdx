@@ -324,7 +324,7 @@ on:eventname|modifier1|modifier2|modifier3={handler}
 ```
 
 要实现双向的数据绑定，需要用到bind指令
-##### `input[type="text"]`
+- `input[type="text"]`
 ```html
 <script>
   let value = '';
@@ -334,7 +334,7 @@ on:eventname|modifier1|modifier2|modifier3={handler}
 <p>value: {value}</p>
 ```
 
-##### `input[type="number"]`
+- `input[type="number"]`
 ```html
 <script>
   let value = 1;
@@ -344,7 +344,7 @@ on:eventname|modifier1|modifier2|modifier3={handler}
 <input type="range" bind:value={value} min={1} max={5} />
 ```
 
-##### `input[type="checkbox"]`
+- `input[type="checkbox"]`
 ```html
 <script>
   let checked = false;
@@ -356,7 +356,7 @@ on:eventname|modifier1|modifier2|modifier3={handler}
 </label>
 ```
 
-##### `input[type="radio"]`
+- `input[type="radio"]`
 ```html
 <script>
   let radioValue = "";
@@ -380,7 +380,7 @@ on:eventname|modifier1|modifier2|modifier3={handler}
 <p>选择的是：{radioValue}</p>
 ```
 
-##### `bind:group`
+- `bind:group`
 ```html
 <script>
   let checkboxValue = [];
@@ -404,7 +404,7 @@ on:eventname|modifier1|modifier2|modifier3={handler}
 <p>选择的是：{checkboxValue.join(',')}</p>
 ```
 
-##### `select`
+- `select`
 ```html
 <script>
   let selectValue;
