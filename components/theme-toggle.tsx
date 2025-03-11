@@ -1,30 +1,60 @@
 "use client";
 
+import * as motion from "motion/react-client";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 
-export default function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
+export default function LayoutAnimation() {
   const { theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+  const toggleSwitch = () => {
+    if (theme !== "dark") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
   };
 
   return (
-    <div
-      onClick={toggleTheme}
-      className="text-2xl font-semibold mb-2 dark:text-white"
+    <button
+      className="toggle-container"
+      style={{
+        ...container,
+        justifyContent: "flex-" + (theme !== "dark" ? "start" : "end"),
+      }}
+      onClick={toggleSwitch}
     >
-      主题切换：{theme}
-    </div>
+      <motion.div
+        className="toggle-handle"
+        style={handle}
+        layout
+        transition={{
+          type: "spring",
+          visualDuration: 0.2,
+          bounce: 0.2,
+        }}
+      />
+    </button>
   );
 }
+
+/**
+ * ==============   Styles   ================
+ */
+
+const container = {
+  width: 100,
+  height: 50,
+  backgroundColor: "#9911ff44",
+  borderRadius: 50,
+  cursor: "pointer",
+  display: "flex",
+  padding: 10,
+  boxSizing: 'content-box'
+};
+
+const handle = {
+  width: 50,
+  height: 50,
+  backgroundColor: "#9911ff",
+  borderRadius: "50%",
+};
