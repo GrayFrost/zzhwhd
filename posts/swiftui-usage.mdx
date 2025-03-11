@@ -1,17 +1,86 @@
 ---
 title: SwiftUI的使用总结
 date: '2025-03-11'
-tags: ['swift']
+tags: ['swift', 'cocoapods']
 ---
 
-入口
+年前使用cursor帮我构建了一个MacOS应用，这个应用的主要功能是用来在Mac电脑上看漫画（也可以说是看图片）。
+最大的亮点就是能够直接打开一个压缩包或者文件夹，因为mac上浏览图片时总要一张张点开，要么就是多选后点击打开，体验非常差。所以就自己弄了这么一个玩意。
 
-目录
+当时选择的是SwiftUI来完成整个APP的开发，也算是边做边学，现在记录下自己大概掌握了哪些知识。
 
-数据管理
+## 目录
+初始是打开XCode，选择macOS -> Application分类下的App，然后起个项目名称，我的是manga，其他都默认下一步。
 
-安装包管理
+![](/images/20250311swiftuiUsage/1.png)
 
-extensions扩展
+可以看到，目录非常简洁，而且如果我们不需要测试，完全可以把另外两个tests测试相关的目录给删了。
+我们的项目代码则集中存放在和项目同名的目录下。
 
-icon图标制作
+## 协议
+一个项目肯定会有一个主入口，这里swiftUI默认的一个入口文件名是"项目名App"的格式，比如我的项目名是manga，那我就去找mangaApp.swift的文件。
+
+```swift
+import SwiftUI
+
+@main
+struct mangaApp: App { 
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+```
+文件内容大概如上，这里有个`@main`，这是swiftui的一种协议，用来标记应用程序的入口。
+
+然后我们打开ContentView.swift文件：
+
+```swift
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        VStack {
+            Image(systemName: "globe")
+                .imageScale(.large)
+                .foregroundStyle(.tint)
+            Text("Hello, world!")
+        }
+        .padding()
+    }
+}
+
+#Preview {
+    ContentView()
+}
+```
+
+App协议、View协议
+class AppState: ObservableObject Identifiable, Hashable
+
+Preview预览
+
+## 安装包管理
+
+比如web前端的资源管理使用npm、java应用使用maven等，那ios应用的资源管理使用什么呢？
+通常有两种：Cocoapods和Swift Package Manager。
+
+Cocoapods的使用之前我已经简单记录了，至于Swift Package Manager，简称SPM，我使用的时候由于网络等一系列问题，导致下载一个包都非常的慢，所以我在使用了一两天后，重新切换回了Cocoapods。
+
+## 数据管理
+
+```
+@state 
+@binding
+@observedobject
+```
+
+## 扩展
+
+
+
+## 图标
+
+
+修改应用名称

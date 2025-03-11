@@ -257,6 +257,57 @@ export const CocoapodsIcon = (svgProps: SVGProps<SVGSVGElement>) => {
   );
 };
 
+export const AliCloudIcon = (svgProps: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      role="img"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...svgProps}
+    >
+      <title>Alibaba Cloud</title>
+      <path
+        fill="#FF6A00"
+        d="M3.996 4.517h5.291L8.01 6.324 4.153 7.506a1.668 1.668 0 0 0-1.165 1.601v5.786a1.668 1.668 0 0 0 1.165 1.6l3.857 1.183 1.277 1.807H3.996A3.996 3.996 0 0 1 0 15.487V8.513a3.996 3.996 0 0 1 3.996-3.996m16.008 0h-5.291l1.277 1.807 3.857 1.182c.715.227 1.17.889 1.165 1.601v5.786a1.668 1.668 0 0 1-1.165 1.6l-3.857 1.183-1.277 1.807h5.291A3.996 3.996 0 0 0 24 15.487V8.513a3.996 3.996 0 0 0-3.996-3.996m-4.007 8.345H8.002v-1.804h7.995Z"
+      />
+    </svg>
+  );
+};
+
+export const AsepriteIcon = (svgProps: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      role="img"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...svgProps}
+    >
+      <title>Aseprite</title>
+      <path
+        fill="#7D929E"
+        d="M4.006 0v1.6h15.988V0zm15.988 1.6v1.6h1.6V1.6zm1.6 1.6v14.4h-1.6v1.6H4.006v-1.6h-1.6V3.2H.809v17.6h1.599v1.6h1.599V24h15.988v-1.6h1.6v-1.6h1.598V3.2zm-19.187 0h1.599V1.6h-1.6zm4.796 3.2v6.4h1.6V6.4zm7.995 0v6.4h1.599V6.4z"
+      />
+    </svg>
+  );
+};
+
+export const LeafletIcon = (svgProps: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      role="img"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...svgProps}
+    >
+      <title>Leaflet</title>
+      <path
+        fill="#199900"
+        d="M17.69 0c-.355.574-8.432 4.74-10.856 8.649-2.424 3.91-3.116 6.988-2.237 9.882.879 2.893 2.559 2.763 3.516 3.717.958.954 2.257 2.113 4.332 1.645 2.717-.613 5.335-2.426 6.638-7.508 1.302-5.082.448-9.533-.103-11.99A35.395 35.395 0 0 0 17.69 0zm-.138.858l-9.22 21.585-.574-.577Z"
+      />
+    </svg>
+  );
+};
+
 // from simpleicons end
 
 // from iconfonts start

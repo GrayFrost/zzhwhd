@@ -14,6 +14,9 @@ import {
   DockerIcon,
   SwiftIcon,
   CocoapodsIcon,
+  AliCloudIcon,
+  AsepriteIcon,
+  LeafletIcon,
 } from "@/components/icons";
 
 export const tagConfigMap: Record<
@@ -34,4 +37,7 @@ export const tagConfigMap: Record<
   docker: DockerIcon,
   swift: SwiftIcon,
   cocoapods: CocoapodsIcon,
+  阿里云: AliCloudIcon,
+  像素: AsepriteIcon,
+  leaflet: LeafletIcon,
 };
