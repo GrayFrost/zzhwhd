@@ -10,9 +10,15 @@ export default {
   theme: {
     extend: {
       boxShadow: {
-        'card': '.4em .4em .8em #99b5d2, -.4em -.4em .8em #fff',
+        card: ".4em .4em .8em #99b5d2, -.4em -.4em .8em #fff",
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  corePlugins: {
+    aspectRatio: false,
+  },
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 } satisfies Config;

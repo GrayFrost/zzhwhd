@@ -4,10 +4,27 @@ import { useState, useMemo } from "react";
 import localFont from "next/font/local";
 import dayjs from "dayjs";
 import { twMerge } from "tailwind-merge";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { gallery } from "@/config/gallery";
 
 // Fonts from https://www.dafont.com/thaleahfat.font
 const pixelFont = localFont({ src: "../../public/fonts/ThaleahFat.ttf" });
+
+const monthMap: Record<number, string> = {
+  1: "Jan",
+  2: "Feb",
+  3: "Mar",
+  4: "Apr",
+  5: "May",
+  6: "Jun",
+  7: "Jul",
+  8: "Aug",
+  9: "Sep",
+  10: "Oct",
+  11: "Nov",
+  12: "Dec",
+};
 
 export default function Page() {
   const [currentYear, setCurrentYear] = useState(dayjs().year());
@@ -21,6 +38,8 @@ export default function Page() {
     }
     return arr;
   }, []);
+
+  const currentYearPhotos = gallery.find((item) => item.year === currentYear);
 
   return (
     <div
@@ -56,25 +75,58 @@ export default function Page() {
             );
           })}
         </div>
-        <div className="flex-1 ml-3">
-          <h2 className="text-[50px]">2025 Years</h2>
-          <h3 className="text-[40px]"> Dec </h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            <div className="h-[196px] bg-slate-500">1</div>
-            <div>2</div>
-            <div>3</div>
-          </div>
-          <h3 className="text-[40px]"> Nov </h3>
-          <h3 className="text-[40px]"> Oct </h3>
-          <h3 className="text-[40px]"> Sep </h3>
-          <h3 className="text-[40px]"> Aug </h3>
-          <h3 className="text-[40px]"> Jul </h3>
-          <h3 className="text-[40px]"> Jun </h3>
-          <h3 className="text-[40px]"> May </h3>
-          <h3 className="text-[40px]"> Apr </h3>
-          <h3 className="text-[40px]"> Mar </h3>
-          <h3 className="text-[40px]"> Feb </h3>
-          <h3 className="text-[40px]"> Jan </h3>
+        <div className="flex-1 ml-3 mr-4">
+          <h2 className="text-[50px]">{currentYear} Years</h2>
+          <AnimatePresence mode="wait">
+            {currentYearPhotos && (
+              <motion.div
+                key={currentYear}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {currentYearPhotos.months.map((monthItem) => {
+                  return (
+                    <motion.div
+                      key={monthItem.month}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <h3 className="text-[40px]">{monthMap[monthItem.month]}</h3>
+                      <motion.div
+                        className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ staggerChildren: 0.1 }}
+                      >
+                        {monthItem.images.map((images) => (
+                          <motion.div
+                            key={images.url}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ type: "spring", stiffness: 400 }}
+                            className="bg-[#7886B4] rounded-lg"
+                          >
+                            <div className="aspect-w-16 aspect-h-9 rounded-lg">
+                              <Image
+                                src={images.url}
+                                alt="photo"
+                                className="rounded-lg"
+                                fill={true}
+                                objectFit="cover"
+                              />
+                            </div>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
