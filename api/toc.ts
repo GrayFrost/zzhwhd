@@ -1,12 +1,10 @@
-import fs from "fs";
-import matter from "gray-matter";
-import path from "path";
 import { toString } from "mdast-util-to-string";
 import { visit } from "unist-util-visit";
 import { remark } from "remark";
 import type { Node } from "unist";
 import type { VFile } from "vfile";
 import { createHeaderId } from "@/utils/h-id";
+import { getPostDetails } from '@/api/posts';
 
 interface HeadingNode {
   depth: number;
@@ -82,18 +80,12 @@ function headingTree() {
 }
 
 export async function getTOC(filenameId: string): Promise<TransformedNode[]> {
-  const filename = `${filenameId}.mdx`;
-  const postsDirectory = path.resolve(process.cwd(), "./posts");
-  const fullPath = path.join(postsDirectory, filename);
-  const fileContents = await fs.promises.readFile(fullPath, "utf-8");
-
-  // Use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents);
+  const { post } = await getPostDetails(filenameId);
 
   // Use remark to convert Markdown into HTML string
   const processedContent = await remark()
     .use(headingTree)
-    .process(matterResult.content);
+    .process(post.content);
 
   return processedContent.data.headings as TransformedNode[];
 }

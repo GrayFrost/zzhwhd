@@ -9,6 +9,15 @@ import { ThemeProvider } from "@/components/theme-provider";
 export const metadata: Metadata = {
   title: "Garlic Garlic | 蒜头蒜",
   description: "静谧之旅 —— 行止由心",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/garlic.png', type: 'image/png' },
+    ],
+    // apple: [
+    //   { url: '/apple-icon.png' },
+    // ],
+  }
 };
 
 export default function RootLayout({

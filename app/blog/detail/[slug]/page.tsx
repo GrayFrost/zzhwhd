@@ -6,6 +6,7 @@ import "@/styles/atom-one-dark-reasonable.css";
 import "katex/dist/katex.css";
 import { getTOC } from "@/api/toc";
 import { TableOfContents } from "@/components/table-of-contents";
+import type { Metadata } from "next";
 export const generateStaticParams = async () => {
   const { posts: allPosts } = await getAllPosts();
   return allPosts.map((post) => ({
@@ -17,13 +18,23 @@ export const generateMetadata = async ({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) => {
+}): Promise<Metadata> => {
   const { slug } = await params;
   const { post } = await getPostDetails(slug);
   const {
-    metadata: { title },
+    metadata: { title, description, tags },
   } = post;
-  return { title };
+  return {
+    title,
+    description,
+    keywords: tags,
+    generator: 'Next.js',
+    authors: [
+      { name: "蒜头蒜", url: "https://zzhwhd.com" },
+      { name: "Garlic Garlic" },
+      { name: "GaryFrost", url: "https://github.com/GrayFrost" },
+    ],
+  };
 };
 
 const PostLayout = async ({
@@ -32,7 +43,7 @@ const PostLayout = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const slugNew = decodeURIComponent(slug);
+  const slugNew = decodeURIComponent(slug); // 处理中文
 
   const { post } = await getPostDetails(slugNew);
   const {
