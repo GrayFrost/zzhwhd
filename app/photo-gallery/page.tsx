@@ -58,8 +58,23 @@ export default function Page() {
         </div>
         <div className="flex-1 ml-3">
           <h2 className="text-[50px]">2025 Years</h2>
-          <h3 className="text-[40px]"> </h3>
-          <h3 className="text-[40px]"> janu </h3>
+          <h3 className="text-[40px]"> Dec </h3>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+            <div className="h-[196px] bg-slate-500">1</div>
+            <div>2</div>
+            <div>3</div>
+          </div>
+          <h3 className="text-[40px]"> Nov </h3>
+          <h3 className="text-[40px]"> Oct </h3>
+          <h3 className="text-[40px]"> Sep </h3>
+          <h3 className="text-[40px]"> Aug </h3>
+          <h3 className="text-[40px]"> Jul </h3>
+          <h3 className="text-[40px]"> Jun </h3>
+          <h3 className="text-[40px]"> May </h3>
+          <h3 className="text-[40px]"> Apr </h3>
+          <h3 className="text-[40px]"> Mar </h3>
+          <h3 className="text-[40px]"> Feb </h3>
+          <h3 className="text-[40px]"> Jan </h3>
         </div>
       </div>
     </div>
