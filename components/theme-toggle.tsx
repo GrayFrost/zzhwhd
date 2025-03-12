@@ -49,12 +49,11 @@ const container = {
   cursor: "pointer",
   display: "flex",
   padding: 10,
-  boxSizing: 'content-box'
 };
 
 const handle = {
-  width: 50,
-  height: 50,
+  width: 30,
+  height: 30,
   backgroundColor: "#9911ff",
   borderRadius: "50%",
 };
