@@ -18,7 +18,7 @@ export default {
     aspectRatio: false,
   },
   plugins: [
-    require("@tailwindcss/typography"),
+    require("@tailwindcss/typography"),,
     require("@tailwindcss/aspect-ratio"),
   ],
 } satisfies Config;
