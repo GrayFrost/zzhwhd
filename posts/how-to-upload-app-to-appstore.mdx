@@ -10,6 +10,16 @@ category: "App开发"
 前段时间让Cursor帮我用SwiftUI写了一个MacOS App，并成功上架到了AppStore，这里记录一下整个流程，尤其是上架过程，稍显繁琐。
 
 ## 开发
+进行苹果开发者账号的申请
+1.申请开发者->(个人账号、公司账号、企业账号)
+
+2.创建AppID、Bundle ID、certificates证书、Profiles配置文件
+
+3.生成Profiles证书、密钥证书
+
+4.创建APP
+
+5.打包发布
 
 ## 上线
 注册Apple开发者账号
@@ -19,8 +29,13 @@ category: "App开发"
 
 配置证书和配置文件
   Certificates 证书
+  开发证书（Development Certificate）：用于在开发过程中签名应用，允许应用在受信任的设备上进行测试。
+发布证书（Distribution Certificate）：用于将应用分发。
+
   Identifiers 标识符
+
   Profile 描述文件
+  创建描述文件三步，选择类型、关联Identifier、关联 Certificates
 
 准备应用元数据
   应用名称、图标、描述、截图、版本信息、隐私政策
@@ -29,6 +44,11 @@ category: "App开发"
   选择 Xcode->Product->Archive打包项目，打包完成后选择 Upload to App Store上传
 
 提交应用到App Store Connect
+
+
+分发时填写信息
+
+icon的制作
 
 ### 应用审核
 审核时遇到了几个问题
