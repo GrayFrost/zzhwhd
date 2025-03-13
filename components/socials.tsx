@@ -91,7 +91,7 @@ export function Socials() {
         >
           <div
             className={twMerge(
-              "flex h-16 w-16 items-center justify-center rounded-[10px] text-white p-2 border",
+              "flex max-w-16 aspect-square items-center justify-center rounded-[10px] text-white p-2 border",
               social.borderColor,
               social.iconBgColor
             )}
