@@ -44,3 +44,5 @@ nginx.conf 和default.conf区别导致的问题
 Docker无法拉取镜像问题 阿里云的docker镜像地址不是最新的问题 /etc/docker/daemon.json
 
 ~/.ssh/authorized_keys 公私钥问题
+
+- [ ] layout的media query宽度和tailwind保持统一

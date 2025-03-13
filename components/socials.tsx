@@ -3,7 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { JuejinIcon, JianshuIcon, GithubIcon2, EmailIcon, ZhihuIcon } from "./icons";
+import {
+  JuejinIcon,
+  JianshuIcon,
+  GithubIcon,
+  GmailIcon,
+  ZhihuIcon,
+  DevIcon,
+  MediumIcon,
+} from "./icons";
 
 export function Socials() {
   const [socials] = useState([
@@ -13,7 +21,7 @@ export function Socials() {
       shadowColor: "hover:shadow-[#1F2328] dark:hover:shadow-[#1F2328]",
       iconBgColor: "bg-[#1F2328]",
       url: "https://github.com/GrayFrost",
-      icon: <GithubIcon2 />,
+      icon: <GithubIcon fill="#fff" />,
     },
     {
       label: "掘金",
@@ -29,7 +37,15 @@ export function Socials() {
       shadowColor: "hover:shadow-[#EA4335] dark:hover:shadow-[#EA4335]",
       iconBgColor: "bg-[#EA4335]",
       url: "mailto:garyfrost4321@gmail.com",
-      icon: <EmailIcon />,
+      icon: <GmailIcon fill="#fff" />,
+    },
+    {
+      label: "Medium",
+      borderColor: "border-[#000000]",
+      shadowColor: "hover:shadow-[#000000] dark:hover:shadow-[#000000]",
+      iconBgColor: "bg-[#ffffff]",
+      url: "https://medium.com/@garyfrost4321",
+      icon: <MediumIcon />,
     },
     {
       label: "知乎",
@@ -47,30 +63,44 @@ export function Socials() {
       url: "https://www.jianshu.com/u/8e629fd1e3b0",
       icon: <JianshuIcon />,
     },
+    {
+      label: "Dev.to",
+      borderColor: "border-[#0A0A0A]",
+      shadowColor: "hover:shadow-[#0A0A0A] dark:hover:shadow-[#0A0A0A]",
+      iconBgColor: "bg-[#fff]",
+      url: "https://dev.to/frost_gary_90f3cf1699bd02",
+      icon: <DevIcon />,
+    },
   ]);
 
-  const socialClass =
-    "w-full cursor-pointer rounded-md border bg-white dark:bg-[#1e1f26] px-2 py-1.5 transition-all hover:bg-transparent hover:shadow-[4px_4px_0px_0px]  dark:hover:shadow-[4px_4px_0px_0px] flex items-center";
+  // const socialClass =
+  //   "w-full cursor-pointer rounded-md border bg-white dark:bg-[#1e1f26] px-2 py-1.5 transition-all hover:bg-transparent hover:shadow-[4px_4px_0px_0px]  dark:hover:shadow-[4px_4px_0px_0px] flex items-center";
 
+  const socialClass = "";
   return (
-    <>
+    <div className="w-full h-full grid grid-cols-4 gap-4 sm:grid-cols-4 sm:grid-rows-4">
       {socials.map((social) => (
         <Link
-          className={twMerge(socialClass, social.borderColor, social.shadowColor)}
+          className={twMerge(
+            socialClass,
+            social.borderColor,
+            social.shadowColor
+          )}
           key={social.label}
           href={social.url}
         >
           <div
             className={twMerge(
-              "flex h-8 w-8 items-center justify-center rounded-[10px] p-2 text-white mr-2",
-              social.iconBgColor,
+              "flex h-16 w-16 items-center justify-center rounded-[10px] text-white p-2 border",
+              social.borderColor,
+              social.iconBgColor
             )}
           >
             {social.icon}
           </div>
-          {social.label}
+          {/* {social.label} */}
         </Link>
       ))}
-    </>
+    </div>
   );
 }
