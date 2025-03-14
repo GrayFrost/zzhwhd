@@ -2,6 +2,7 @@
 
 import * as motion from "motion/react-client";
 import { useTheme } from "next-themes";
+import { Sun, Moon } from "lucide-react";
 
 export default function LayoutAnimation() {
   const { theme, setTheme } = useTheme();
@@ -19,41 +20,54 @@ export default function LayoutAnimation() {
       className="toggle-container"
       style={{
         ...container,
-        justifyContent: "flex-" + (theme !== "dark" ? "start" : "end"),
+        justifyContent: theme === "dark" ? "flex-end" : "flex-start",
+        backgroundColor: theme === "dark" ? "#1a1a1a" : "#f5f5f5",
       }}
       onClick={toggleSwitch}
     >
       <motion.div
         className="toggle-handle"
-        style={handle}
+        style={{
+          ...handle,
+          backgroundColor: theme === "dark" ? "#4a4a4a" : "#6366f1",
+        }}
         layout
         transition={{
           type: "spring",
-          visualDuration: 0.2,
-          bounce: 0.2,
+          stiffness: 700,
+          damping: 30
         }}
-      />
+      >
+        <motion.div
+          className="w-full h-full flex items-center justify-center" 
+          initial={{ opacity: 0, rotate: -90 }}
+          animate={{ opacity: 1, rotate: 0 }}
+          exit={{ opacity: 0, rotate: 90 }}
+          transition={{ duration: 0.2 }}
+        >
+          {theme === "dark" ? (
+            <Sun className="h-4 w-4 text-yellow-400" />
+          ) : (
+            <Moon className="h-4 w-4 text-blue-400" />
+          )}
+        </motion.div>
+      </motion.div>
     </button>
   );
 }
 
-/**
- * ==============   Styles   ================
- */
-
+// 更新样式参数
 const container = {
-  width: 100,
-  height: 50,
-  backgroundColor: "#9911ff44",
-  borderRadius: 50,
+  width: 72,
+  height: 40,
+  borderRadius: 20,
   cursor: "pointer",
   display: "flex",
-  padding: 10,
+  padding: 4,
 };
 
 const handle = {
-  width: 30,
-  height: 30,
-  backgroundColor: "#9911ff",
+  width: 32,
+  height: 32,
   borderRadius: "50%",
 };
