@@ -38,11 +38,18 @@ export function Home() {
       <Link key="2" className={twMerge(cardClass)} href="life">
         life
       </Link>
-      <Link key="3" className={twMerge(cardClass)} href="/project">
+      <Link
+        key="3"
+        className={twMerge(
+          cardClass,
+          "bg-[#FFC90D] dark:bg-none"
+          // "bg-gradient-to-br from-[#9F4ECD] from-15% via-[#E03EAA] via-50% to-[#F087A6] to-85% dark:bg-none" // 修改 to-r → to-br
+        )}
+        href="/project"
+      >
         <h2 className="text-2xl font-semibold mb-2 dark:text-white">
           我的项目
         </h2>
-        <p className="text-gray-600 dark:text-gray-300">hello world</p>
       </Link>
       <div key="social" className={twMerge(cardClass)}>
         <Socials />
@@ -57,7 +64,11 @@ export function Home() {
       <Link key="7" className={twMerge(cardClass)} href="/">
         <Clock />
       </Link>
-      <Link key="sprite" className={twMerge(cardClass, "relative p-0")} href="/">
+      <Link
+        key="sprite"
+        className={twMerge(cardClass, "relative p-0")}
+        href="/"
+      >
         <SpriteAnimation />
       </Link>
       <Link key="9" className={twMerge(cardClass)} href="/photo-gallery">

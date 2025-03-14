@@ -1,10 +1,18 @@
+"use client";
+
+// import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+// import { useEffect } from "react";
+
 export default function Page() {
-  return (
-    <div>
-      <h1>生活</h1>
-      <div>旅游</div>
-      <div>影音</div>
-      <div>阅读</div>
-    </div>
-  )
+  // useEffect(() => {
+  //   const map = new maplibregl.Map({
+  //     container: "map", // container id
+  //     style: "https://demotiles.maplibre.org/style.json", // style URL
+  //     center: [115, 39], // starting position [lng, lat]
+  //     zoom: 3, // starting zoom
+  //   });
+  // }, []);
+
+  return <div id="map" className="w-full min-h-screen"></div>;
 }
