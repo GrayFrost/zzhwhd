@@ -20,14 +20,14 @@ jobs:
 
       - name: Build and Push Docker Images
         env:
-          MAPTILER_ACCESS_TOKEN: ${{ secrets.MAPTILER_ACCESS_TOKEN }}
+          NEXT_PUBLIC_MAPTILER_ACCESS_TOKEN: ${{ secrets.MAPTILER_ACCESS_TOKEN }}
         run: |
           export IMAGE_TAG=${{ github.sha }}
           export ACR_FULL_ADDRESS=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}
 
           # 只构建一次镜像
           docker build -t $ACR_FULL_ADDRESS/website:$IMAGE_TAG . \
-            --build-arg MAPTILER_ACCESS_TOKEN=$MAPTILER_ACCESS_TOKEN
+            --build-arg NEXT_PUBLIC_MAPTILER_ACCESS_TOKEN=$NEXT_PUBLIC_MAPTILER_ACCESS_TOKEN
           docker push $ACR_FULL_ADDRESS/website:$IMAGE_TAG
 
   deploy:
