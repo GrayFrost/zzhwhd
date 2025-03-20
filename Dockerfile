@@ -64,3 +64,6 @@ ENV PORT=3000
 # https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
 CMD ["node", "server.js"]
+
+ARG MAPTILER_ACCESS_TOKEN
+ENV NEXT_PUBLIC_MAPTILER_ACCESS_TOKEN=$MAPTILER_ACCESS_TOKEN
