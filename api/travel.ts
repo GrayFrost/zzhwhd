@@ -1,8 +1,10 @@
 import dayjs from "dayjs";
-import zhuhaiImage from "../public/images/travel/zhuhai/1.jpg";
-import { StaticImageData } from "next/image";
+import type { StaticImageData } from "next/image";
 
-interface TravelData {
+import zhuhaiImage from "../public/images/travel/zhuhai/1.jpg";
+import changshaImage from "../public/images/travel/changsha/1.jpg";
+
+export interface TravelData {
   id: string;
   lngLat: [number, number];
   name: string;
@@ -13,7 +15,7 @@ interface TravelData {
   time: Date;
 }
 
-export const travelData: TravelData[] = [
+const travelData: TravelData[] = [
   {
     id: "shenzhen",
     name: "深圳",
@@ -63,8 +65,8 @@ export const travelData: TravelData[] = [
     id: "changsha",
     name: "长沙",
     lngLat: [113.09, 28.21],
-    image: "/images/travel/zhuhai/1.jpg",
-    imageStatic: zhuhaiImage,
+    image: "/images/travel/changsha/1.jpg",
+    imageStatic: changshaImage,
     postUrl: "/travel-changsha",
     time: dayjs("2024-08-02").toDate(),
   },
@@ -123,3 +125,9 @@ export const travelData: TravelData[] = [
     time: dayjs("2024-08-02").toDate(),
   },
 ];
+
+export const getTravelData = async () => {
+  return {
+    data: travelData
+  }
+}

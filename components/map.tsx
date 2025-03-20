@@ -2,16 +2,20 @@
 
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { travelData } from "@/config/travel";
 import { useRouter } from "next/navigation";
-export default function Map(props: { darkStyle: string; lightStyle: string }) {
-  const { darkStyle, lightStyle } = props;
+import { TravelData } from "@/api/travel";
+
+export default function Map(props: {
+  darkStyle: string;
+  lightStyle: string;
+  travelData: TravelData[];
+}) {
+  const { darkStyle, lightStyle, travelData } = props;
   const [map, setMap] = useState<maplibregl.Map | undefined>();
   const { theme } = useTheme();
   const router = useRouter();
-  const markersRef = useRef<maplibregl.Marker[]>([]);
 
   // from https://cloud.maptiler.com/maps/
 
@@ -19,8 +23,8 @@ export default function Map(props: { darkStyle: string; lightStyle: string }) {
     const map = new maplibregl.Map({
       container: "map", // container id
       // style: '',// style URL
-      center: [115, 39], // starting position [lng, lat]
-      zoom: 3, // starting zoom
+      center: [113.46, 22.27], // starting position [lng, lat]
+      zoom: 5, // starting zoom
     });
 
     setMap(map);
@@ -47,17 +51,25 @@ export default function Map(props: { darkStyle: string; lightStyle: string }) {
     if (!map) {
       return;
     }
-    markersRef.current.forEach((marker) => marker.remove());
 
     travelData.forEach((item) => {
-      const marker = new maplibregl.Marker({ color: "#FFFFFF" });
+      const el = document.createElement("div");
+      el.className = `w-[50px] h-[50px] rounded-full bg-cover`;
+      el.style.backgroundImage = `url(${item.imageStatic.src})`;
+      // el.style.width = `50px`;
+      // el.style.height = `50px`;
 
+      // const marker = new maplibregl.Marker({ color: "#FFFFFF" });
+      const marker = new maplibregl.Marker({ element: el });
       marker.setLngLat(item.lngLat).addTo(map);
-      marker.getElement().addEventListener("click", () => {
+      // marker.getElement().addEventListener("click", () => {
+      //   router.push(`/blog/detail/${item.postUrl}`);
+      // });
+      el.addEventListener("click", () => {
         router.push(`/blog/detail/${item.postUrl}`);
       });
     });
-  }, [map, router]);
+  }, [map, router, travelData]);
 
   return <div id="map" className="w-full min-h-screen"></div>;
 }
