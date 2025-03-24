@@ -4,8 +4,6 @@ services:
     #   context: .  # 使用当前目录作为构建上下文
     #   dockerfile: Dockerfile  # 指定 Dockerfile 路径
     image: ${ACR_FULL_ADDRESS}/website:${IMAGE_TAG}
-    environment:
-      - NEXT_PUBLIC_MAPTILER_ACCESS_TOKEN=${NEXT_PUBLIC_MAPTILER_ACCESS_TOKEN}
     container_name: nextjs
     ports:
       - "3000:3000"
