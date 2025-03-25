@@ -4,14 +4,54 @@ date: '2025-03-11'
 tags: ['react', 'nextjs']
 ---
 
-nextjs特性
-服务端渲染SSR
+## 前言
 
-静态站点生成SSG
+前段时间把自己的网站整体从CRA迁移成Next.JS，再加上之前自己开发Sveaflet时使用Sveltekit的经验，感觉对Next这个框架也有了一点点了解。
+
+## 特性
+
+Next.js 基于React的服务端渲染框架，特点是支持**预渲染**
+
+### 渲染
+nextjs特性
+服务端渲染SSR Server-side Rendering，渲染工作放在服务器执行。服务器上请求数据，渲染html内容后返回给客户端。
+  利于seo
+  和传统的服务端渲染有所不同：先渲染出html静态页面，然后对html页面进行hydrate水合
+  缺点：请求量大时增加服务器压力；在hydrate完成前页面也不可点击
+
+静态站点生成SSG Static Site Generation 构建阶段就把页面生成好
+  缺点：每增加新的页面内容，需要重新构建
+
+客户端渲染CSR Client-side Rendering 渲染工作在客户端执行，请求html文件和各类资源。
+  主要有两个问题，首页的白屏问题（由于网速和设备性能差异导致的）；SEO问题
+
+ISR Incremental Static Regeneration 增量静态再生？
+  revalidate 设置之后，经过设置后的秒数更新页面
+  传统的预渲染如果需要更新内容需要将全部页面重新生成，增量生成允许我们单独设置某些页面重新生成。
+  一个例子是：博客详情页上如果有支持点赞或评论的功能，那这个页面就不可能一直静态，需要周期性地更新这个页面。
+
+### 路由
+
+## 使用
+
+
+分页
+比如有一个目录是/blog。那在/blog下的page.js则默认是第一页，当我们要通过页面路由的形式来分页展示时，我的建议是在/blog目录下再建一个叫page的目录，然后添加slug目录，比如`[page]`。到这里为止，我们的目录结构如下：
+
+```
+blog
+  page
+    [page]
+      page.js
+  page.js
+```
+那接下来，我们从第二页开始，页面路由变成`/blog/page/2`，以此类推。
+这样处理的一个好处是，如果我们的blog目录下还有其他不需要分页的子目录，可能是/blog/a，/blog/b，这些目录可以和分页逻辑区分开来。
+
 
 API路由
 
-文件系统路由
+文件系统路由  不需要再配置react-router
 
 图像优化
 
@@ -36,7 +76,15 @@ generateStaticParams
 layout和page
 
 路由的规律
-
+### use client
+Next.js默认组件都是服务端渲染，如果我们的组件涉及到一些比如点击交互、`useState`数据设置、window api等，我们则需要把组件声明成客户端组件。
+做法就是在组件代码的最顶部添加一行代码：
+```javascript
 "use client"
+```
+
+`use client`用于声明服务器和客户端组件模块之间的边界，如果我们在文件中使用了`use client`，则意味着导入到这个文件的所有组件都将视为客户端打包的一部分。
+
+一旦配置了，子组件也会以这种形式渲染
 
 window document is not defined
