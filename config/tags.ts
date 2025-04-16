@@ -17,6 +17,7 @@ import {
   AliCloudIcon,
   AsepriteIcon,
   LeafletIcon,
+  OpenAIIcon,
 } from "@/components/icons";
 
 export const tagConfigMap: Record<
@@ -40,4 +41,5 @@ export const tagConfigMap: Record<
   阿里云: AliCloudIcon,
   像素: AsepriteIcon,
   leaflet: LeafletIcon,
+  ai: OpenAIIcon,
 };

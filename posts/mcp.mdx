@@ -1,0 +1,54 @@
+---
+title: MCP
+date: '2025-04-16'
+tags: ['ai']
+description: 关于MCP的简单了解和使用
+---
+
+## 什么是MCP？
+Model Context Protocol 模型上下文协议，由 Anthropic（Claude 的母公司）于 2024年11月 开源发布的一项 全新技术。
+它允许大型语言模型（LLM）通过协议与外部工具或服务交互，动态获取实时数据或执行操作
+
+## MCP的使用
+
+mcp客户端
+mcp服务器
+
+
+curosr、cline、windsurf、cherry studio
+
+以cherry studio上使用mcp服务为例。
+
+工作流：
+用户输入：用户在Cursor中提出需求，可能包含需要调用外部工具的意图
+意图理解：Cursor将请求转发给AI模型，AI模型解析用户意图
+工具选择：AI模型判断需要调用外部工具，向MCP Server请求可用工具列表
+工具描述获取：MCP Server返回可用工具的详细描述和参数要求
+调用决策：AI模型基于用户需求和工具描述，决定调用哪个工具，并生成结构化的请求
+工具调用：MCP Server接收到请求，调用相应的外部服务或工具
+执行操作：外部工具执行请求的操作，并返回结果
+结果整合：MCP Server将工具返回的结果发送回AI模型
+最终响应：AI模型结合工具返回的结果，生成最终答案返回给用户
+
+### cherry studio的安装
+
+### 配置大模型
+
+### 配置mcp server
+
+- 名称：自定义一个名称，例如 fetch-server
+
+- 类型：选择 STDIO
+
+- 命令：填写 uvx
+
+- 参数：填写 mcp-server-fetch
+
+todo  以高德mcp服务器为例
+
+### 使用
+
+## servers
+
+[servers](https://github.com/modelcontextprotocol/servers)
+[mcp.so](https://mcp.so/)
