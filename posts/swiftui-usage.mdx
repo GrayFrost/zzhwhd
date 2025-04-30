@@ -56,31 +56,62 @@ struct ContentView: View {
 }
 ```
 
-App协议、View协议
-class AppState: ObservableObject Identifiable, Hashable
+下面我会列出我在开发时遇到的协议。
 
-Preview预览
+### Identifiable
+我的理解是用来标识唯一性，常见于列表内容中的列表项的渲染
+
+### Hashable
+Swift中可以使用自定义的类型作为合集的值或者字典的key，只需要遵循Hashable协议
+
+### View
+用来定义UI组件的布局与行为
+
+
+## 预览
+目前接触了两种添加预览的方式。
+最新的写法是使用`#Preview`：
+```swift
+#Preview {
+    ContentView(appState: AppState())
+}
+```
+
+之前则是使用`PreviewProvider`：
+```swift
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+```
 
 ## 安装包管理
 
 比如web前端的资源管理使用npm、java应用使用maven等，那ios应用的资源管理使用什么呢？
-通常有两种：Cocoapods和Swift Package Manager。
+通常有两种：`Cocoapods`和`Swift Package Manager`。
 
-Cocoapods的使用之前我已经简单记录了，至于Swift Package Manager，简称SPM，我使用的时候由于网络等一系列问题，导致下载一个包都非常的慢，所以我在使用了一两天后，重新切换回了Cocoapods。
+`Cocoapods`的使用之前我已经简单记录了，至于`Swift Package Manager`，简称`SPM`，我使用的时候由于网络等一系列问题，导致下载一个包都非常的慢。  
+所以我在使用了一两天后，重新切换回了`Cocoapods`。
 
 ## 数据管理
 
-```swift
-@state 
-@binding
-@observedobject
-```
+- `@State`用于声明视图的局部状态
+- `@Binding`用于在父视图和子视图之间共享和双向绑定状态。子视图通过`@Binding`访问和修改父视图的状态，而不创建自己的状态副本。
+- `@StateObject`用于管理符合`ObservableObject`协议的类对象
+- `@ObservedObject`用于引用外部传入的`ObservableObject`对象，视图会观察对象的变化并更新。与`@StateObject`不同的是，`@ObservedObject`不持有对象，只是监视它。
+- `@EnvironmentObject`是一种全局的共享数据方式，允许跨多个视图层次结构传递`ObservableObject`，并自动更新所有依赖此对象的视图。
+- `@Environment`用于读取环境中的值，SwiftUI提供了许多预定义的环境值。
+
 
 ## 扩展
 
 
 
 ## 图标
+Assets目录
 
+## 存储
+实体Entity
 
 修改应用名称
