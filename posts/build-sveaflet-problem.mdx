@@ -8,7 +8,7 @@ category: "建站"
 [![Star History Chart](https://api.star-history.com/svg?repos=GrayFrost/sveaflet&type=Date)](https://star-history.com/#GrayFrost/sveaflet&Date)
 
 ## 前言
-关于Sveaflet的开发已经告一段落，现在有时间可以好好总结一下开发历程。
+关于[Sveaflet](https://sveaflet.vercel.app/)的开发已经告一段落，现在有时间可以好好总结一下开发历程。
 
 关于开源，我一直都有一种开源精神，也可以成为造轮子的精神，奈何没有过硬的能力和持续精神，导致我的大部分项目都是半途而废。因为最近一直在学习Svelte相关的知识，就想在这方面做一些开源的东西，比如想做个Svelte版的Antd库，然而看Antd的源码时发现关于动画的实现也是一个复杂的难题，导致我迟迟得不到推进。结果一拖再拖，导致项目最终太监。
 
@@ -16,7 +16,7 @@ category: "建站"
 
 ## 开发
 
-首先我想实现的是一个组件库，依托于我曾经开发Svelte版Antd的经验，我能够很快地决定使用Sveltekit来管理我的项目，Sveltekit天然地支持了管理组件库的这一开发模式。同时我为了让自己的组件库能够直观的展示出来，我有去找了一些使用Sveltekit来开发组件库的开源项目，最终我找到了Flowbite Svelte这个组件库，于是我便照葫芦画瓢，把flowbite-svelte的项目管理方式直接照搬了过来。
+首先我想实现的是一个组件库，依托于我曾经尝试开发过Svelte版Antd的经验，我能够很快地决定使用Sveltekit来管理我的项目，Sveltekit天然地支持了管理组件库的这一开发模式。同时我为了让自己的组件库能够直观的展示出来，我有去找了一些使用Sveltekit来开发组件库的开源项目，最终我找到了[Flowbite Svelte](https://flowbite-svelte.com/)这个组件库，于是我便照葫芦画瓢，把[flowbite-svelte](https://github.com/themesberg/flowbite-svelte)的项目管理方式直接照搬了过来。
 
 接下来的开发过程，便是一边实现组件的逻辑，一边修改在搬运过程中遇到的问题。
 
@@ -24,7 +24,7 @@ category: "建站"
 
 #### 文件名
 
-关于文件名的命名逻辑，一开始我也是直接Circle.svelte、CirleMarker.svelte诸如此类，然而到了打包阶段，打包后的d.ts里的文件名变量会和Leaflet本身的类名冲突，比如Circle.svelte和`import { Circle } from 'leaflet'`中的Circle冲突，于是在每个组件前都加了个S，即代表Svelte版的组件，依次来规避冲突。
+关于文件名的命名逻辑，一开始我也是直接`Circle.svelte`、`CirleMarker.svelte`诸如此类，然而到了打包阶段，打包后的d.ts里的文件名变量会和`Leaflet`本身的类名冲突，比如Circle.svelte和`import { Circle } from 'leaflet'`中的Circle冲突，于是在每个组件前都加了个S，即代表Svelte版的组件，依次来规避冲突。
 
 #### 组件的分层
 
@@ -42,7 +42,7 @@ category: "建站"
 
 #### 组件内的逻辑
 
-关于组件内部的逻辑。前面的几个关键点都是为了处理组件逻辑而铺垫。大多数组件的逻辑大同小异：首先是对外暴露props，然后拿到上面我们所说的分层，之后是在onMount中生成组件实例，同时加入对props更新的监听，最后则是判断组件的层级，然后一层层的addLayer。
+关于组件内部的逻辑。前面的几个关键点都是为了处理组件逻辑而铺垫。大多数组件的逻辑大同小异：首先是对外暴露props，然后拿到上面我们所说的分层，之后是在onMount中生成组件实例，同时加入对props更新的监听，最后则是判断组件的层级，然后一层层的`addLayer`。
 
 ### 网站
 
@@ -53,7 +53,18 @@ category: "建站"
 最开始遇到的问题，也是大部分开发都会遇到的问题。`window is not defined`。目前我的解决方式是直接在`+page.ts`中添加`export const ssr = false;`这一行代码。
 
 #### 项目的目录结构
-Sveltekit中代码的组织方式
+目前我的代码在Sveltekit中的组织方式如下：
+![](/images/buildSveafletProblem/1.png)
+
+```
+- lib 所有组件
+- routes 网站的路由
+	- api 请求markdown文件的接口
+	- docs 网站上所有的演示文档
+	- layouts mdsvex里布局所要替换的所有组件
+	- utils 一些通用的方法或组件
+- tests 单元测试
+```
 
 #### md转换
 
@@ -118,18 +129,108 @@ export const load = async ({ fetch }) => {
 接着要把markdown数据正确展示到页面上，则用到了mdsvex这个库。
 
 #### 组件功能演示
-关于markdown example的展示，组件的替换。mdx, mdsvexamples
+在svelte项目里使用markdown使用到了[mdsvex](https://github.com/pngwn/MDsveX)，然后要在markdown文件里展示组件功能的话，则使用了[mdsvexamples](https://github.com/mattjennings/mdsvexamples)。  
+当然，这也是直接照着`flowbite`的思路来的。
 
+使用mdsvex，需要新建一个`mdsvex.config.js`文件：
+```javascript
+import { defineMDSveXConfig as defineConfig } from 'mdsvex';
+import examples from 'mdsvexamples';
 
+const config = defineConfig({
+	layout: {
+		componentLayout: './src/routes/layouts/component/+page.svelte',
+	},
+	extensions: ['.svelte.md', '.md', '.svx'],
+
+	smartypants: {
+		dashes: 'oldschool'
+	},
+
+	remarkPlugins: [[examples, { defaults: { Wrapper: '/src/routes/utils/ExampleWrapper.svelte' } }]],
+	rehypePlugins: []
+});
+
+export default config;
+```
+
+layout指定了我们的markdown渲染出来后是怎样的布局，然后再remarkPlugins里添加了mdsvexamples这个插件，用来展示组件功能。
 
 #### 搜索
-- algolia 搜索
+我使用的是aloglia的搜索服务。首先是登录官网注册个账号，直接用谷歌账号登录就可以。
+先在Setting里点击applications，然后创建create application。
+[](/images/buildSveafletProblem/2.png) 
+
+印象中这个步骤还要选地区，选个欧美地区就行了，毕竟vercel部署在海外。
+[](/images/buildSveafletProblem/3.png)  
+
+之后便得到一些key
+[](/images/buildSveafletProblem/4.png)
+
+在代码中，使用到了[docsearch](https://github.com/algolia/docsearch)组件
+
+```typescript
+<script lang="ts">
+  import { browser } from '$app/environment';
+  import { onMount } from 'svelte';
+  import docsearch from '@docsearch/js';
+  import '@docsearch/css';
+
+  interface Props {
+    appId: string;
+    apiKey: string;
+  }
+
+  let { appId, apiKey }: Props = $props();
+
+  let searchContainer: HTMLElement | string = $state('');
+
+  onMount(() => {
+    if (browser) {
+      // Algolia docsearch
+      docsearch({
+        container: searchContainer,
+        appId,
+        indexName: 'sveaflet',
+        apiKey,
+        placeholder: 'Search documentation'
+      });
+    }
+  });
+</script>
+
+<div bind:this={searchContainer} id="docsearch" class="ms-3 xl:ps-4"></div>
+```
+这里的appId便是图里的Application ID，apiKey便是图里的Search API Key。
+
+之后是创建index用来存数据，和创建[crawler](https://www.algolia.com/doc/tools/crawler/getting-started/create-crawler/)用来抓取数据。
+
+### Svelte5升级
+
+先是依照[文档](https://svelte.dev/docs/svelte/v4-migration-guide)，执行`npx svelte-migrate@latest svelte-4`，然后就是对每个文件进行修补工作。
+
+常见有以下改动：
+1. 修改接收props的方式，将原来的export形式改成`$props()`
+2. 修改`$`的使用，改成`$derived`，以及`$effect`
+3. state的声明由原来的直接声明，改成需要使用`$state`
+4. `slot`标签，改成`{@render children()}`
 
 ## 测试
+只是简单做了一些工具方法的单侧，对于组件功能的单侧，感觉有些难写，估计要搁置了。
 
 ## 发布
 ### npm包的发布
-standard-version
+使用[standard-version](https://github.com/conventional-changelog/standard-version)可以方便的管理项目的发布版本。
+阅读官方文档时，发现推荐一个新的包release-please，不管还没研究。
+
+我在项目package.json里添加了一条执行生成新版本好的指令：
+```bash
+"release-major": "standard-version --release-as major",
+"release-minor": "standard-version --release-as minor",
+"release-patch": "standard-version --release-as patch"
+```
+对于一个版本号，通常有两个点分隔成三个数字a.b.c，分别对应major、minor、patch。
+执行以上其中一条命令，然后在本地`vite build`打包好项目，接着调用写好`git push`命令，把项目推送到npm上。
 
 ### vercel部署
 相对于npm把lib目录下的内容发到npm上，vercel部署的东西则是把routes目录下的东西发到网上，给用户一个较为精美的浏览文档的界面。
