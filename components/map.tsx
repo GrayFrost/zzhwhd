@@ -10,11 +10,9 @@ import "leaflet/dist/leaflet.css";
 declare const L: any;
 
 export default function Map(props: {
-  darkStyle: string;
-  lightStyle: string;
   travelData: TravelData[];
 }) {
-  const { darkStyle, lightStyle, travelData } = props;
+  const { travelData } = props;
   const { theme } = useTheme();
   const router = useRouter();
   const mapRef = useRef<any>(null);
