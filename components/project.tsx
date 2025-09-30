@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 
 interface ProjectItem {
   id: string;
@@ -16,7 +15,6 @@ interface ProjectItem {
 }
 
 export function Project() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const projects: ProjectItem[] = [
     {
@@ -60,7 +58,6 @@ export function Project() {
   ];
 
   const ProjectCard = ({ project }: { project: ProjectItem }) => {
-    const isHovered = hoveredId === project.id;
 
     const baseClasses = `
       relative group cursor-pointer overflow-hidden
@@ -80,8 +77,6 @@ export function Project() {
     const content = (
       <div 
         className={`${baseClasses} ${cornerRadius} ${shadowClass}`}
-        onMouseEnter={() => setHoveredId(project.id)}
-        onMouseLeave={() => setHoveredId(null)}
       >
         {/* 背景渐变 */}
         <div className={`

@@ -6,9 +6,6 @@ import { TravelData } from "@/api/travel";
 import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 
-// 使用动态导入避免类型问题
-declare const L: any;
-
 export default function Map(props: {
   travelData: TravelData[];
 }) {
