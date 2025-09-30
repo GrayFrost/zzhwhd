@@ -2,17 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  :root {
+    --background: rgb(255 255 255);
+    --foreground: rgb(0 0 0);
+    --card: rgb(255 255 255);
+    --card-foreground: rgb(0 0 0);
+    --muted: rgb(243 244 246);
+    --muted-foreground: rgb(107 114 128);
+  }
+
+  .dark {
+    --background: rgb(17 24 39);
+    --foreground: rgb(255 255 255);
+    --card: rgb(31 41 55);
+    --card-foreground: rgb(255 255 255);
+    --muted: rgb(55 65 81);
+    --muted-foreground: rgb(156 163 175);
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* 平滑过渡动画 */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .card {
-  /* background: #edf2f7; */
-  /* border: 0 solid #e2e8f0; */
-  /* box-shadow: .4em .4em .8em #99b5d2, -.4em -.4em .8em #fff; */
-  /* border-radius: .5rem; */
+  background-color: var(--card);
+  color: var(--card-foreground);
+  @apply border border-gray-200 dark:border-gray-700;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dark .card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
 
 .stroke-color {
@@ -23,4 +52,21 @@ body {
 html.dark .stroke-color {
   -webkit-text-stroke: 2px #f7d621;
   -webkit-text-fill-color: white;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500 dark:bg-gray-500;
 }

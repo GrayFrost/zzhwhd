@@ -1,25 +1,18 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import dayjs from 'dayjs';
-import { useWindowWidth } from "@/hooks/use-window-width";
-import "@/styles/clock.css";
+import { useEffect, useRef } from "react";
 
-const week = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 const deg = 6;
 
-export default function Time() {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const width = useWindowWidth();
+export default function Clock() {
   const timerID = useRef<NodeJS.Timeout | null>(null);
   const hourRef = useRef<HTMLDivElement>(null);
   const minRef = useRef<HTMLDivElement>(null);
   const secRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    timerID.current = setInterval(updateTime, 1000);
-    updateTime();
+    timerID.current = setInterval(setClock, 1000);
+    setClock();
 
     return () => {
       if (timerID.current) {
@@ -44,49 +37,106 @@ export default function Time() {
       secRef.current.style.transform = `rotateZ(${ss}deg)`;
     }
   }
-  function updateTime() {
-    const cd = new Date();
-    const clockTime =
-      zeroPadding(cd.getHours(), 2) +
-      ":" +
-      zeroPadding(cd.getMinutes(), 2) +
-      ":" +
-      zeroPadding(cd.getSeconds(), 2);
-    // const clockDate =
-    //   zeroPadding(cd.getFullYear(), 4) +
-    //   "-" +
-    //   zeroPadding(cd.getMonth() + 1, 2) +
-    //   "-" +
-    //   zeroPadding(cd.getDate(), 2) +
-    //   " " +
-    //   week[cd.getDay()];
-    const clockDate = `${dayjs(cd).format('YYYY-MM-DD')} ${week[cd.getDay()]}`
 
-    setDate(clockDate);
-    setTime(clockTime);
-    setClock();
-  }
+  // 生成12个小时刻度
+  const hourMarkers = Array.from({ length: 12 }, (_, i) => {
+    const hour = i === 0 ? 12 : i;
+    const angle = (i * 30) - 90; // -90度让12点在顶部
+    return { hour, angle };
+  });
 
-  function zeroPadding(num: number, digit: number): string {
-    let zero = "";
-    for (let i = 0; i < digit; i++) {
-      zero += "0";
-    }
-    return (zero + num).slice(-digit);
-  }
 
   return (
-    <div className="flex flex-col justify-center items-center flex-1">
-      <div className="text-[#4a5568] dark:text-white">{date}</div>
-      <div className="text-[#4a5568] dark:text-white">{time}</div>
-      {(width && width > 768) && (
-        <div className="flex items-center justify-center clock">
-        <div className="hour" ref={hourRef}></div>
-        <div className="min" ref={minRef}></div>
-        <div className="sec" ref={secRef}></div>
+    <div className="w-full h-full">
+      {/* Apple风格时钟 - 64px固定尺寸，支持暗色主题 */}
+      <div className="
+        w-16 h-16
+        bg-white dark:bg-gray-800
+        rounded-[14px]
+        relative
+        shadow-lg dark:shadow-gray-900/50
+        border border-gray-200 dark:border-gray-600
+        transition-all duration-200
+      ">
+        {/* 12小时数字刻度 */}
+        {hourMarkers.map(({ hour, angle }) => {
+          const radius = 24; // 适配64px固定尺寸的数字位置
+          const radian = (angle * Math.PI) / 180;
+          const x = Math.cos(radian) * radius;
+          const y = Math.sin(radian) * radius;
+          
+          return (
+            <div
+              key={hour}
+              className="absolute top-1/2 left-1/2 text-black dark:text-white transition-colors duration-200"
+              style={{
+                transform: `translate(${x - 6}px, ${y - 6}px)`,
+              }}
+            >
+              <div className="text-[10px] font-bold select-none w-3 h-3 flex items-center justify-center">
+                {hour}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* 时针 - 64px尺寸优化，支持暗色主题 */}
+        <div
+          ref={hourRef}
+          className="absolute w-full h-full flex justify-center items-start"
+          style={{ transformOrigin: 'center' }}
+        >
+          <div className="
+            w-1 h-5
+            bg-gray-800 dark:bg-gray-200
+            rounded-full
+            mt-2
+            transition-colors duration-200
+          " />
+        </div>
+
+        {/* 分针 - 64px尺寸优化，支持暗色主题 */}
+        <div
+          ref={minRef}
+          className="absolute w-full h-full flex justify-center items-start"
+          style={{ transformOrigin: 'center' }}
+        >
+          <div className="
+            w-0.5 h-6
+            bg-gray-700 dark:bg-gray-300
+            rounded-full
+            mt-2
+            transition-colors duration-200
+          " />
+        </div>
+
+        {/* 秒针 - 保持红色，但在暗色主题下稍微调整 */}
+        <div
+          ref={secRef}
+          className="absolute w-full h-full flex justify-center items-start"
+          style={{ transformOrigin: 'center' }}
+        >
+          <div className="
+            w-px h-6
+            bg-red-500 dark:bg-red-400
+            rounded-full
+            mt-2
+            transition-colors duration-200
+          " />
+        </div>
+
+        {/* 中心圆点 */}
+        <div className="
+          absolute top-1/2 left-1/2 
+          w-1.5 h-1.5
+          bg-gray-800 dark:bg-gray-200
+          rounded-full 
+          transform -translate-x-1/2 -translate-y-1/2
+          z-10
+          transition-colors duration-200
+        " />
+
       </div>
-      )}
-      
     </div>
   );
 }

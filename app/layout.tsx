@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+// 注意: react-grid-layout 样式仍被 project 页面需要，所以保留导入
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
@@ -26,13 +27,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
+          storageKey="theme"
         >
           <div className="relative min-h-screen flex flex-col bg-white dark:bg-gray-900">
             <BottomOperations />
