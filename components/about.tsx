@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import {
   JuejinIcon,
   JianshuIcon,
@@ -22,7 +21,6 @@ interface SocialIcon {
 }
 
 export function About() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const socialIcons: SocialIcon[] = [
     {
@@ -77,7 +75,6 @@ export function About() {
   ];
 
   const SocialIconComponent = ({ socialIcon }: { socialIcon: SocialIcon }) => {
-    const isHovered = hoveredId === socialIcon.id;
 
     const baseClasses = `
       relative group cursor-pointer overflow-hidden
@@ -97,8 +94,6 @@ export function About() {
     const content = (
       <div 
         className={`${baseClasses} ${cornerRadius} ${shadowClass}`}
-        onMouseEnter={() => setHoveredId(socialIcon.id)}
-        onMouseLeave={() => setHoveredId(null)}
       >
         {/* 背景颜色 */}
         <div className={`absolute inset-0`} style={{ backgroundColor: socialIcon.bgColor }} />

@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import ThemeToggle from "@/components/theme-toggle";
 import Clock from "@/components/clock";
-import { Socials } from "./socials";
-import { SpriteAnimation } from "./sprite-animation";
+// import { Socials } from "./socials";
+// import { SpriteAnimation } from "./sprite-animation";
 
 interface AppIcon {
   id: string;
@@ -19,7 +18,6 @@ interface AppIcon {
 }
 
 export function Home() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const appIcons: AppIcon[] = [
     {
@@ -100,7 +98,6 @@ export function Home() {
   ];
 
   const AppIconComponent = ({ icon, onClick }: { icon: AppIcon; onClick?: () => void }) => {
-    const isHovered = hoveredId === icon.id;
 
     const baseClasses = `
       relative group cursor-pointer overflow-hidden
@@ -120,8 +117,6 @@ export function Home() {
     const content = (
       <div 
         className={`${baseClasses} ${cornerRadius} ${shadowClass}`}
-        onMouseEnter={() => setHoveredId(icon.id)}
-        onMouseLeave={() => setHoveredId(null)}
         onClick={onClick}
       >
         {/* 背景渐变 */}
