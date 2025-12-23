@@ -21,7 +21,7 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const { slug } = await params;
   const slugDecoded = decodeURIComponent(slug);
-  console.log('zzh slug', slug, slugDecoded);
+
   const { post } = await getPostDetails(slugDecoded);
   const {
     metadata: { title, description, tags },
@@ -46,9 +46,9 @@ const PostLayout = async ({
 }) => {
   const { slug } = await params;
   const slugNew = decodeURIComponent(slug); // 处理中文
-  console.log('zzh slug', slug, slugNew);
+
   const { post } = await getPostDetails(slugNew);
-  console.log('zzh post', post);
+
   const {
     metadata: { title, date },
     content,

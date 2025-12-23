@@ -1,4 +1,4 @@
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { MDXRemote } from "next-mdx-remote-client/rsc";
 import Image from "./image";
 import { createHeaderId } from "@/utils/h-id";
 import { ReactNode } from "react";
@@ -50,7 +50,6 @@ const components = {
     return <code {...props} className={codeClassName} />;
   },
 };
-
 export default function Mdx({ source }: { source: string }) {
   return (
     <MDXRemote 
@@ -85,3 +84,4 @@ export default function Mdx({ source }: { source: string }) {
     />
   );
 }
+
