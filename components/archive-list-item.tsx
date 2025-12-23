@@ -7,7 +7,7 @@ export const ArchiveListItem = ({ post }: { post: Post }) => {
   const { date, title, tags } = metadata;
   return (
     <Link
-      className="flex items-center space-x-6 max-w-4xl px-4 py-6 mx-auto rounded-xl cursor-pointer hover:bg-brand-beige dark:hover:bg-brand-black/40 group transition-all duration-300 border border-transparent hover:border-brand-black/5 dark:hover:border-brand-cream/5"
+      className="flex items-center space-x-6 max-w-4xl px-4 py-6 mx-auto rounded-xl cursor-pointer group transition-all duration-300 border border-transparent hover:border-brand-yellow/30 hover:bg-brand-yellow/10 dark:hover:bg-brand-yellow/15"
       href={url}
     >
       <span className="text-sm font-bold text-muted-foreground group-hover:text-brand-yellow transition-colors duration-300 tabular-nums">

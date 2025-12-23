@@ -26,7 +26,7 @@ const components = {
       typeof children === "string"
         ? children
         : children?.props?.children?.toString() || "";
-    return <h2 {...props} id={createHeaderId(text ? `h2-${text}` : "")} />;
+    return <h2 {...props} id={createHeaderId(text || "")} />;
   },
   h3(props: { children: any }) {
     const { children } = props;
@@ -34,7 +34,7 @@ const components = {
       typeof children === "string"
         ? children
         : children?.props?.children?.toString() || "";
-    return <h3 {...props} id={createHeaderId(text ? `h3-${text}` : "")} />;
+    return <h3 {...props} id={createHeaderId(text || "")} />;
   },
   h4(props: { children: any }) {
     const { children } = props;
@@ -42,7 +42,7 @@ const components = {
       typeof children === "string"
         ? children
         : children?.props?.children?.toString() || "";
-    return <h4 {...props} id={createHeaderId(text ? `h4-${text}` : "")} />;
+    return <h4 {...props} id={createHeaderId(text || "")} />;
   },
   code(props: { children: ReactNode; className?: string }) {
     const { className } = props;

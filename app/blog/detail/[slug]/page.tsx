@@ -81,7 +81,7 @@ const PostLayout = async ({
         </div>
         <div className="relative">
           {data && data.length > 0 && (
-            <div className="sticky top-20 ml-[-210px] h-0 text-nowrap overflow-visible lg:block md:hidden sm:hidden">
+            <div className="hidden lg:block fixed left-8 top-[160px] w-[220px] z-0">
               <TableOfContents nodes={data} />
             </div>
           )}

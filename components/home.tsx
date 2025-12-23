@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import ThemeToggle from "@/components/theme-toggle";
-import Clock from "@/components/clock";
 
 interface NavItem {
   id: string;
@@ -46,28 +45,28 @@ export function Home() {
   ];
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-16 md:py-24 px-4 sm:px-6">
+    <div className="w-full max-w-5xl mx-auto py-12 md:py-16 px-4 sm:px-6">
       {/* 顶部欢迎区域 */}
-      <header className="mb-24 space-y-8">
+      <header className="mb-16 space-y-6">
         <div className="inline-block px-4 py-1.5 rounded-full bg-brand-yellow/10 border border-brand-yellow/20">
           <span className="text-xs font-bold tracking-[0.2em] text-brand-yellow uppercase">
             Personal Portfolio & Blog
           </span>
         </div>
         
-        <h1 className="text-5xl md:text-8xl font-black text-brand-black dark:text-brand-cream tracking-tighter leading-[0.9] sm:leading-[0.85]">
+        <h1 className="text-4xl md:text-5xl font-black text-brand-black dark:text-brand-cream tracking-tighter leading-[1] sm:leading-[0.95]">
           静谧之旅 <br />
           <span className="text-brand-yellow">行止由心</span>
         </h1>
         
-        <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl font-medium leading-relaxed">
+        <p className="text-lg md:text-xl text-muted-foreground max-w-3xl font-medium leading-relaxed">
           在这里，探索技术的深度，感悟生活的温度。
           以极简之笔，绘心中之画。
         </p>
       </header>
 
       {/* 导航网格 */}
-      <nav className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-24">
+      <nav className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16">
         {navItems.map((item, index) => (
           <Link
             key={item.id}
@@ -112,9 +111,6 @@ export function Home() {
             <span className="text-xs font-bold uppercase tracking-widest text-brand-cream dark:text-brand-black">Mode</span>
           </div>
           
-          <div className="px-6 py-3 rounded-full bg-brand-white dark:bg-brand-black/60 border border-brand-black/5 dark:border-brand-cream/10 shadow-sm">
-            <Clock />
-          </div>
         </div>
 
         <div className="flex flex-col items-end gap-1">

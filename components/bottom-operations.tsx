@@ -19,10 +19,10 @@ export default function BottomOperations() {
     return null;
   }
   const iconWrapClass =
-    "flex items-center justify-center w-10 h-10 bg-slate-300 opacity-30 hover:opacity-100 cursor-pointer rounded-full";
+    "flex items-center justify-center w-11 h-11 rounded-full border border-brand-yellow/30 bg-brand-cream/70 dark:bg-brand-black/60 text-brand-black dark:text-brand-cream shadow-sm shadow-brand-black/10 backdrop-blur-md cursor-pointer transition-all duration-300 hover:border-brand-yellow hover:text-brand-yellow hover:shadow-brand-yellow/20";
   return (
-    <div className="fixed bottom-24 right-4 z-10">
-      <div className="flex flex-col gap-2">
+    <div className="fixed bottom-24 right-4 z-20">
+      <div className="flex flex-col gap-3">
         <Link href="/" className={iconWrapClass}>
           <House />
         </Link>
