@@ -7,11 +7,11 @@ interface ProjectItem {
   id: string;
   title: string;
   subtitle: string;
+  description: string;
   href: string;
-  icon?: React.ReactNode;
-  gradient?: string;
-  bgColor?: string;
+  iconPath?: string;
   isExternal?: boolean;
+  tags: string[];
 }
 
 export function Project() {
@@ -20,128 +20,94 @@ export function Project() {
     {
       id: "sveaflet",
       title: "Sveaflet",
-      subtitle: "leaflet + svelte",
+      subtitle: "Leaflet + Svelte",
+      description: "一个为 Svelte 开发者打造的轻量级 Leaflet 地图组件库，提供声明式的地图开发体验。",
       href: "https://sveaflet.vercel.app",
-      gradient: "from-green-500 to-blue-600",
       isExternal: true,
-      icon: (
-        <div className="w-12 h-12 flex items-center justify-center">
-          <Image
-            src="/images/icons/sveaflet.png"
-            alt="Sveaflet"
-            width={48}
-            height={48}
-            className="rounded-lg"
-          />
-        </div>
-      )
+      iconPath: "/images/icons/sveaflet.png",
+      tags: ["Svelte", "Leaflet", "OSS"]
     },
     {
       id: "manga-view",
       title: "MangaView",
       subtitle: "图片阅读器",
+      description: "极致纯净的漫画与图片阅读体验，支持多种格式与自定义布局，让阅读回归本质。",
       href: "/project/manga",
-      gradient: "from-purple-500 to-pink-600",
       isExternal: false,
-      icon: (
-        <div className="w-12 h-12 flex items-center justify-center">
-          <Image
-            src="/images/icons/mangaview.png"
-            alt="MangaView"
-            width={48}
-            height={48}
-            className="rounded-lg"
-          />
-        </div>
-      )
+      iconPath: "/images/icons/mangaview.png",
+      tags: ["React", "Reader", "Product"]
     }
   ];
 
-  const ProjectCard = ({ project }: { project: ProjectItem }) => {
-
-    const baseClasses = `
-      relative group cursor-pointer overflow-hidden
-      w-32 h-32
-      transform transition-all duration-300 ease-out
-      backdrop-blur-sm
-      hover:z-10
-      active:scale-95 active:duration-150
-    `;
-
-    // iOS风格的圆角
-    const cornerRadius = 'rounded-[20px]';
-    
-    // 阴影效果
-    const shadowClass = 'shadow-[0_6px_25px_rgba(0,0,0,0.15)] dark:shadow-[0_6px_25px_rgba(0,0,0,0.4)]';
-
-    const content = (
-      <div 
-        className={`${baseClasses} ${cornerRadius} ${shadowClass}`}
-      >
-        {/* 背景渐变 */}
-        <div className={`
-          absolute inset-0 
-          ${project.gradient ? `bg-gradient-to-br ${project.gradient}` : ''}
-          ${project.bgColor ? `bg-[${project.bgColor}]` : ''}
-          ${!project.gradient && !project.bgColor ? 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800' : ''}
-        `} />
-        
-        {/* iOS风格的内部高光 */}
-        <div className="absolute inset-[1px] rounded-[inherit] bg-gradient-to-br from-white/25 via-white/10 to-transparent" />
-        
-        {/* 底部阴影效果 */}
-        <div className="absolute inset-[1px] rounded-[inherit] bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-        
-        {/* 内容区域 */}
-        <div className="relative h-full w-full flex flex-col items-center justify-center text-center p-3">
-          {project.icon && (
-            <div className="mb-2">
-              {project.icon}
-            </div>
-          )}
-          <div className="text-white drop-shadow-md">
-            <div className="font-semibold leading-tight text-sm mb-1">
-              {project.title}
-            </div>
-            <div className="text-xs opacity-90 leading-tight">
-              {project.subtitle}
-            </div>
-          </div>
-        </div>
-
-        {/* 按压效果的内部阴影 */}
-        <div className="absolute inset-0 rounded-[inherit] opacity-0 group-active:opacity-100 bg-black/20 transition-opacity duration-150" />
-      </div>
-    );
-
-    if (project.isExternal) {
-      return (
-        <a 
-          href={project.href} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block"
-        >
-          {content}
-        </a>
-      );
-    }
-
-    return (
-      <Link href={project.href}>
-        {content}
-      </Link>
-    );
-  };
-
   return (
-    <div className="
-      flex flex-wrap gap-6 justify-center items-center
-      max-w-full
-    ">
-      {projects.map((project) => (
-        <ProjectCard key={project.id} project={project} />
-      ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      {projects.map((project) => {
+        const CardContent = (
+          <div className={`
+            group relative h-full p-8 rounded-[2rem]
+            bg-brand-white dark:bg-brand-black/40
+            border border-brand-black/5 dark:border-brand-cream/10
+            hover:border-brand-yellow transition-all duration-500
+            flex flex-col
+          `}>
+            <div className="flex items-start justify-between mb-8">
+              {project.iconPath && (
+                <div className="relative w-16 h-16 rounded-2xl overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 border border-brand-black/5">
+                  <Image
+                    src={project.iconPath}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <div className="flex gap-2">
+                {project.tags.map(tag => (
+                  <span key={tag} className="text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full bg-brand-black/5 dark:bg-brand-cream/5 text-muted-foreground group-hover:text-brand-yellow transition-colors">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex-1">
+              <h2 className="text-3xl font-black text-brand-black dark:text-brand-cream mb-2 group-hover:text-brand-yellow transition-colors italic tracking-tighter">
+                {project.title}
+              </h2>
+              <h3 className="text-sm font-bold text-brand-yellow/80 mb-4 tracking-wide uppercase">
+                {project.subtitle}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+
+            <div className="mt-8 flex items-center text-sm font-black tracking-widest uppercase group-hover:text-brand-yellow transition-colors">
+              <span>Explore Project</span>
+              <svg className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </div>
+            
+            {/* Hover Background Accent */}
+            <div className="absolute top-0 right-0 w-32 h-32 -mr-16 -mt-16 bg-brand-yellow/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700" />
+          </div>
+        );
+
+        if (project.isExternal) {
+          return (
+            <a key={project.id} href={project.href} target="_blank" rel="noopener noreferrer" className="block h-full">
+              {CardContent}
+            </a>
+          );
+        }
+
+        return (
+          <Link key={project.id} href={project.href} className="block h-full">
+            {CardContent}
+          </Link>
+        );
+      })}
     </div>
   );
 }

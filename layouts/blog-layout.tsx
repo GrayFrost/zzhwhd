@@ -33,19 +33,19 @@ export default function BlogLayout({
           return (
             <div
               key={url}
-              className="max-w-4xl px-2 py-6 mx-auto rounded-lg cursor-pointer hover:bg-[#f9fafb] group dark:hover:bg-[#1f2937]"
+              className="max-w-4xl px-2 py-6 mx-auto rounded-lg cursor-pointer hover:bg-brand-yellow/5 dark:hover:bg-brand-yellow/5 group transition-all duration-500"
             >
               <Link href={`${url}`}>
-                <div className="text-xl font-bold text-heading group-hover:text-slate-700 group-hover:dark:text-white tracking-wide dark:text-[#c6c6c6]">
+                <div className="text-xl font-bold text-brand-black dark:text-brand-cream group-hover:text-brand-yellow transition-colors duration-300 tracking-wide">
                   {title}
                 </div>
-                <div className="flex  justify-start items-center space-x-2 mt-2">
+                <div className="flex justify-start items-center space-x-2 mt-2">
                   <DateFormat date={date} />
                   {tags.map((tag: string) => {
                     return <BlogTag key={tag} tag={tag} />;
                   })}
                 </div>
-                <p className="mt-3 text-[#64748b] dark:text-gray-400/90 text-sm leading-loose line-clamp-4 group-hover:sm:text-heading tracking-wide">
+                <p className="mt-3 text-muted-foreground text-sm leading-loose line-clamp-4 group-hover:text-brand-black dark:group-hover:text-brand-cream/80 transition-colors duration-300 tracking-wide">
                   {description}
                 </p>
               </Link>

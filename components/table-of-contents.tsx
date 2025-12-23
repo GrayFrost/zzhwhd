@@ -60,7 +60,8 @@ const TOCLink = ({ node }: { node: TransformedNode }) => {
 };
 
 export const TableOfContents = ({ nodes }: { nodes: TransformedNode[] }) => {
-  if (!nodes?.length) {
+  // 添加类型和空值检查
+  if (!Array.isArray(nodes) || nodes.length === 0) {
     return null;
   }
 

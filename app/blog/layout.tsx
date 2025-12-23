@@ -16,12 +16,12 @@ export default function Layout({
         sparkCount={8}
         duration={400}
       > */}
-        <div className="h-[174px] bg-[#f9fafb] dark:bg-[#1f2937] flex items-center justify-center">
-          <Link href="/blog">
+        <div className="h-[174px] bg-brand-cream/30 dark:bg-brand-black/20 flex items-center justify-center border-b border-brand-black/5 dark:border-brand-cream/5">
+          <Link href="/blog" className="transition-transform duration-500 hover:scale-105">
             <GarlicImage />
           </Link>
         </div>
-        <div className="sticky top-0 bg-[#f9fafb] dark:bg-[#1f2937] z-50 p-2">
+        <div className="sticky top-0 bg-background/80 backdrop-blur-md z-50 p-2 border-b border-brand-black/5 dark:border-brand-cream/5">
           <BlogNav />
         </div>
 

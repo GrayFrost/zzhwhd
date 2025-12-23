@@ -36,6 +36,7 @@ export interface SerializeOptions {
 
 export const options: SerializeOptions = {
   mdxOptions: {
+    development: process.env.NODE_ENV === 'development',
     remarkPlugins: [remarkGfm, remarkMath],
     rehypePlugins: [
       rehypeKatex,

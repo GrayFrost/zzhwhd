@@ -12,7 +12,7 @@ export const BlogTag = ({ tag }: { tag: string }) => {
   return (
     <span
       onClick={() => goToBlogTagList(`/blog/tags/${tag}`)}
-      className="text-xs font-semibold mx-2 text-rose-700 hover:text-heading pointer-events-auto"
+      className="text-xs font-bold mx-2 text-brand-yellow hover:text-brand-black dark:hover:text-brand-cream transition-colors duration-300 cursor-pointer pointer-events-auto"
     >
       #{tag}
     </span>

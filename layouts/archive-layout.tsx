@@ -42,13 +42,13 @@ export default function Page({ pageNumber, posts: allPosts }: { pageNumber: numb
   return (
     <div className="container max-w-3xl mx-auto p-4 md:p-6">
       {displayPosts.map((archive) => (
-        <div key={archive.year}>
-          <h2 className="text-xl font-bold my-4">{archive.year}</h2>
-          <div className="list-disc pl-6">
+        <div key={archive.year} className="mb-12">
+          <div className="flex items-center space-x-4 mb-6">
+            <h2 className="text-3xl font-black italic tracking-tighter text-brand-black dark:text-brand-cream">{archive.year}</h2>
+            <div className="flex-1 h-[1px] bg-brand-black/5 dark:bg-brand-cream/5" />
+          </div>
+          <div className="space-y-2">
             {archive.posts.map((post) => (
-              // <li key={post.url}>
-              //   <Link href={post.url}>{post.title}</Link>
-              // </li>
               <ArchiveListItem post={post} key={post.url} />
             ))}
           </div>

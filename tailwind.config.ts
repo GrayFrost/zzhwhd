@@ -9,6 +9,16 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        brand: {
+          cream: "#F5E6D3",
+          yellow: "#E9AF44",
+          black: "#1A1A1A",
+          white: "#FFFFFF",
+          beige: "#FDF6EC",
+          "yellow-light": "#F3D092",
+        }
+      },
       boxShadow: {
         card: ".4em .4em .8em #99b5d2, -.4em -.4em .8em #fff",
       },

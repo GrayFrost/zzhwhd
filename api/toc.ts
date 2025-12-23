@@ -80,12 +80,20 @@ function headingTree() {
 }
 
 export async function getTOC(filenameId: string): Promise<TransformedNode[]> {
-  const { post } = await getPostDetails(filenameId);
+  try {
+    const { post } = await getPostDetails(filenameId);
 
-  // Use remark to convert Markdown into HTML string
-  const processedContent = await remark()
-    .use(headingTree)
-    .process(post.content);
+    // Use remark to convert Markdown into HTML string
+    const processedContent = await remark()
+      .use(headingTree)
+      .process(post.content);
 
-  return processedContent.data.headings as TransformedNode[];
+    const headings = processedContent.data.headings as TransformedNode[];
+    
+    // 确保返回序列化友好的纯数据对象
+    return Array.isArray(headings) ? JSON.parse(JSON.stringify(headings)) : [];
+  } catch (error) {
+    console.error(`Error generating TOC for ${filenameId}:`, error);
+    return [];
+  }
 }

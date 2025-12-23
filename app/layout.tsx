@@ -36,7 +36,7 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey="theme"
         >
-          <div className="relative min-h-screen flex flex-col bg-white dark:bg-gray-900">
+          <div className="relative min-h-screen flex flex-col bg-background text-foreground">
             <BottomOperations />
             {children}
           </div>

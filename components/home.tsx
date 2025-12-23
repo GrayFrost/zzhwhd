@@ -3,207 +3,129 @@
 import Link from "next/link";
 import ThemeToggle from "@/components/theme-toggle";
 import Clock from "@/components/clock";
-// import { Socials } from "./socials";
-// import { SpriteAnimation } from "./sprite-animation";
 
-interface AppIcon {
+interface NavItem {
   id: string;
   title: string;
-  subtitle?: string;
+  subtitle: string;
   href: string;
-  icon?: React.ReactNode;
-  gradient?: string;
-  bgColor?: string;
-  component?: React.ReactNode;
 }
 
 export function Home() {
-
-  const appIcons: AppIcon[] = [
+  const navItems: NavItem[] = [
     {
       id: "blog",
       title: "个人博客",
+      subtitle: "技术沉淀与深度思考的园地",
       href: "/blog",
-      gradient: "from-blue-500 to-purple-600",
-      icon: (
-        <div className="text-3xl font-bold text-white">📝</div>
-      )
     },
     {
       id: "life",
-      title: "生活",
+      title: "生活点滴",
+      subtitle: "记录日常，捕捉那些微小的光芒",
       href: "/life",
-      gradient: "from-green-400 to-blue-500",
-      icon: (
-        <div className="text-3xl">🌱</div>
-      )
     },
     {
       id: "project",
       title: "我的项目",
+      subtitle: "创意实践与工程技术的结合",
       href: "/project",
-      bgColor: "#FFC90D",
-      icon: (
-        <div className="text-3xl">🚀</div>
-      )
-    },
-    {
-      id: "about",
-      title: "关于我",
-      href: "/about", 
-      gradient: "from-purple-400 to-pink-400",
-      icon: (
-        <div className="text-3xl">👨‍💻</div>
-      )
     },
     {
       id: "gallery",
       title: "记忆长廊",
+      subtitle: "时间定格，用影像讲述故事",
       href: "/photo-gallery",
-      gradient: "from-yellow-400 to-orange-500",
-      icon: (
-        <div className="text-3xl">📸</div>
-      )
     },
     {
-      id: "theme",
-      title: "主题",
-      href: "#",
-      gradient: "from-gray-400 to-gray-600",
-      component: <ThemeToggle />,
+      id: "about",
+      title: "关于自我",
+      subtitle: "行止由心，探寻生命的更多可能",
+      href: "/about",
     },
-    {
-      id: "clock",
-      title: "时钟",
-      href: "/",
-      gradient: "from-indigo-400 to-cyan-400",
-      component: <Clock />,
-    },
-    // {
-    //   id: "sprite",
-    //   title: "精灵",
-    //   href: "/",
-    //   gradient: "from-pink-400 to-red-400",
-    //   component: <SpriteAnimation />,
-    //   size: "large"
-    // },
-    // {
-    //   id: "social",
-    //   title: "社交",
-    //   href: "#",
-    //   gradient: "from-teal-400 to-blue-500",
-    //   component: <Socials />,
-    //   size: "large"
-    // }
   ];
 
-  const AppIconComponent = ({ icon, onClick }: { icon: AppIcon; onClick?: () => void }) => {
-
-    const baseClasses = `
-      relative group cursor-pointer overflow-hidden
-      w-16 h-16
-      transform transition-all duration-300 ease-out
-      backdrop-blur-sm
-      hover:z-10
-      active:scale-95 active:duration-150
-    `;
-
-    // iOS风格的圆角 - 固定尺寸
-    const cornerRadius = 'rounded-[14px]';
-    
-    // 阴影效果 - 固定样式，不随悬浮变化
-    const shadowClass = 'shadow-[0_4px_20px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)]';
-
-    const content = (
-      <div 
-        className={`${baseClasses} ${cornerRadius} ${shadowClass}`}
-        onClick={onClick}
-      >
-        {/* 背景渐变 */}
-        <div className={`
-          absolute inset-0 
-          ${icon.gradient ? `bg-gradient-to-br ${icon.gradient}` : ''}
-          ${icon.bgColor ? `bg-[${icon.bgColor}]` : ''}
-          ${!icon.gradient && !icon.bgColor ? 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800' : ''}
-        `} />
-        
-        {/* iOS风格的内部高光 */}
-        <div className="absolute inset-[1px] rounded-[inherit] bg-gradient-to-br from-white/25 via-white/10 to-transparent" />
-        
-        {/* 底部阴影效果 */}
-        <div className="absolute inset-[1px] rounded-[inherit] bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-        
-        {/* 内容区域 - 无内边距 */}
-        <div className="relative h-full w-full flex flex-col items-center justify-center text-center">
-          {icon.component ? (
-            <div className="w-full h-full flex items-center justify-center">
-              {icon.component}
-            </div>
-          ) : (
-            <>
-              {icon.icon && (
-                <div className="mb-1">
-                  {icon.icon}
-                </div>
-              )}
-              <div className="text-white drop-shadow-md">
-                <div className="font-semibold leading-tight text-xs">
-                  {icon.title}
-                </div>
-                {icon.subtitle && (
-                  <div className="text-[10px] opacity-90 mt-0.5 leading-tight">
-                    {icon.subtitle}
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* 按压效果的内部阴影 */}
-        <div className="absolute inset-0 rounded-[inherit] opacity-0 group-active:opacity-100 bg-black/20 transition-opacity duration-150" />
-      </div>
-    );
-
-    if (icon.href && icon.href !== "#") {
-      return (
-        <Link href={icon.href}>
-          {content}
-        </Link>
-      );
-    }
-
-    return content;
-  };
-
   return (
-    <div className="w-full max-w-6xl mx-auto px-4">
+    <div className="w-full max-w-5xl mx-auto py-16 md:py-24 px-4 sm:px-6">
       {/* 顶部欢迎区域 */}
-      <div className="text-center mb-12">
-
-        <p className="text-gray-600 dark:text-gray-300 text-lg">
-          静谧之旅 —— 行止由心
-        </p>
-      </div>
-
-      {/* 应用图标网格 - 固定64px尺寸布局 */}
-      <div className="
-        flex flex-wrap gap-4 justify-center items-center
-        max-w-full
-      ">
-        {appIcons.map((icon) => (
-          <AppIconComponent key={icon.id} icon={icon} />
-        ))}
-      </div>
-
-      {/* 底部装饰 */}
-      <div className="mt-16 text-center">
-        <div className="inline-flex items-center space-x-2 text-gray-400 dark:text-gray-500">
-          <div className="w-2 h-2 rounded-full bg-current opacity-60"></div>
-          <div className="w-2 h-2 rounded-full bg-current opacity-40"></div>
-          <div className="w-2 h-2 rounded-full bg-current opacity-20"></div>
+      <header className="mb-24 space-y-8">
+        <div className="inline-block px-4 py-1.5 rounded-full bg-brand-yellow/10 border border-brand-yellow/20">
+          <span className="text-xs font-bold tracking-[0.2em] text-brand-yellow uppercase">
+            Personal Portfolio & Blog
+          </span>
         </div>
-      </div>
+        
+        <h1 className="text-5xl md:text-8xl font-black text-brand-black dark:text-brand-cream tracking-tighter leading-[0.9] sm:leading-[0.85]">
+          静谧之旅 <br />
+          <span className="text-brand-yellow">行止由心</span>
+        </h1>
+        
+        <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl font-medium leading-relaxed">
+          在这里，探索技术的深度，感悟生活的温度。
+          以极简之笔，绘心中之画。
+        </p>
+      </header>
+
+      {/* 导航网格 */}
+      <nav className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-24">
+        {navItems.map((item, index) => (
+          <Link
+            key={item.id}
+            href={item.href}
+            className="group relative overflow-hidden"
+          >
+            <div className={`
+              p-8 h-full rounded-3xl
+              bg-brand-beige dark:bg-brand-black/40
+              border border-brand-black/5 dark:border-brand-cream/10
+              group-hover:border-brand-yellow/50 transition-all duration-500
+              flex flex-col justify-between min-h-[160px]
+            `}>
+              <div className="relative z-10">
+                <h2 className="text-3xl font-bold text-brand-black dark:text-brand-cream mb-3 group-hover:text-brand-yellow transition-colors duration-300">
+                  {item.title}
+                </h2>
+                <p className="text-base text-muted-foreground group-hover:text-brand-black dark:group-hover:text-brand-cream/80 transition-colors duration-300 max-w-[80%]">
+                  {item.subtitle}
+                </p>
+              </div>
+              
+              <div className="flex justify-end items-center mt-6">
+                <span className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-black text-brand-cream group-hover:bg-brand-yellow group-hover:text-brand-black transition-all duration-500 transform group-hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                </span>
+              </div>
+
+              {/* 背景装饰线 */}
+              <div className="absolute bottom-0 right-0 w-32 h-32 -mr-8 -mb-8 bg-brand-yellow/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 ease-out" />
+            </div>
+          </Link>
+        ))}
+      </nav>
+
+      {/* 底部区域 */}
+      <footer className="pt-12 border-t border-brand-black/10 dark:border-brand-cream/10 flex flex-col md:flex-row items-center justify-between gap-10">
+        <div className="flex flex-wrap items-center justify-center gap-6">
+          <div className="flex items-center gap-4 bg-brand-black dark:bg-brand-cream rounded-full px-6 py-3 shadow-xl shadow-brand-black/10">
+            <ThemeToggle />
+            <div className="w-[1px] h-4 bg-brand-cream/20 dark:bg-brand-black/20" />
+            <span className="text-xs font-bold uppercase tracking-widest text-brand-cream dark:text-brand-black">Mode</span>
+          </div>
+          
+          <div className="px-6 py-3 rounded-full bg-brand-white dark:bg-brand-black/60 border border-brand-black/5 dark:border-brand-cream/10 shadow-sm">
+            <Clock />
+          </div>
+        </div>
+
+        <div className="flex flex-col items-end gap-1">
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-black/30 dark:text-brand-cream/30">
+            Design Philosophy
+          </span>
+          <span className="text-sm font-bold text-brand-black dark:text-brand-cream italic">
+            "Simple is the ultimate sophistication."
+          </span>
+        </div>
+      </footer>
     </div>
   );
 }

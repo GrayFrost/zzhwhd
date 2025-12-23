@@ -7,12 +7,16 @@ export const ArchiveListItem = ({ post }: { post: Post }) => {
   const { date, title, tags } = metadata;
   return (
     <Link
-      className="flex max-w-4xl px-2 py-6 mx-auto rounded-lg cursor-pointer hover:bg-[#f9fafb] group dark:hover:bg-[#1f2937]"
+      className="flex items-center space-x-6 max-w-4xl px-4 py-6 mx-auto rounded-xl cursor-pointer hover:bg-brand-beige dark:hover:bg-brand-black/40 group transition-all duration-300 border border-transparent hover:border-brand-black/5 dark:hover:border-brand-cream/5"
       href={url}
     >
-      <span>{dayjs(date).format("MM月DD日")}</span>
-      <div>{title}</div>
-      <div>
+      <span className="text-sm font-bold text-muted-foreground group-hover:text-brand-yellow transition-colors duration-300 tabular-nums">
+        {dayjs(date).format("MM/DD")}
+      </span>
+      <div className="flex-1 font-bold text-lg group-hover:translate-x-1 transition-transform duration-300">
+        {title}
+      </div>
+      <div className="hidden sm:flex">
         {tags.map((tag: string) => {
           return <BlogTag key={tag} tag={tag} />;
         })}

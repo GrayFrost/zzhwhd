@@ -92,8 +92,8 @@ export default function Map(props: {
               background-size: cover; 
               background-position: center;
               cursor: pointer;
-              border: 2px solid white;
-              box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+              border: 3px solid #E9AF44;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             "></div>
           `,
           className: "custom-marker",
