@@ -53,13 +53,13 @@ jobs:
             docker pull $ACR_FULL_ADDRESS/website:$IMAGE_TAG
 
             # 同步仓库信代码
-            cd /www/wwwroot/zzhwhd.com/zzhwhd
+            cd /home/zzhwhd
             git reset --hard origin/main
             git pull origin main
             git checkout main
             
             # 停止并删除旧容器
-            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml down
+            docker compose -f /home/zzhwhd/docker-compose.yml down
 
             # 清理旧镜像，只保留最新的一个
             docker images "$ACR_FULL_ADDRESS/website" -q | tail -n +2 | xargs -r docker rmi -f
@@ -68,4 +68,4 @@ jobs:
             docker image prune -f
 
             # 启动新容器
-            docker compose -f /www/wwwroot/zzhwhd.com/zzhwhd/docker-compose.yml up -d
+            docker compose -f /home/zzhwhd/docker-compose.yml up -d
