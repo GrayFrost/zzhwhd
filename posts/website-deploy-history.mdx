@@ -24,6 +24,9 @@ nextjs blog template vercel
 ## 第五阶段
 docker容器化
 
+[docker部署]（https://help.aliyun.com/zh/terraform/install-and-use-docker?spm=5176.30371578.J_XmGx2FZCDAeIy2ZCWL7sW.22.e939154aZeebb1&scm=20140722.S_help@@%E6%96%87%E6%A1%A3@@2868529._.RL_%E5%AE%89%E8%A3%85docker-LOC_2024NSHelpLink-OR_ser-PAR1_2150422417668878350753588e31b8-V_4-P0_0-P1_0）
+安装docker，配置加速器
+
 ### Docker + Nginx
 单个nextjs镜像在本地运行起来后，使用nginx代理到3000端口
 
@@ -40,7 +43,7 @@ ARC_PASSWORD是阿里云的容器镜像仓库的密码，
 ARC_REGISTRY是阿里云的容器镜像仓库的仓库地址，这个在网页上有展示
 
 SERVER_IP是服务器的公网ip地址
-SERVER_SSH_KEY是服务器的ssh密钥，这里需要注意，读取的是哪种格式的内容，之前我因为一直用rsa格式的，结果authorize_keys里的不是这种格式。
+SERVER_SSH_KEY是服务器的ssh密钥(私钥)，这里需要注意，读取的是哪种格式的内容，之前我因为一直用rsa格式的，结果authorize_keys里的不是这种格式，需要确保authorized_keys里有内容。
 
 SSH_PORT ssh端口，默认22
 SSH_USERNAME 默认root
