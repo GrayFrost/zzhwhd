@@ -78,7 +78,7 @@ export function About() {
       {/* 顶部介绍区域 */}
       <header className="mb-24 space-y-8">
         <h1 className="text-4xl md:text-7xl font-black text-brand-black dark:text-brand-cream tracking-tight italic">
-          HELLO, I'M <span className="text-brand-yellow">ZHIHUI.</span>
+          HELLO, I'M <span className="text-brand-yellow">ZZH.</span>
         </h1>
         
         <div className="space-y-6 text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">

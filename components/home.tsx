@@ -90,13 +90,16 @@ export function Home() {
               </div>
               
               <div className="flex justify-end items-center mt-6">
-                <span className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-black text-brand-cream group-hover:bg-brand-yellow group-hover:text-brand-black transition-all duration-500 transform group-hover:scale-110">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                </span>
+                <div className="relative">
+                  {/* 按钮中心扩散效果 */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-brand-yellow/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 ease-out pointer-events-none" />
+
+                  <span className="relative z-10 w-10 h-10 flex items-center justify-center rounded-full bg-brand-black text-brand-cream group-hover:bg-brand-yellow group-hover:text-brand-black transition-all duration-500 transform group-hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                  </span>
+                </div>
               </div>
 
-              {/* 背景装饰线 */}
-              <div className="absolute bottom-0 right-0 w-32 h-32 -mr-8 -mb-8 bg-brand-yellow/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 ease-out" />
             </div>
           </Link>
         ))}

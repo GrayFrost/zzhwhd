@@ -54,13 +54,13 @@ export default function Page() {
         <div className="flex flex-col md:flex-row gap-12">
           {/* 左侧年份导航 */}
           <aside className="md:w-32 flex-shrink-0">
-            <div className="sticky top-24 flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto pb-4 md:pb-0 scrollbar-hide">
+            <div className="sticky top-24 flex md:flex-col gap-3">
               {years.map((year) => (
                 <button
                   key={year}
                   onClick={() => setCurrentYear(year)}
                   className={twMerge(
-                    "px-6 py-3 rounded-2xl text-lg font-black tracking-tighter transition-all duration-500 border text-center flex-shrink-0",
+                    "px-6 py-3 rounded-xl text-lg font-black tracking-tighter transition-all duration-500 border text-center flex-shrink-0",
                     currentYear === year
                       ? "bg-brand-yellow text-brand-black border-brand-yellow scale-105 shadow-xl shadow-brand-yellow/30 z-10"
                       : "bg-brand-white dark:bg-brand-black/40 border-brand-black/5 dark:border-brand-cream/10 text-muted-foreground hover:border-brand-yellow/50 hover:bg-brand-beige dark:hover:bg-brand-black/60"
