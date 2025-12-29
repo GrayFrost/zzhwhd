@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from './language-provider';
 import {
   JuejinIcon,
   JianshuIcon,
@@ -20,6 +21,7 @@ interface SocialIcon {
 }
 
 export function About() {
+  const { t } = useLanguage();
 
   const socialIcons: SocialIcon[] = [
     {
@@ -78,16 +80,15 @@ export function About() {
       {/* 顶部介绍区域 */}
       <header className="mb-24 space-y-8">
         <h1 className="text-4xl md:text-7xl font-black text-brand-black dark:text-brand-cream tracking-tight italic">
-          HELLO, I'M <span className="text-brand-yellow">ZZH.</span>
+          {t('about.title')} <span className="text-brand-yellow">{t('about.name')}</span>
         </h1>
-        
+
         <div className="space-y-6 text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">
           <p>
-            一名前端开发工程师，沉迷于构建优雅的用户界面与流畅的交互体验。
+            {t('about.description1')}
           </p>
           <p>
-            热衷于开源社区，在掘金、Medium、知乎等平台分享技术见解与生活感悟。
-            我相信技术的终极意义在于服务生活，让复杂变得简单。
+            {t('about.description2')}
           </p>
         </div>
       </header>
@@ -95,7 +96,7 @@ export function About() {
       {/* 社交媒体列表 - 简约风格 */}
       <section className="mb-24">
         <h2 className="text-xs font-black tracking-[0.4em] uppercase text-brand-black/30 dark:text-brand-cream/30 mb-10">
-          Connect with me
+          {t('about.connect_title')}
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {socialIcons.map((social) => (
