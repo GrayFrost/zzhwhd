@@ -13,7 +13,7 @@ export const ArchiveListItem = ({ post }: { post: Post }) => {
       <span className="text-sm font-bold text-muted-foreground group-hover:text-brand-yellow transition-colors duration-300 tabular-nums">
         {dayjs(date).format("MM/DD")}
       </span>
-      <div className="flex-1 font-bold text-lg group-hover:translate-x-1 transition-transform duration-300">
+      <div className="flex-1 font-bold text-lg group-hover:text-brand-yellow group-hover:translate-x-1 transition-all duration-300">
         {title}
       </div>
       <div className="hidden sm:flex">
