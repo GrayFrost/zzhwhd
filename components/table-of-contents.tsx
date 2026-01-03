@@ -28,7 +28,7 @@ const TOCLink = ({ node }: { node: TransformedNode }) => {
   };
 
   const id = node.data.hProperties.id;
-  const hrefId = `h${node.depth}-${createHeaderId(id)}`;
+  const hrefId = createHeaderId(id);
 
   const [highlighted, setHighlighted] = useHighlighted(hrefId);
   return (
@@ -92,13 +92,15 @@ export const TableOfContents = ({ nodes }: { nodes: TransformedNode[] }) => {
   return (
     <div
       className={twMerge(
-        "w-[220px] h-auto sticky top-10 bg-brand-cream/70 dark:bg-brand-black/40 border border-brand-yellow/20 dark:border-brand-yellow/30 backdrop-blur-md rounded-2xl p-4 shadow-sm shadow-brand-black/5 transition-all duration-300",
+        "w-[200px] sticky top-6 bg-background/70 dark:bg-brand-black/40 border border-brand-yellow/20 dark:border-brand-yellow/30 backdrop-blur-md rounded-2xl p-3 shadow-sm shadow-brand-black/5 transition-all duration-300",
         hide ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"
       )}
     >
       <h3 className="text-sm font-semibold text-brand-black dark:text-brand-cream mb-2">目录</h3>
-      <div className="space-y-1 text-sm">
-        {renderNodes(nodes)}
+      <div className="max-h-[calc(100vh-300px)] overflow-y-auto scrollbar-thin scrollbar-thumb-brand-yellow/40 scrollbar-thumb-rounded-full scrollbar-track-transparent hover:scrollbar-thumb-brand-yellow/60 transition-colors">
+        <div className="space-y-1 text-sm">
+          {renderNodes(nodes)}
+        </div>
       </div>
     </div>
   );

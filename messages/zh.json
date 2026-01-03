@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "blog": "个人博客",
+    "blog_subtitle": "技术沉淀与深度思考的园地",
+    "life": "生活点滴",
+    "life_subtitle": "记录日常，捕捉那些微小的光芒",
+    "project": "我的项目",
+    "project_subtitle": "创意实践与工程技术的结合",
+    "gallery": "记忆长廊",
+    "gallery_subtitle": "时间定格，用影像讲述故事",
+    "about": "关于自我",
+    "about_subtitle": "行止由心，探寻生命的更多可能"
+  },
+  "hero": {
+    "badge": "Personal Portfolio & Blog",
+    "title": "静谧之旅",
+    "subtitle": "行止由心",
+    "description": "在这里，探索技术的深度，感悟生活的温度。以极简之笔，绘心中之画。"
+  },
+  "about": {
+    "title": "HELLO, I'M",
+    "name": "ZZH.",
+    "description1": "一名前端开发工程师，沉迷于构建优雅的用户界面与流畅的交互体验。",
+    "description2": "热衷于开源社区，在掘金、Medium、知乎等平台分享技术见解与生活感悟。我相信技术的终极意义在于服务生活，让复杂变得简单。",
+    "connect_title": "Connect with me"
+  },
+  "footer": {
+    "design_philosophy": "Design Philosophy",
+    "quote": "\"Simple is the ultimate sophistication.\"",
+    "language": "语言"
+  }
+}
