@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "blog": "Personal Blog",
+    "blog_subtitle": "A place for technical accumulation and deep thinking",
+    "life": "Life Moments",
+    "life_subtitle": "Record daily life, capture those tiny sparks of light",
+    "project": "My Projects",
+    "project_subtitle": "The combination of creative practice and engineering technology",
+    "gallery": "Memory Gallery",
+    "gallery_subtitle": "Time freezes, telling stories with images",
+    "about": "About Me",
+    "about_subtitle": "Follow your heart, explore more possibilities in life"
+  },
+  "hero": {
+    "badge": "Personal Portfolio & Blog",
+    "title": "Serene Journey",
+    "subtitle": "Follow Your Heart",
+    "description": "Here, explore the depth of technology and feel the warmth of life. With minimalist strokes, paint the pictures in my heart."
+  },
+  "about": {
+    "title": "HELLO, I'M",
+    "name": "ZZH.",
+    "description1": "A frontend developer obsessed with building elegant user interfaces and smooth interactions.",
+    "description2": "Passionate about open source community, sharing technical insights and life reflections on Juejin, Medium, Zhihu, etc. I believe the ultimate meaning of technology is to serve life, making complexity simple.",
+    "connect_title": "Connect with me"
+  },
+  "footer": {
+    "design_philosophy": "Design Philosophy",
+    "quote": "\"Simple is the ultimate sophistication.\"",
+    "language": "Language"
+  }
+}

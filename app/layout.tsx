@@ -6,6 +6,7 @@ import "react-resizable/css/styles.css";
 
 import BottomOperations from "@/components/bottom-operations";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/components/language-provider";
 
 export const metadata: Metadata = {
   title: "Garlic Garlic | 蒜头蒜",
@@ -27,20 +28,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="zh" suppressHydrationWarning>
       <body className={`antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="theme"
-        >
-          <div className="relative min-h-screen flex flex-col bg-background text-foreground">
-            <BottomOperations />
-            {children}
-          </div>
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            storageKey="theme"
+          >
+            <div className="relative min-h-screen flex flex-col bg-background text-foreground">
+              <BottomOperations />
+              {children}
+            </div>
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

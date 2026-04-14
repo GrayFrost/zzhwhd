@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from './language-provider';
 import ThemeToggle from "@/components/theme-toggle";
+import LanguageSwitcher from "@/components/language-switcher";
 
 interface NavItem {
   id: string;
@@ -11,35 +13,37 @@ interface NavItem {
 }
 
 export function Home() {
+  const { t } = useLanguage();
+
   const navItems: NavItem[] = [
     {
       id: "blog",
-      title: "个人博客",
-      subtitle: "技术沉淀与深度思考的园地",
+      title: t('nav.blog'),
+      subtitle: t('nav.blog_subtitle'),
       href: "/blog",
     },
     {
       id: "life",
-      title: "生活点滴",
-      subtitle: "记录日常，捕捉那些微小的光芒",
+      title: t('nav.life'),
+      subtitle: t('nav.life_subtitle'),
       href: "/life",
     },
     {
       id: "project",
-      title: "我的项目",
-      subtitle: "创意实践与工程技术的结合",
+      title: t('nav.project'),
+      subtitle: t('nav.project_subtitle'),
       href: "/project",
     },
     {
       id: "gallery",
-      title: "记忆长廊",
-      subtitle: "时间定格，用影像讲述故事",
+      title: t('nav.gallery'),
+      subtitle: t('nav.gallery_subtitle'),
       href: "/photo-gallery",
     },
     {
       id: "about",
-      title: "关于自我",
-      subtitle: "行止由心，探寻生命的更多可能",
+      title: t('nav.about'),
+      subtitle: t('nav.about_subtitle'),
       href: "/about",
     },
   ];
@@ -50,18 +54,17 @@ export function Home() {
       <header className="mb-16 space-y-6">
         <div className="inline-block px-4 py-1.5 rounded-full bg-brand-yellow/10 border border-brand-yellow/20">
           <span className="text-xs font-bold tracking-[0.2em] text-brand-yellow uppercase">
-            Personal Portfolio & Blog
+            {t('hero.badge')}
           </span>
         </div>
-        
+
         <h1 className="text-4xl md:text-5xl font-black text-brand-black dark:text-brand-cream tracking-tighter leading-[1] sm:leading-[0.95]">
-          静谧之旅 <br />
-          <span className="text-brand-yellow">行止由心</span>
+          {t('hero.title')} <br />
+          <span className="text-brand-yellow">{t('hero.subtitle')}</span>
         </h1>
-        
+
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl font-medium leading-relaxed">
-          在这里，探索技术的深度，感悟生活的温度。
-          以极简之笔，绘心中之画。
+          {t('hero.description')}
         </p>
       </header>
 
@@ -90,13 +93,16 @@ export function Home() {
               </div>
               
               <div className="flex justify-end items-center mt-6">
-                <span className="w-10 h-10 flex items-center justify-center rounded-full bg-brand-black text-brand-cream group-hover:bg-brand-yellow group-hover:text-brand-black transition-all duration-500 transform group-hover:scale-110">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                </span>
+                <div className="relative">
+                  {/* 按钮中心扩散效果 */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-brand-yellow/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 ease-out pointer-events-none" />
+
+                  <span className="relative z-10 w-10 h-10 flex items-center justify-center rounded-full bg-brand-black text-brand-cream group-hover:bg-brand-yellow group-hover:text-brand-black transition-all duration-500 transform group-hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                  </span>
+                </div>
               </div>
 
-              {/* 背景装饰线 */}
-              <div className="absolute bottom-0 right-0 w-32 h-32 -mr-8 -mb-8 bg-brand-yellow/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 ease-out" />
             </div>
           </Link>
         ))}
@@ -110,15 +116,16 @@ export function Home() {
             <div className="w-[1px] h-4 bg-brand-cream/20 dark:bg-brand-black/20" />
             <span className="text-xs font-bold uppercase tracking-widest text-brand-cream dark:text-brand-black">Mode</span>
           </div>
-          
+
+          <LanguageSwitcher />
         </div>
 
         <div className="flex flex-col items-end gap-1">
           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-black/30 dark:text-brand-cream/30">
-            Design Philosophy
+            {t('footer.design_philosophy')}
           </span>
           <span className="text-sm font-bold text-brand-black dark:text-brand-cream italic">
-            "Simple is the ultimate sophistication."
+            {t('footer.quote')}
           </span>
         </div>
       </footer>

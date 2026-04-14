@@ -4,11 +4,11 @@
 
 @layer base {
   :root {
-    --background: #F5E6D3;
+    --background: #FDF6EC;
     --foreground: #1A1A1A;
-    --card: #FDF6EC;
+    --card: #FFFFFF;
     --card-foreground: #1A1A1A;
-    --muted: #EADBC8;
+    --muted: #F3EAD9;
     --muted-foreground: #6B5E4F;
     --accent: #E9AF44;
     --accent-foreground: #FFFFFF;

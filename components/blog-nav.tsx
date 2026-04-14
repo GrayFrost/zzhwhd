@@ -23,7 +23,7 @@ export const BlogNav = () => {
           href="/"
           className="text-xs font-bold tracking-[0.2em] uppercase text-brand-black/30 dark:text-brand-cream/30 hover:text-brand-yellow transition-colors duration-300"
         >
-          Home
+          首页
         </Link>
         <h1 className="flex space-x-2 font-bold text-xl">
           <Link
@@ -33,7 +33,7 @@ export const BlogNav = () => {
               pathname === "/blog" ? "text-brand-yellow" : "text-brand-black dark:text-brand-cream hover:text-brand-yellow"
             )}
           >
-            BLOG.
+            博客
           </Link>
         </h1>
       </div>

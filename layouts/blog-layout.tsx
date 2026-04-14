@@ -33,7 +33,7 @@ export default function BlogLayout({
           return (
             <div
               key={url}
-              className="max-w-4xl px-2 py-6 mx-auto rounded-lg cursor-pointer hover:bg-brand-yellow/5 dark:hover:bg-brand-yellow/5 group transition-all duration-500"
+              className="max-w-4xl px-4 py-6 mx-auto rounded-xl cursor-pointer border border-transparent hover:border-brand-yellow/30 hover:bg-brand-yellow/10 dark:hover:bg-brand-yellow/15 group transition-all duration-300"
             >
               <Link href={`${url}`}>
                 <div className="text-xl font-bold text-brand-black dark:text-brand-cream group-hover:text-brand-yellow transition-colors duration-300 tracking-wide">

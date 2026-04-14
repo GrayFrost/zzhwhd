@@ -88,9 +88,6 @@ export function Project() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </div>
-            
-            {/* Hover Background Accent */}
-            <div className="absolute top-0 right-0 w-32 h-32 -mr-16 -mt-16 bg-brand-yellow/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700" />
           </div>
         );
 
