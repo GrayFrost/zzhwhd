@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import dayjs from "dayjs";
 import { twMerge } from "tailwind-merge";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
@@ -33,14 +32,10 @@ export default function Page() {
   const [currentYear, setCurrentYear] = useState(latestGalleryYear);
 
   const years = useMemo(() => {
-    const arr = [];
-    const oldestYear = 2024;
-    const latestYear = Math.max(dayjs().year(), latestGalleryYear);
-    for (let i = latestYear; i >= oldestYear; i--) {
-      arr.push(i);
-    }
-    return arr;
-  }, [latestGalleryYear]);
+    return gallery
+      .map((item) => item.year)
+      .sort((a, b) => b - a);
+  }, []);
 
   const currentYearPhotos = gallery.find((item) => item.year === currentYear);
 
