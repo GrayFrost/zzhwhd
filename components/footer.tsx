@@ -12,7 +12,7 @@ export function Footer() {
             target="_blank"
             className="ml-1 text-brand-black dark:text-brand-cream transition-all hover:text-brand-yellow"
           >
-            Garlic Garlic
+            Gary Frost
           </a>
           <div className="mx-4 h-3 border-r border-brand-black/20 dark:border-brand-cream/20"></div>
           <a

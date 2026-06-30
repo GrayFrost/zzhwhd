@@ -1,7 +1,11 @@
+"use client";
+
 import { Post } from "@/api/posts";
 import dayjs from 'dayjs';
 import Pagination from "@/components/pagination";
 import { ArchiveListItem } from "@/components/archive-list-item";
+import { PageShell } from "@/components/page-shell";
+import { useLanguage } from "@/components/language-provider";
 
 const POSTS_PER_PAGE = 10;
 
@@ -30,6 +34,7 @@ function getArchiveList(allPosts: Post[], pageNumber: number): Archive[] {
 }
 
 export default function Page({ pageNumber, posts: allPosts }: { pageNumber: number, posts: Post[] }) {
+  const { t } = useLanguage();
   const displayPosts = getArchiveList(allPosts, pageNumber);
 
   const pagination = {
@@ -40,21 +45,37 @@ export default function Page({ pageNumber, posts: allPosts }: { pageNumber: numb
   // 所有文章按时间排序，同时按年份拆分
 
   return (
-    <div className="container max-w-3xl mx-auto p-4 md:p-6">
+    <PageShell
+      kicker={t("blog.kicker")}
+      title={t("blog.archives")}
+      description={t("blog.description")}
+      meta={`${allPosts.length} ${t("blog.post_count")}`}
+      maxWidth="reading"
+      aside={
+        <div>
+          <div className="journal-label">{t("blog.archives")}</div>
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
+            {t("blog.all_posts")}
+          </p>
+        </div>
+      }
+    >
+      <div className="space-y-8">
       {displayPosts.map((archive) => (
-        <div key={archive.year} className="mb-12">
-          <div className="flex items-center space-x-4 mb-6">
-            <h2 className="text-3xl font-black italic tracking-tighter text-brand-black dark:text-brand-cream">{archive.year}</h2>
-            <div className="flex-1 h-[1px] bg-brand-black/5 dark:bg-brand-cream/5" />
+        <section key={archive.year} className="journal-card p-4 sm:p-5">
+          <div className="mb-4 flex items-center gap-4">
+            <h2 className="text-3xl font-black tracking-tighter text-foreground">{archive.year}</h2>
+            <div className="h-px flex-1 bg-line" />
           </div>
-          <div className="space-y-2">
+          <div className="divide-y divide-line">
             {archive.posts.map((post) => (
               <ArchiveListItem post={post} key={post.url} />
             ))}
           </div>
-        </div>
+        </section>
       ))}
+      </div>
       <Pagination {...pagination} />
-    </div>
+    </PageShell>
   );
 }

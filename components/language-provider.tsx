@@ -7,7 +7,7 @@ interface LanguageContextType {
   locale: Locale;
   messages: typeof messages.zh;
   setLocale: (locale: Locale) => void;
-  t: (key: string) => string;
+  t: (key: string, values?: Record<string, string | number>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -28,7 +28,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('locale', newLocale);
   };
 
-  const t = (key: string): string => {
+  const t = (key: string, values?: Record<string, string | number>): string => {
     const keys = key.split('.');
     let value: any = messages[locale];
 
@@ -36,7 +36,23 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       value = value?.[k];
     }
 
-    return value || key;
+    if (typeof value !== "string") {
+      value = keys.reduce<any>((current, k) => current?.[k], messages[defaultLocale]);
+    }
+
+    if (typeof value !== "string") {
+      return key;
+    }
+
+    if (!values) {
+      return value;
+    }
+
+    return Object.entries(values).reduce(
+      (result, [name, replacement]) =>
+        result.replaceAll(`{${name}}`, String(replacement)),
+      value
+    );
   };
 
   const value = {

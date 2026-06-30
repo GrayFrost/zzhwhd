@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Thaleah";
+  src: url("/fonts/ThaleahFat.ttf") format("truetype");
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --background: #FDF6EC;
@@ -84,4 +90,127 @@ html.dark .stroke-color {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+@layer base {
+  :root {
+    --background: #f4f1e8;
+    --foreground: #202124;
+    --card: #fbfaf5;
+    --card-foreground: #202124;
+    --muted: #e3e0d8;
+    --muted-foreground: #68665f;
+    --accent: #d7a92f;
+    --accent-foreground: #202124;
+    --moss: #63715c;
+    --blueprint: #315e7b;
+    --line: rgba(32, 33, 36, 0.14);
+  }
+
+  .dark {
+    --background: #202124;
+    --foreground: #f4f1e8;
+    --card: #292a2c;
+    --card-foreground: #f4f1e8;
+    --muted: #37383a;
+    --muted-foreground: #bbb6aa;
+    --accent: #d7a92f;
+    --accent-foreground: #202124;
+    --moss: #9aaa91;
+    --blueprint: #87aeca;
+    --line: rgba(244, 241, 232, 0.16);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px),
+      var(--background);
+    background-size: 48px 48px;
+    font-family: "Aptos Narrow", "Arial Narrow", "SF Pro Display", -apple-system,
+      BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+@layer components {
+  .journal-card {
+    background-color: color-mix(in srgb, var(--card) 92%, transparent);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(32, 33, 36, 0.08);
+  }
+
+  .journal-rule {
+    border-top: 1px solid var(--line);
+  }
+
+  .journal-label {
+    color: var(--muted-foreground);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .journal-title {
+    font-family: "Aptos Narrow", "Arial Narrow", "SF Pro Display", -apple-system,
+      BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+
+  .pixel-signature {
+    font-family: "Thaleah", "Aptos Narrow", sans-serif;
+    letter-spacing: 0.03em;
+  }
+
+  .surface-link {
+    transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .surface-link:hover {
+    color: var(--accent);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.leaflet-container {
+  z-index: 0;
+}
+
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 1;
 }

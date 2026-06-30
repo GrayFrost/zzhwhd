@@ -1,23 +1,25 @@
 import { Post } from "@/api/posts";
-import dayjs from "dayjs";
 import Link from "next/link";
 import { BlogTag } from "@/components/blog-tag";
+import { LocalizedDate } from "@/components/localized-date";
 export const ArchiveListItem = ({ post }: { post: Post }) => {
   const { url, metadata } = post;
   const { date, title, tags } = metadata;
   return (
     <Link
-      className="flex items-center space-x-6 max-w-4xl px-4 py-6 mx-auto rounded-xl cursor-pointer group transition-all duration-300 border border-transparent hover:border-brand-yellow/30 hover:bg-brand-yellow/10 dark:hover:bg-brand-yellow/15"
+      className="surface-link grid gap-3 py-4 sm:grid-cols-[96px_1fr_auto] sm:items-center"
       href={url}
     >
-      <span className="text-sm font-bold text-muted-foreground group-hover:text-brand-yellow transition-colors duration-300 tabular-nums">
-        {dayjs(date).format("MM/DD")}
-      </span>
-      <div className="flex-1 font-bold text-lg group-hover:text-brand-yellow group-hover:translate-x-1 transition-all duration-300">
+      <LocalizedDate
+        date={date}
+        compact
+        className="text-sm font-black text-muted-foreground tabular-nums"
+      />
+      <div className="font-bold text-lg text-foreground">
         {title}
       </div>
-      <div className="hidden sm:flex">
-        {tags.map((tag: string) => {
+      <div className="flex flex-wrap sm:justify-end">
+        {tags?.map((tag: string) => {
           return <BlogTag key={tag} tag={tag} />;
         })}
       </div>

@@ -1,0 +1,106 @@
+{
+  "common": {
+    "site_tagline": "Code, travel, and field notes",
+    "primary_navigation": "Primary navigation",
+    "home": "Go home",
+    "back": "Go back",
+    "back_to_top": "Back to top",
+    "index": "Index",
+    "latest": "Latest",
+    "read_more": "Read more",
+    "view_all": "View all",
+    "open": "Open",
+    "external": "External link",
+    "empty": "Nothing here yet"
+  },
+  "nav": {
+    "blog": "Blog",
+    "blog_subtitle": "Engineering notes and deeper thinking",
+    "life": "Life",
+    "life_subtitle": "Travel maps and daily coordinates",
+    "project": "Projects",
+    "project_subtitle": "Product experiments and open source",
+    "gallery": "Gallery",
+    "gallery_subtitle": "A photo journal by year",
+    "about": "About",
+    "about_subtitle": "Profile and contact links"
+  },
+  "home": {
+    "kicker": "Desk 00",
+    "title": "A living engineering field notebook",
+    "description": "Notes on code I have written, places I have visited, small products I am shaping, and thoughts still in progress.",
+    "note_label": "Current page",
+    "note": "Start with recent posts, projects, and the map, then move through each chapter like a notebook.",
+    "recent_posts": "Recent posts",
+    "sections": "Sections",
+    "writing": "Writing",
+    "writing_note": "Articles for engineering lessons, reading notes, and daily observations.",
+    "making": "Projects",
+    "making_note": "Tools, readers, and map experiments refined into usable work.",
+    "moving": "Routes",
+    "moving_note": "Maps and photos that keep small moments from the road."
+  },
+  "blog": {
+    "kicker": "Desk 01",
+    "title": "Blog",
+    "description": "Posts organized by time, tags, and categories, mostly about frontend engineering, frameworks, and personal practice.",
+    "archives": "Archives",
+    "tags": "Tags",
+    "categories": "Categories",
+    "all_posts": "All posts",
+    "published_at": "Published",
+    "reading_time": "Reading time",
+    "minute": "min",
+    "table_of_contents": "Contents",
+    "tag_posts": "Posts with this tag",
+    "category_posts": "Posts in this category",
+    "post_count": "posts",
+    "prev": "Prev",
+    "next": "Next"
+  },
+  "project": {
+    "kicker": "Desk 02",
+    "title": "Projects",
+    "description": "Experiments that turn interests into tools: map components, image readers, and small products under steady iteration.",
+    "explore": "Explore project",
+    "index_note": "Product experiments",
+    "sveaflet_description": "A lightweight Leaflet component library for Svelte developers, with a declarative map-building experience.",
+    "manga_subtitle": "Image reader",
+    "manga_description": "A clean manga and image reading experience with multiple formats and custom layouts, keeping the focus on reading."
+  },
+  "gallery": {
+    "kicker": "Desk 03",
+    "title": "Memory Gallery",
+    "description": "Photos organized by year and month, keeping specific moments attached to time.",
+    "year_index": "Year index",
+    "captured_moment": "Captured moment",
+    "empty": "No photos for this year yet"
+  },
+  "life": {
+    "kicker": "Desk 04",
+    "title": "Life Map",
+    "description": "Travel posts placed back onto the map, showing both routes and where memories paused.",
+    "map_note": "Click a map marker to read the related travel note.",
+    "visited": "Visited places"
+  },
+  "about": {
+    "kicker": "Desk 05",
+    "title": "About",
+    "name": "ZZH",
+    "description1": "I am a frontend engineer who enjoys bringing complex interactions, engineering details, and clear interfaces into one place.",
+    "description2": "I care about open source, reading experiences, maps, and personal knowledge systems. This site is a long-running experiment in connecting technology, life, and writing.",
+    "connect_title": "Connect",
+    "index_note": "Stay curious, keep notes."
+  },
+  "footer": {
+    "language": "Language",
+    "theme": "Theme",
+    "light": "light",
+    "dark": "dark",
+    "toggle_theme": "Switch to {mode} mode",
+    "made_by": "Maintained by Gary Frost",
+    "license": "ICP 2025365049",
+    "design_philosophy": "Motto",
+    "quote": "Follow the heart"
+  }
+}

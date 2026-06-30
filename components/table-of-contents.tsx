@@ -5,6 +5,7 @@ import { useHighlighted } from "@/hooks/use-header-highlight";
 import { createHeaderId } from "@/utils/h-id";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { useLanguage } from "@/components/language-provider";
 
 function renderNodes(nodes: TransformedNode[]) {
   return (
@@ -39,8 +40,8 @@ const TOCLink = ({ node }: { node: TransformedNode }) => {
         fontSizes[node.depth],
         padding[node.depth],
         highlighted
-          ? "text-brand-yellow bg-brand-yellow/10"
-          : "text-muted-foreground hover:text-brand-black dark:hover:text-brand-cream hover:bg-brand-yellow/5"
+          ? "text-accent bg-accent/10"
+          : "text-muted-foreground hover:text-foreground hover:bg-accent/5"
       )}
       onClick={(e) => {
         e.preventDefault();
@@ -63,6 +64,7 @@ const TOCLink = ({ node }: { node: TransformedNode }) => {
 };
 
 export const TableOfContents = ({ nodes }: { nodes: TransformedNode[] }) => {
+  const { t } = useLanguage();
   // 当 blog 顶部视觉区可见时，隐藏 TOC，避免覆盖导航
   const [hide, setHide] = useState(false);
 
@@ -92,12 +94,12 @@ export const TableOfContents = ({ nodes }: { nodes: TransformedNode[] }) => {
   return (
     <div
       className={twMerge(
-        "w-[200px] sticky top-6 bg-background/70 dark:bg-brand-black/40 border border-brand-yellow/20 dark:border-brand-yellow/30 backdrop-blur-md rounded-2xl p-3 shadow-sm shadow-brand-black/5 transition-all duration-300",
+        "journal-card sticky top-24 w-[220px] p-3 transition-all duration-300",
         hide ? "opacity-0 translate-y-2 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"
       )}
     >
-      <h3 className="text-sm font-semibold text-brand-black dark:text-brand-cream mb-2">目录</h3>
-      <div className="max-h-[calc(100vh-300px)] overflow-y-auto scrollbar-thin scrollbar-thumb-brand-yellow/40 scrollbar-thumb-rounded-full scrollbar-track-transparent hover:scrollbar-thumb-brand-yellow/60 transition-colors">
+      <h3 className="journal-label mb-2">{t("blog.table_of_contents")}</h3>
+      <div className="max-h-[calc(100vh-220px)] overflow-y-auto">
         <div className="space-y-1 text-sm">
           {renderNodes(nodes)}
         </div>

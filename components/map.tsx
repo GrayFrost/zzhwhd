@@ -87,12 +87,12 @@ export default function Map(props: {
             <div style="
               width: 50px; 
               height: 50px; 
-              border-radius: 50%; 
+              border-radius: 999px; 
               background-image: url(${item.imageStatic.src}); 
               background-size: cover; 
               background-position: center;
               cursor: pointer;
-              border: 3px solid #E9AF44;
+              border: 3px solid #D7A92F;
               box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             "></div>
           `,
@@ -115,5 +115,5 @@ export default function Map(props: {
     updateMarkers();
   }, [travelData, router]);
 
-  return <div id="map" className="w-full min-h-screen"></div>;
+  return <div id="map" className="relative z-0 h-[72vh] min-h-[520px] w-full rounded-md"></div>;
 }
