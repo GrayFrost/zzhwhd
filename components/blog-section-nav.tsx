@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge";
 import { useLanguage } from "@/components/language-provider";
 
 const links = [
-  { href: "/blog", label: "blog.all_posts", icon: List, exact: true },
+  { href: "/blog", label: "blog.all_posts", icon: List, match: "posts" },
   { href: "/blog/archives", label: "blog.archives", icon: Archive },
   { href: "/blog/tags", label: "blog.tags", icon: Tags },
   { href: "/blog/categories", label: "blog.categories", icon: Folder },
@@ -31,7 +31,10 @@ export function BlogSectionNav() {
       >
         {links.map((item) => {
           const Icon = item.icon;
-          const active = item.exact ? pathname === item.href : pathname.startsWith(item.href);
+          const active =
+            item.match === "posts"
+              ? pathname === "/blog" || pathname.startsWith("/blog/page/")
+              : pathname.startsWith(item.href);
 
           return (
             <Link
