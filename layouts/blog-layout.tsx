@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Post } from "@/api/posts";
 import Pagination from "@/components/pagination";
 import { BlogTag } from "@/components/blog-tag";
-import { PageShell } from "@/components/page-shell";
+import { BlogContentFrame } from "@/components/blog-content-frame";
 import { LocalizedDate } from "@/components/localized-date";
 import { useLanguage } from "@/components/language-provider";
 
@@ -30,37 +30,19 @@ export default function BlogLayout({
   };
 
   return (
-    <PageShell
-      kicker={t("blog.kicker")}
-      title={t("blog.title")}
-      description={t("blog.description")}
-      meta={`${allPosts.length} ${t("blog.post_count")}`}
-      maxWidth="reading"
-      aside={
-        <div>
-          <div className="journal-label">{t("common.index")}</div>
-          <div className="mt-4 space-y-2 text-sm">
-            <div className="flex justify-between gap-3">
-              <span>{t("blog.all_posts")}</span>
-              <span className="font-black text-foreground">{allPosts.length}</span>
-            </div>
-            <div className="flex justify-between gap-3">
-              <span>{t("common.latest")}</span>
-              <span className="font-black text-foreground">{pageNumber}</span>
-            </div>
-          </div>
-        </div>
-      }
+    <BlogContentFrame
+      sidebarTitle={t("common.index")}
+      sidebarStats={[
+        { label: t("blog.all_posts"), value: allPosts.length },
+        { label: t("common.latest"), value: pageNumber },
+      ]}
     >
       <div className="journal-card divide-y divide-line">
         {displayPosts.map((post) => {
           const { metadata, url } = post;
           const { title, date, tags, description } = metadata;
           return (
-            <article
-              key={url}
-              className="group"
-            >
+            <article key={url} className="group">
               <Link href={`${url}`} className="surface-link block p-5 sm:p-6">
                 <div className="mb-3 flex flex-wrap items-center gap-3 text-xs font-bold text-muted-foreground">
                   <LocalizedDate date={date} />
@@ -82,6 +64,6 @@ export default function BlogLayout({
         })}
       </div>
       <Pagination {...pagination} />
-    </PageShell>
+    </BlogContentFrame>
   );
 }

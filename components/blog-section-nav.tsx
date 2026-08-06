@@ -13,20 +13,30 @@ const links = [
   { href: "/blog/categories", label: "blog.categories", icon: Folder },
 ];
 
-export function BlogSectionNav() {
+export function BlogSectionNav({
+  variant = "bar",
+}: {
+  variant?: "bar" | "sidebar";
+}) {
   const pathname = usePathname();
   const { t } = useLanguage();
   const isBlogPage = pathname === "/blog" || pathname.startsWith("/blog/");
+  const isSidebar = variant === "sidebar";
 
   return (
     <div
       className={twMerge(
-        "border-b border-line bg-background/90 backdrop-blur-md",
-        isBlogPage && "sticky top-0 z-30"
+        !isSidebar && "border-b border-line bg-background/90 backdrop-blur-md",
+        !isSidebar && isBlogPage && "sticky top-0 z-30"
       )}
     >
       <nav
-        className="scrollbar-hide mx-auto flex max-w-4xl gap-2 overflow-x-auto px-4 py-3 sm:px-6"
+        className={twMerge(
+          "scrollbar-hide flex gap-2 overflow-x-auto",
+          isSidebar
+            ? "flex-col"
+            : "mx-auto max-w-4xl px-4 py-3 sm:px-6"
+        )}
         aria-label={t("blog.title")}
       >
         {links.map((item) => {
@@ -42,6 +52,7 @@ export function BlogSectionNav() {
               href={item.href}
               className={twMerge(
                 "surface-link inline-flex h-10 shrink-0 items-center gap-2 rounded-md border border-line bg-card/70 px-3 text-sm font-bold text-muted-foreground",
+                isSidebar && "w-full justify-start",
                 active && "border-accent bg-accent text-accent-foreground hover:text-accent-foreground"
               )}
             >

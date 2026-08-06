@@ -13,10 +13,10 @@ export default function MangaReader() {
             className="w-20 h-20 object-cover"
           />
           <div>
-            <h1 className="text-4xl font-bold dark:text-white">
+            <h1 className="text-4xl font-bold text-foreground">
               macOS 漫画阅读器
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
+            <p className="text-muted-foreground mt-2">
               简洁、优雅的原生漫画阅读体验
             </p>
           </div>
@@ -70,7 +70,7 @@ export default function MangaReader() {
 
         <div className="flex flex-col md:flex-row gap-8 items-start">
           <div className="flex-1">
-            <h2 className="text-2xl font-semibold mb-4 dark:text-white">
+            <h2 className="text-2xl font-semibold mb-4 text-foreground">
               下载
             </h2>
             <Link href="https://apps.apple.com/cn/app/mangaview/id6740051481?mt=12">
@@ -91,21 +91,21 @@ export default function MangaReader() {
                 下载最新版本
               </button>
             </Link>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <p className="text-sm text-muted-foreground mt-2">
               版本 1.0 | 更新日期: 2025-01-24
             </p>
           </div>
 
           <div className="flex-1">
-            <h2 className="text-2xl font-semibold mb-4 dark:text-white">
+            <h2 className="text-2xl font-semibold mb-4 text-foreground">
               反馈建议
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <p className="text-muted-foreground mb-4">
               如有任何问题或建议，欢迎通过以下方式联系我：
             </p>
             <Link
               href="mailto:garyfrost4321@gmail.com"
-              className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-600"
+              className="inline-flex items-center gap-2 text-accent hover:text-foreground"
             >
               <svg
                 className="w-5 h-5"

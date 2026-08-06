@@ -27,6 +27,16 @@ const projects = [
     iconPath: "/images/icons/mangaview.png",
     tags: ["SwitfUI", "Macbook", "App"],
   },
+  {
+    id: "relic-restorer",
+    title: "Relic Restorer",
+    subtitleKey: "project.relic_subtitle",
+    descriptionKey: "project.relic_description",
+    href: "https://store.steampowered.com/app/4840120/_/",
+    isExternal: true,
+    iconPath: "/images/icons/relic-restorer.png",
+    tags: ["Godot", "Game", "Desktop"],
+  }
 ];
 
 export function ProjectJournal() {

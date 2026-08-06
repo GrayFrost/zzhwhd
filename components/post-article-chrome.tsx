@@ -52,7 +52,7 @@ export function PostArticleChrome({
               {title}
             </h1>
           </header>
-          <div className="prose prose-neutral max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-blueprint dark:prose-a:text-blueprint">
+          <div className="prose prose-neutral max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-accent dark:prose-a:text-accent">
             {children}
           </div>
         </article>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Hash, Folder } from "lucide-react";
-import { PageShell } from "@/components/page-shell";
+import { BlogContentFrame } from "@/components/blog-content-frame";
 import { BlogTag } from "@/components/blog-tag";
 import { LocalizedDate } from "@/components/localized-date";
 import { useLanguage } from "@/components/language-provider";
@@ -30,22 +30,15 @@ export function TaxonomyIndex({
 }) {
   const { t } = useLanguage();
   const title = type === "tags" ? t("blog.tags") : t("blog.categories");
+  const statLabel =
+    type === "tags" ? t("blog.all_tags") : t("blog.all_categories");
 
   return (
-    <PageShell
-      kicker={t("blog.kicker")}
-      title={title}
-      description={t("blog.description")}
-      meta={`${entries.length} ${title}`}
-      maxWidth="reading"
-      aside={
-        <div>
-          <div className="journal-label">{title}</div>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            {t("blog.all_posts")}
-          </p>
-        </div>
-      }
+    <BlogContentFrame
+      sidebarTitle={title}
+      sidebarStats={[
+        { label: statLabel, value: entries.length },
+      ]}
     >
       <div className="journal-card grid gap-3 p-4 sm:grid-cols-2 sm:p-5">
         {entries.map((entry) => {
@@ -71,7 +64,7 @@ export function TaxonomyIndex({
           );
         })}
       </div>
-    </PageShell>
+    </BlogContentFrame>
   );
 }
 
@@ -88,18 +81,11 @@ export function TermPostList({
   const title = type === "tag" ? t("blog.tag_posts") : t("blog.category_posts");
 
   return (
-    <PageShell
-      kicker={t("blog.kicker")}
-      title={term}
-      description={title}
-      meta={`${posts.length} ${t("blog.post_count")}`}
-      maxWidth="reading"
-      aside={
-        <div>
-          <div className="journal-label">{title}</div>
-          <p className="mt-3 break-words text-lg font-black text-foreground">{term}</p>
-        </div>
-      }
+    <BlogContentFrame
+      sidebarTitle={title}
+      sidebarStats={[
+        { label: term, value: posts.length },
+      ]}
     >
       <div className="journal-card divide-y divide-line">
         {posts.map((post) => (
@@ -116,6 +102,6 @@ export function TermPostList({
           </Link>
         ))}
       </div>
-    </PageShell>
+    </BlogContentFrame>
   );
 }

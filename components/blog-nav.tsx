@@ -14,14 +14,14 @@ import { twMerge } from "tailwind-merge";
 export const BlogNav = () => {
   const pathname = usePathname();
   const linkClass =
-    "block py-2 px-3 md:p-0 rounded transition-all duration-300 tracking-widest flex items-center gap-2 text-muted-foreground hover:text-brand-yellow";
+    "block py-2 px-3 md:p-0 rounded transition-all duration-300 tracking-widest flex items-center gap-2 text-muted-foreground hover:text-accent";
 
   return (
     <div className="max-w-5xl flex flex-wrap items-center justify-between mx-auto p-4 sm:p-0">
       <div className="flex items-center space-x-6">
         <Link
           href="/"
-          className="text-xs font-bold tracking-[0.2em] uppercase text-brand-black/30 dark:text-brand-cream/30 hover:text-brand-yellow transition-colors duration-300"
+          className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground hover:text-accent transition-colors duration-300"
         >
           首页
         </Link>
@@ -30,7 +30,7 @@ export const BlogNav = () => {
             href="/blog"
             className={twMerge(
               "flex items-center gap-2 transition-colors duration-300",
-              pathname === "/blog" ? "text-brand-yellow" : "text-brand-black dark:text-brand-cream hover:text-brand-yellow"
+              pathname === "/blog" ? "text-accent" : "text-foreground hover:text-accent"
             )}
           >
             博客
@@ -43,7 +43,7 @@ export const BlogNav = () => {
             href="/blog/archives"
             className={twMerge(
               linkClass,
-              pathname.includes("/blog/archives") ? "text-brand-yellow" : ""
+              pathname.includes("/blog/archives") ? "text-accent" : ""
             )}
           >
             归档
@@ -52,7 +52,7 @@ export const BlogNav = () => {
             href="/blog/tags"
             className={twMerge(
               linkClass,
-              pathname.includes("/blog/tags") ? "text-brand-yellow" : ""
+              pathname.includes("/blog/tags") ? "text-accent" : ""
             )}
           >
             标签
@@ -61,7 +61,7 @@ export const BlogNav = () => {
             href="/blog/categories"
             className={twMerge(
               linkClass,
-              pathname.includes("/blog/categories") ? "text-brand-yellow" : ""
+              pathname.includes("/blog/categories") ? "text-accent" : ""
             )}
           >
             分类

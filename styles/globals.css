@@ -8,36 +8,6 @@
   font-display: swap;
 }
 
-@layer base {
-  :root {
-    --background: #FDF6EC;
-    --foreground: #1A1A1A;
-    --card: #FFFFFF;
-    --card-foreground: #1A1A1A;
-    --muted: #F3EAD9;
-    --muted-foreground: #6B5E4F;
-    --accent: #E9AF44;
-    --accent-foreground: #FFFFFF;
-  }
-
-  .dark {
-    --background: #1A1A1A;
-    --foreground: #F5E6D3;
-    --card: #262626;
-    --card-foreground: #F5E6D3;
-    --muted: #333333;
-    --muted-foreground: #A1A1AA;
-    --accent: #E9AF44;
-    --accent-foreground: #1A1A1A;
-  }
-  
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-}
-
 /* 平滑过渡动画 */
 * {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -46,22 +16,15 @@
 .card {
   background-color: var(--card);
   color: var(--card-foreground);
-  @apply border border-gray-200 dark:border-gray-700;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.dark .card {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  box-shadow:
+    0 4px 6px -1px color-mix(in srgb, var(--foreground) 10%, transparent),
+    0 2px 4px -1px color-mix(in srgb, var(--foreground) 6%, transparent);
 }
 
 .stroke-color {
-  -webkit-text-stroke: 2px #f7d621;
-  -webkit-text-fill-color: #1c050f;
-}
-
-html.dark .stroke-color {
-  -webkit-text-stroke: 2px #f7d621;
-  -webkit-text-fill-color: white;
+  -webkit-text-stroke: 2px var(--accent);
+  -webkit-text-fill-color: var(--foreground);
 }
 
 /* 自定义滚动条 */
@@ -74,11 +37,12 @@ html.dark .stroke-color {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-brand-black/10 dark:bg-brand-cream/10 rounded-full;
+  background-color: color-mix(in srgb, var(--foreground) 10%, transparent);
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-brand-yellow/50;
+  background-color: color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 /* 隐藏滚动条工具类 */
@@ -93,34 +57,6 @@ html.dark .stroke-color {
 }
 
 @layer base {
-  :root {
-    --background: #f4f1e8;
-    --foreground: #202124;
-    --card: #fbfaf5;
-    --card-foreground: #202124;
-    --muted: #e3e0d8;
-    --muted-foreground: #68665f;
-    --accent: #d7a92f;
-    --accent-foreground: #202124;
-    --moss: #63715c;
-    --blueprint: #315e7b;
-    --line: rgba(32, 33, 36, 0.14);
-  }
-
-  .dark {
-    --background: #202124;
-    --foreground: #f4f1e8;
-    --card: #292a2c;
-    --card-foreground: #f4f1e8;
-    --muted: #37383a;
-    --muted-foreground: #bbb6aa;
-    --accent: #d7a92f;
-    --accent-foreground: #202124;
-    --moss: #9aaa91;
-    --blueprint: #87aeca;
-    --line: rgba(244, 241, 232, 0.16);
-  }
-
   html {
     scroll-behavior: smooth;
   }
@@ -131,6 +67,7 @@ html.dark .stroke-color {
       linear-gradient(90deg, var(--line) 1px, transparent 1px),
       var(--background);
     background-size: 48px 48px;
+    color: var(--foreground);
     font-family: "Aptos Narrow", "Arial Narrow", "SF Pro Display", -apple-system,
       BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
@@ -151,7 +88,7 @@ html.dark .stroke-color {
     background-color: color-mix(in srgb, var(--card) 92%, transparent);
     border: 1px solid var(--line);
     border-radius: 8px;
-    box-shadow: 0 16px 40px rgba(32, 33, 36, 0.08);
+    box-shadow: 0 16px 40px color-mix(in srgb, var(--foreground) 8%, transparent);
   }
 
   .journal-rule {
@@ -176,6 +113,14 @@ html.dark .stroke-color {
   .pixel-signature {
     font-family: "Thaleah", "Aptos Narrow", sans-serif;
     letter-spacing: 0.03em;
+  }
+
+  .pixel-signature-cjk {
+    display: block;
+    font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+    line-height: 1;
+    letter-spacing: 0;
+    transform: translateY(-0.04em);
   }
 
   .surface-link {
@@ -213,4 +158,15 @@ html.dark .stroke-color {
 .leaflet-top,
 .leaflet-bottom {
   z-index: 1;
+}
+
+.custom-marker-image {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border: 3px solid var(--accent);
+  border-radius: 999px;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--foreground) 20%, transparent);
 }

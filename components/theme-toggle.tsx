@@ -22,7 +22,7 @@ export default function ThemeToggle() {
   };
 
   if (!mounted) {
-    return <div className="w-14 h-8 bg-brand-black/10 dark:bg-brand-cream/10 rounded-full animate-pulse" />;
+    return <div className="w-14 h-8 bg-muted rounded-full animate-pulse" />;
   }
 
   const isDark = resolvedTheme === "dark";
@@ -35,8 +35,8 @@ export default function ThemeToggle() {
         transition-all duration-500 ease-in-out focus:outline-none
         border-2
         ${isDark 
-          ? 'bg-brand-black border-brand-cream/20' 
-          : 'bg-brand-cream border-brand-black/10'
+          ? 'bg-background border-line'
+          : 'bg-card border-line'
         }
       `}
       aria-label={`切换到${isDark ? '亮色' : '暗色'}模式`}
@@ -45,7 +45,7 @@ export default function ThemeToggle() {
         className={`
           relative inline-flex items-center justify-center
           h-6 w-6 rounded-full shadow-md z-10
-          ${isDark ? 'bg-brand-cream text-brand-black' : 'bg-brand-black text-brand-yellow'}
+          ${isDark ? 'bg-foreground text-background' : 'bg-foreground text-accent'}
         `}
         initial={false}
         animate={{

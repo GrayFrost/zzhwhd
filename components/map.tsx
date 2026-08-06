@@ -1,8 +1,8 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { TravelData } from "@/api/travel";
+import { useSiteTheme } from "@/components/theme-provider";
 import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 
@@ -10,7 +10,7 @@ export default function Map(props: {
   travelData: TravelData[];
 }) {
   const { travelData } = props;
-  const { theme } = useTheme();
+  const { resolvedMode } = useSiteTheme();
   const router = useRouter();
   const mapRef = useRef<any>(null);
   const markersRef = useRef<any[]>([]);
@@ -51,7 +51,7 @@ export default function Map(props: {
 
       // 根据主题添加新的瓦片图层
       let tileLayer;
-      if (theme === "dark") {
+      if (resolvedMode === "dark") {
         tileLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         });
@@ -65,7 +65,7 @@ export default function Map(props: {
     };
 
     updateTheme();
-  }, [theme]);
+  }, [resolvedMode]);
 
   // 添加标记点
   useEffect(() => {
@@ -84,16 +84,8 @@ export default function Map(props: {
       travelData.forEach((item) => {
         const customIcon = L.divIcon({
           html: `
-            <div style="
-              width: 50px; 
-              height: 50px; 
-              border-radius: 999px; 
+            <div class="custom-marker-image" style="
               background-image: url(${item.imageStatic.src}); 
-              background-size: cover; 
-              background-position: center;
-              cursor: pointer;
-              border: 3px solid #D7A92F;
-              box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             "></div>
           `,
           className: "custom-marker",

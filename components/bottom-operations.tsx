@@ -19,7 +19,7 @@ export default function BottomOperations() {
     return null;
   }
   const iconWrapClass =
-    "flex items-center justify-center w-11 h-11 rounded-full border border-brand-yellow/30 bg-background/70 dark:bg-brand-black/60 text-brand-black dark:text-brand-cream shadow-sm shadow-brand-black/10 backdrop-blur-md cursor-pointer transition-all duration-300 hover:border-brand-yellow hover:text-brand-yellow hover:shadow-brand-yellow/20";
+    "flex items-center justify-center w-11 h-11 rounded-full border border-accent/30 bg-card/80 text-foreground shadow-card backdrop-blur-md cursor-pointer transition-all duration-300 hover:border-accent hover:text-accent";
   return (
     <div className="fixed bottom-24 right-4 z-20">
       <div className="flex flex-col gap-3">

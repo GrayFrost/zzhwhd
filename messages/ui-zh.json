@@ -1,5 +1,7 @@
 {
   "common": {
+    "site_name": "放肆的阿树",
+    "site_initial": "放",
     "site_tagline": "技术、旅行与日常记录",
     "primary_navigation": "主导航",
     "home": "回到首页",
@@ -26,7 +28,7 @@
     "about_subtitle": "个人介绍与联系入口"
   },
   "home": {
-    "kicker": "Desk 00",
+    "kicker": "",
     "title": "一份持续更新的工程手帐",
     "description": "这里记录我写过的代码、走过的路、做过的小产品，以及一些还在成形的想法。",
     "note_label": "当前页",
@@ -41,13 +43,15 @@
     "moving_note": "用地图和照片保存路上的片段。"
   },
   "blog": {
-    "kicker": "Desk 01",
+    "kicker": "",
     "title": "博客",
     "description": "文章按时间、标签和分类整理，主要记录前端工程、框架学习和个人实践。",
     "archives": "归档",
     "tags": "标签",
     "categories": "分类",
     "all_posts": "全部文章",
+    "all_tags": "全部标签",
+    "all_categories": "全部分类",
     "published_at": "发布于",
     "reading_time": "阅读时长",
     "minute": "分钟",
@@ -59,17 +63,19 @@
     "next": "下一页"
   },
   "project": {
-    "kicker": "Desk 02",
+    "kicker": "",
     "title": "项目",
     "description": "一些把兴趣变成工具的实验：地图组件、图片阅读器，以及持续迭代的小产品。",
     "explore": "查看项目",
     "index_note": "产品实验",
     "sveaflet_description": "为 Svelte 开发者打造的轻量 Leaflet 地图组件库，提供声明式地图开发体验。",
     "manga_subtitle": "图片阅读器",
-    "manga_description": "干净的漫画与图片阅读体验，支持多种格式与自定义布局，让阅读回到内容本身。"
+    "manga_description": "干净的漫画与图片阅读体验，支持多种格式与自定义布局，让阅读回到内容本身。",
+    "relic_subtitle": "文物修复师",
+    "relic_description": "在这款2D拼图游戏中，你要扮演一位文物修复师修复破碎的文物。"
   },
   "gallery": {
-    "kicker": "Desk 03",
+    "kicker": "",
     "title": "记忆图库",
     "description": "按年份和月份整理照片，用影像保存一些具体的时间。",
     "year_index": "年份索引",
@@ -77,20 +83,34 @@
     "empty": "这一年还没有照片"
   },
   "life": {
-    "kicker": "Desk 04",
+    "kicker": "",
     "title": "生活地图",
     "description": "把旅行文章放回地图上，看见路线，也看见记忆停留的位置。",
     "map_note": "点击地图标记阅读对应旅行记录。",
     "visited": "到访地点"
   },
   "about": {
-    "kicker": "Desk 05",
+    "kicker": "",
     "title": "关于我",
     "name": "ZZH",
     "description1": "我是一名前端开发工程师，喜欢把复杂的交互、工程细节和清晰的界面整理到一起。",
     "description2": "我关注开源、阅读体验、地图和个人知识记录。这个网站也是一个长期实验：让技术、生活和表达彼此连接。",
     "connect_title": "联系入口",
     "index_note": "保持好奇，持续记录。"
+  },
+  "theme": {
+    "title": "主题",
+    "open": "打开主题设置",
+    "description": "选择网站色卡与显示模式。",
+    "palette": "色卡",
+    "mode": "显示模式",
+    "original": "原始主题",
+    "american_retro": "美式复古",
+    "venice_blue": "威尼斯蓝",
+    "taro_pudding": "芋泥奶冻",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统"
   },
   "footer": {
     "language": "语言",

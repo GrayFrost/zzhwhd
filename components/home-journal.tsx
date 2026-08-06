@@ -17,14 +17,14 @@ const sectionCards = [
     key: "writing",
     href: "/blog",
     icon: PencilLine,
-    color: "text-blueprint",
+    color: "text-accent",
     navKey: "blog",
   },
   {
     key: "making",
     href: "/project",
     icon: BriefcaseBusiness,
-    color: "text-moss",
+    color: "text-accent",
     navKey: "project",
   },
   {
@@ -141,14 +141,14 @@ export function HomeJournal({ recentPosts }: { recentPosts: RecentPost[] }) {
                 <div className="journal-label">{t("nav.gallery")}</div>
                 <p className="mt-2 text-sm text-muted-foreground">{t("nav.gallery_subtitle")}</p>
               </div>
-              <Images className="h-6 w-6 text-blueprint" />
+              <Images className="h-6 w-6 text-accent" />
             </Link>
             <Link href="/about" className="journal-card surface-link flex items-center justify-between p-5">
               <div>
                 <div className="journal-label">{t("nav.about")}</div>
                 <p className="mt-2 text-sm text-muted-foreground">{t("nav.about_subtitle")}</p>
               </div>
-              <BookOpen className="h-6 w-6 text-moss" />
+              <BookOpen className="h-6 w-6 text-accent" />
             </Link>
           </section>
         </div>

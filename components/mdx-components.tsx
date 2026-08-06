@@ -48,7 +48,7 @@ const components = {
   },
   code(props: { children: ReactNode; className?: string }) {
     const { className } = props;
-    const codeClassName = className ? className : "text-brand-yellow";
+    const codeClassName = className ? className : "text-accent";
     return <code {...props} className={codeClassName} />;
   },
 };

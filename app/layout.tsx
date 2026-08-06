@@ -10,6 +10,11 @@ import FloatingOperations from "@/components/floating-operations";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RouteScrollReset } from "@/components/route-scroll-reset";
+import {
+  buildThemePaletteBootScript,
+  buildThemePaletteCss,
+  DEFAULT_PALETTE_ID,
+} from "@/config/themes";
 
 export const metadata: Metadata = {
   title: "Gary Frost | Engineering Field Notes",
@@ -31,7 +36,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh" suppressHydrationWarning>
+    <html lang="zh" data-palette={DEFAULT_PALETTE_ID} suppressHydrationWarning>
+      <head>
+        <style
+          id="theme-palette-tokens"
+          dangerouslySetInnerHTML={{ __html: buildThemePaletteCss() }}
+        />
+        <script
+          id="theme-palette-init"
+          dangerouslySetInnerHTML={{ __html: buildThemePaletteBootScript() }}
+        />
+      </head>
       <body className={`antialiased`}>
         <LanguageProvider>
           <ThemeProvider

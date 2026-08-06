@@ -4,7 +4,7 @@ import { Post } from "@/api/posts";
 import dayjs from 'dayjs';
 import Pagination from "@/components/pagination";
 import { ArchiveListItem } from "@/components/archive-list-item";
-import { PageShell } from "@/components/page-shell";
+import { BlogContentFrame } from "@/components/blog-content-frame";
 import { useLanguage } from "@/components/language-provider";
 
 const POSTS_PER_PAGE = 10;
@@ -45,20 +45,12 @@ export default function Page({ pageNumber, posts: allPosts }: { pageNumber: numb
   // 所有文章按时间排序，同时按年份拆分
 
   return (
-    <PageShell
-      kicker={t("blog.kicker")}
-      title={t("blog.archives")}
-      description={t("blog.description")}
-      meta={`${allPosts.length} ${t("blog.post_count")}`}
-      maxWidth="reading"
-      aside={
-        <div>
-          <div className="journal-label">{t("blog.archives")}</div>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            {t("blog.all_posts")}
-          </p>
-        </div>
-      }
+    <BlogContentFrame
+      sidebarTitle={t("blog.archives")}
+      sidebarStats={[
+        { label: t("blog.all_posts"), value: allPosts.length },
+        { label: t("common.latest"), value: pageNumber },
+      ]}
     >
       <div className="space-y-8">
       {displayPosts.map((archive) => (
@@ -76,6 +68,6 @@ export default function Page({ pageNumber, posts: allPosts }: { pageNumber: numb
       ))}
       </div>
       <Pagination {...pagination} />
-    </PageShell>
+    </BlogContentFrame>
   );
 }

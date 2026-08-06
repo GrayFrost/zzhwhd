@@ -18,7 +18,7 @@ const navItems = [
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [hiddenForReading, setHiddenForReading] = useState(false);
   const usesReadingHeader =
     pathname === "/blog" ||
@@ -54,11 +54,16 @@ export function SiteHeader() {
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="group flex min-w-0 items-center gap-3">
             <span className="pixel-signature flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-foreground text-2xl text-background">
-              GF
+              <span
+                className={locale === "zh" ? "pixel-signature-cjk" : undefined}
+                lang={locale === "zh" ? "zh-CN" : "en"}
+              >
+                {t("common.site_initial")}
+              </span>
             </span>
             <span className="min-w-0">
               <span className="block truncate text-sm font-black uppercase tracking-[0.14em] text-foreground">
-                Gary Frost
+                {t("common.site_name")}
               </span>
               <span className="block truncate text-xs text-muted-foreground">
                 {t("common.site_tagline")}
