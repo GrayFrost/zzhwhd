@@ -18,7 +18,12 @@ export interface ThemeTokens {
 
 export type ThemePreviewToken = keyof Pick<
   ThemeTokens,
-  "background" | "foreground" | "card" | "muted" | "accent"
+  | "background"
+  | "foreground"
+  | "card"
+  | "muted"
+  | "accent"
+  | "accentForeground"
 >;
 
 export interface ThemePalette {
@@ -136,6 +141,33 @@ export const themePalettes = [
       accent: "#c3b3d4",
       accentForeground: "#2f2835",
       line: "rgba(218, 202, 221, 0.24)",
+    },
+  },
+  {
+    id: "midnight-plum",
+    labelKey: "theme.midnight_plum",
+    preview: ["card", "muted", "accent", "foreground", "accentForeground"],
+    light: {
+      background: "#fffaf7",
+      foreground: "#773344",
+      card: "#f5e9e2",
+      cardForeground: "#773344",
+      muted: "#e3b5a4",
+      mutedForeground: "#773344",
+      accent: "#d44d5c",
+      accentForeground: "#160029",
+      line: "rgba(119, 51, 68, 0.22)",
+    },
+    dark: {
+      background: "#160029",
+      foreground: "#f5e9e2",
+      card: "#2b0c35",
+      cardForeground: "#f5e9e2",
+      muted: "#773344",
+      mutedForeground: "#e3b5a4",
+      accent: "#d44d5c",
+      accentForeground: "#160029",
+      line: "rgba(227, 181, 164, 0.24)",
     },
   },
 ] as const satisfies readonly ThemePalette[];

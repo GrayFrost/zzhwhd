@@ -14,7 +14,7 @@ export function LifeJournal({ travelData }: { travelData: TravelData[] }) {
       title={t("life.title")}
       description={t("life.description")}
       meta={`${travelData.length}`}
-      maxWidth="full"
+      maxWidth="wide"
       aside={
         <div>
           <div className="journal-label">{t("life.visited")}</div>

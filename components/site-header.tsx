@@ -75,7 +75,7 @@ export function SiteHeader() {
             <SiteThemeToggle />
           </div>
         </div>
-        <nav className="scrollbar-hide flex gap-2 overflow-x-auto pb-1" aria-label={t("common.primary_navigation")}>
+        <nav className="focus-scroll-region scrollbar-hide flex gap-2 overflow-x-auto" aria-label={t("common.primary_navigation")}>
           {navItems.map((item) => {
             const Icon = item.icon;
             const active =

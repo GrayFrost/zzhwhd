@@ -57,8 +57,8 @@ export function PageShell({
         meta={_meta}
       />
       {aside ? (
-        <div className="grid gap-8 pt-8 lg:grid-cols-[180px_1fr] lg:gap-10">
-          <aside className="journal-card h-fit p-4 text-sm text-muted-foreground lg:sticky lg:top-24">
+        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-8 pt-8 lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-10">
+          <aside className="journal-card h-fit min-w-0 w-full p-4 text-sm text-muted-foreground lg:sticky lg:top-24">
             {aside}
           </aside>
           <div className="min-w-0">{children}</div>

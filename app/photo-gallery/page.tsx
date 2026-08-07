@@ -46,13 +46,15 @@ export default function Page() {
       description={t("gallery.description")}
       meta={String(currentYear)}
       aside={
-        <div>
+        <div className="min-w-0 max-w-full">
           <div className="journal-label">{t("gallery.year_index")}</div>
-          <div className="scrollbar-hide mt-4 flex gap-2 overflow-x-auto lg:flex-col">
+          <div className="focus-scroll-region scrollbar-hide mt-4 flex max-w-full gap-2 overflow-x-auto overscroll-x-contain lg:flex-col">
               {years.map((year) => (
                 <button
                   key={year}
+                  type="button"
                   onClick={() => setCurrentYear(year)}
+                  aria-pressed={currentYear === year}
                   className={twMerge(
                     "h-11 shrink-0 rounded-md border px-4 text-sm font-black transition-all duration-300",
                     currentYear === year

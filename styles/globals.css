@@ -54,6 +54,12 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .focus-scroll-region {
+    margin: -0.375rem;
+    padding: 0.375rem;
+    scroll-padding-inline: 0.375rem;
+  }
 }
 
 @layer base {

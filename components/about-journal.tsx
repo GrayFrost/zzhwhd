@@ -67,7 +67,7 @@ export function AboutJournal() {
       title={`${t("about.title")} / ${t("about.name")}`}
       description={t("about.description1")}
       meta="ZZH"
-      maxWidth="reading"
+      maxWidth="wide"
       aside={
         <div>
           <div className="journal-label">{t("about.connect_title")}</div>

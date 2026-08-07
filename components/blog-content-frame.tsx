@@ -21,7 +21,7 @@ export function BlogContentFrame({
 }: BlogContentFrameProps) {
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:py-10 lg:px-8">
-      <div className="grid gap-8 lg:grid-cols-[220px_minmax(0,820px)] lg:justify-center lg:gap-10">
+      <div className="grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10">
         <aside className="space-y-4 lg:sticky lg:top-24 lg:h-fit">
           <BlogSectionNav variant="sidebar" />
           <div className="journal-card p-4 text-sm text-muted-foreground">

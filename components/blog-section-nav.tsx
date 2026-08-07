@@ -34,7 +34,7 @@ export function BlogSectionNav({
         className={twMerge(
           "scrollbar-hide flex gap-2 overflow-x-auto",
           isSidebar
-            ? "flex-col"
+            ? "focus-scroll-region flex-col"
             : "mx-auto max-w-4xl px-4 py-3 sm:px-6"
         )}
         aria-label={t("blog.title")}
