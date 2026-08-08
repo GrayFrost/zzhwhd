@@ -71,6 +71,8 @@
     "sveaflet_description": "为 Svelte 开发者打造的轻量 Leaflet 地图组件库，提供声明式地图开发体验。",
     "manga_subtitle": "图片阅读器",
     "manga_description": "干净的漫画与图片阅读体验，支持多种格式与自定义布局，让阅读回到内容本身。",
+    "mini_program_subtitle": "微信图片工具箱",
+    "mini_program_description": "把压缩、格式转换、裁剪、水印、证件照与拼图等常用图片操作，收进一个轻量的小程序入口。",
     "relic_subtitle": "文物修复师",
     "relic_description": "在这款2D拼图游戏中，你要扮演一位文物修复师修复破碎的文物。"
   },

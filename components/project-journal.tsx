@@ -28,6 +28,16 @@ const projects = [
     tags: ["SwitfUI", "Macbook", "App"],
   },
   {
+    id: "image-any",
+    title: "图图高手",
+    subtitleKey: "project.mini_program_subtitle",
+    descriptionKey: "project.mini_program_description",
+    href: "/project/mini-program",
+    isExternal: false,
+    iconPath: "/images/icons/tutu-expert.png",
+    tags: ["Taro", "React", "Mini Program"],
+  },
+  {
     id: "relic-restorer",
     title: "Relic Restorer",
     subtitleKey: "project.relic_subtitle",

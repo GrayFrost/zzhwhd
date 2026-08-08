@@ -26,6 +26,8 @@ import {
   DevelopIcon,
   AIIcon,
   BookIcon,
+  YoutubeIcon,
+  MiniProgramIcon,
 } from "@/components/icons";
 
 export const tagConfigMap: Record<
@@ -58,4 +60,6 @@ export const tagConfigMap: Record<
   develop: DevelopIcon,
   ai: AIIcon,
   book: BookIcon,
+  youtube: YoutubeIcon,
+  小程序: MiniProgramIcon,
 };

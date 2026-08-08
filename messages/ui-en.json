@@ -71,6 +71,8 @@
     "sveaflet_description": "A lightweight Leaflet component library for Svelte developers, with a declarative map-building experience.",
     "manga_subtitle": "Image reader",
     "manga_description": "A clean manga and image reading experience with multiple formats and custom layouts, keeping the focus on reading.",
+    "mini_program_subtitle": "WeChat image toolkit",
+    "mini_program_description": "A lightweight mini program that brings compression, format conversion, cropping, watermarking, ID photos, and collages into one place.",
     "relic_subtitle": "Relic Restorer",
     "relic_description": "In this 2D puzzle game, you take on the role of a cultural relic restorer and restore fragmented cultural relics."
   },
