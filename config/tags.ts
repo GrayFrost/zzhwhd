@@ -17,6 +17,15 @@ import {
   AliCloudIcon,
   AsepriteIcon,
   LeafletIcon,
+  GodotIcon,
+  SteamIcon,
+  TravelIcon,
+  OthersIcon,
+  GameIcon,
+  OverseasIcon,
+  DevelopIcon,
+  AIIcon,
+  BookIcon,
 } from "@/components/icons";
 
 export const tagConfigMap: Record<
@@ -40,4 +49,13 @@ export const tagConfigMap: Record<
   阿里云: AliCloudIcon,
   像素: AsepriteIcon,
   leaflet: LeafletIcon,
+  godot: GodotIcon,
+  steam: SteamIcon,
+  travel: TravelIcon,
+  others: OthersIcon,
+  game: GameIcon,
+  overseas: OverseasIcon,
+  develop: DevelopIcon,
+  ai: AIIcon,
+  book: BookIcon,
 };
