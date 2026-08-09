@@ -3,4 +3,223 @@ title: 小程序开发总结
 date: '2026-08-06'
 tags: ['react', '小程序']
 category: 自由职业
+description: 第一款个人开发的小程序《图图高手》上线啦。
 ---
+
+## 前言
+前阵子我在捣鼓自己的这个个人网站时，遇到了一些图片相关的需求。起因是我准备完善自己的图库列表，所以从iphone上找图片，然后把图片传到这个项目，准备在图库中显示这些图片。
+
+结果意外发现，这些图片竟然无法显示，仔细一看，原来是HEIC的格式，这是苹果公司自己捣鼓出来的一种格式，然后我就让Codex帮我做了一款网页端运行的图片转换工具，就是简单的把HEIC转成JPG。
+
+接着我就想，我能不能做一款图片转换的小程序呢，于是开干。
+
+## 开始
+
+最开始肯定是先和Codex沟通自己的需求，我的需求就是想在小程序上实现图片格式转换的功能。很快，AI就帮我选定好了技术选型，使用的是Taro。
+
+我是第一次Taro，它使用的是React风格的api，我非常喜欢，写起来非常舒服。
+
+整个开发过程也相对轻松，让我印象最深的，就是关于云函数的调用，以及内容安全的检测了。
+
+### 环境区分
+关于我对这个项目环境的设定，主要在集中在一个文件里`cloud-env.ts`中。
+```typescript
+export const cloudEnvIds = {
+  dev: 'xxxx', // 开发环境的云环境id
+  prod: 'xxxx' // 线上环境的云环境id
+} as const
+```
+
+```typescript
+import type { UserConfigExport } from '@tarojs/cli'
+import { cloudEnvIds } from './cloud-env'
+
+const config: UserConfigExport = {
+  defineConstants: {
+    __APP_ENV__: JSON.stringify('prod'),
+    __CLOUD_ENV_ID__: JSON.stringify(cloudEnvIds.prod),
+    __SHOW_ENV_BADGE__: JSON.stringify(process.env.SHOW_ENV_BADGE === 'true')
+  },
+  mini: {},
+  h5: {}
+}
+
+export default config
+```
+在Taro中定义好了静态变量后，在代码逻辑中初始化时，初始化这个变量值：
+```typescript
+import type { PropsWithChildren } from 'react'
+import Taro from '@tarojs/taro'
+import './app.scss'
+
+let isCloudReady = false
+
+function App(props: PropsWithChildren) {
+  if (!isCloudReady && Taro.cloud) {
+    const cloudEnvId = __CLOUD_ENV_ID__.trim()
+    const cloudOptions = cloudEnvId ? { env: cloudEnvId, traceUser: true } : { traceUser: true }
+
+    Taro.cloud.init(cloudOptions)
+    isCloudReady = true
+  }
+
+  return props.children
+}
+
+export default App
+```
+通过把环境id初始化env中，这样就相当于我们绑定了对应的环境。
+
+![](/images/20260806miniProgram/1.png)
+
+我是把微信免费赠送6个月的那个环境当做开发环境，然后自己又买了一个一年的服务当做线上环境。
+
+### 云函数的使用
+
+云函数是啥？简单理解就是微信免费提供给我们一个服务器，然后在上面可以让我们创建一些相对功能没有那么复杂的函数。然后我们就可以在自己的代码中调用这些函数，也就是相当于调我们自己创建的api，省去了自己再去其他地方买服务的繁琐流程。
+
+![](/images/20260806miniProgram/2.png)
+
+
+通过微信开发者工具上的云开发按钮，唤起这个界面，图中展示的是我的开发环境，可以看到已经有了两个函数。分别是上传图片和内容安全校验两个方法。
+在这个界面上，我们只需要创建好函数名，分配好给这个函数的内存。
+
+那有人可能就会有疑问了，我只是创建了两个方法名，微信就知道我要什么功能了？那当然不知道，具体的功能，需要我们自己在代码里实现。那可能又有人会问了，刚才你还说要在它提供的环境里实现，怎么又变成在项目里实现了。
+
+别急，我们先把项目里必要的环境搭建起来。
+
+首先我们找到项目根目录下的`project.config.json`，在里面添加一行配置：
+```json
+{
+  "cloudfunctionRoot": "cloudfunctions/"
+}
+```
+这行代码即指明我们项目里哪个目录是给云函数使用的。这里我是cloudfunctions，所以需要在项目根目录下创建一个子目录cloudfunctions。
+
+之后我们针对每一个函数，再在cloudfunctions目录下创建一个和函数名同名的目录，如图所示：
+![](/images/20260806miniProgram/3.png)
+
+然后在目录下，我们创建一个index.js，之后在里面写nodejs代码即可。是的，是我们熟悉的javascript代码。
+
+在我们写好了代码之后，我们在对应函数目录上点击右键，可以看到有上传代码的选项。
+
+![](/images/20260806miniProgram/4.png)
+
+这个时候先别着急上传，我们需要看一下cloudfunctions目录是不是已经连接到对应云环境了。
+
+![](/images/20260806miniProgram/5.png)
+
+等连接到对应云环境后，再上传我们的代码。等上传部署完，我们就可以接着下一步——调用了。
+
+我就贴个省略的代码：
+```typescript
+const CLOUD_FUNCTION_NAME = 'convertImage'
+
+const called = await Taro.cloud.callFunction({
+  name: CLOUD_FUNCTION_NAME,
+  data: {
+    feature: request.feature,
+    fileID: sourceFileID,
+    sourceFormat: request.source.format,
+    outputFormat: request.outputFormat,
+    quality: request.quality || 100,
+    transparentFill: '#ffffff'
+  }
+})
+```
+核心就是使用Taro提供的api`Taro.cloud.callFunction`来使用我们定义的云函数。
+
+至于调试，可以直接微信开发者工具云开发里的日志功能。我在调试云开发时，最常遇见的问题就是环境连接错，和代码缓存问题。
+
+### 图片转换
+目前我的这个小程序支持以下格式的转换：jpg、png、webp、avif、gif、tiff、heif。
+
+转换的核心功能，是使用了[sharp](https://github.com/lovell/sharp)这个图像处理库来实现的。也正是因为使用了这个库，也带来了一些限制。像我文章开头提到的heic，在小程序的云node环境中，使用sharp来做根本做不了。我本来还思考要实现live图的生成、pdf转图片等功能，查阅了资料以后，也发现一堆限制。
+
+### 上线流程
+做完了基础的功能后，就可以把项目上线了。上线流程主要有以下几步：
+- 注册微信小程序账号
+- 完善小程序信息
+- 开发测试
+- 上传代码与提交审核
+- 备案
+- 迭代
+
+因为开发与测试上面已经介绍过了，不再赘述，只讲剩余的其他部分。
+
+#### 注册微信小程序账号
+有人可能又会有疑问，难道这不应该是最先做的吗？其实不是的！微信会给我们提供一个测试号，我们在开发阶段时使用这个测试号来登录微信开发者工具来进行开发，等后期需要真实测试时，再去把这个真实要上线的小程序给注册了。
+注册很简单，直接与微信公众号平台注册即可。
+
+#### 完善小程序信息
+点击最左下角的头像，找到账号设置，跳到如下界面后，一个个点击修改信息。
+
+#### 上传代码与提交审核
+在微信开发者工具点击上传按钮，填写要上传的版本，等待上传即可。在上传之前，需要我们仔细检查是不是上传了正确的代码。最好自己列一个上传校验清单，把列出来的每一项都检查一遍。
+正常上传后，我们可以在这个页面看到我们提交的版本，我们可以把最新上传的版本选为体验版。选为体验版后，我们可以在代码还没审核通过时，直接先体验一下最新的功能。当然我们一般提交完最新的代码后，也是需要立即点击提交审核。审核通过即上线成功，我们的小程序也就上线啦。
+
+#### 备案
+小程序如果不备案是无法上架的，我们直接按我们项目的实际信息填写验证就完事了。我记得这个认证写完后，第二天会有人打电话给你确认，而且还要交30块钱的认证费。认证完就去填写备案信息。
+
+#### 迭代
+就是正常的开发迭代，注意版本号的更新。
+
+### 内容安全校验
+在代码审核时，直接通知我要接入内容安全校验。
+
+我一想也是，毕竟要是用户随便上传一些涩图，那岂不是无法无天了。虽然我不会对这些图片做任何存储。于是赶紧看一些要怎么接入安全校验。我直接把微信提供的页面，交给ai帮我处理。
+
+我这里直接贴一下部分代码片段：
+```typescript
+async function checkText(event) {
+  const content = String(event.content || '').trim()
+
+  const result = await cloud.openapi.security.msgSecCheck({
+    content,
+    version: 2,
+    scene: normalizeScene(event.scene),
+    openid: getOpenId(event)
+  })
+
+  return fromSuggestResult(result, UNSAFE_MESSAGE)
+}
+```
+
+```typescript
+async function checkImage(event) {
+  const fileID = String(event.fileID || '').trim()
+
+  const downloaded = await cloud.downloadFile({ fileID })
+  const buffer = downloaded.fileContent
+
+  const contentType = normalizeImageContentType(event.contentType || event.format || fileID)
+
+  try {
+    const syncResult = await cloud.openapi.security.imgSecCheck({
+      media: {
+        contentType,
+        value: buffer
+      }
+    })
+
+    return fromImageSyncResult(syncResult)
+  } catch (error) {
+  }
+}
+```
+当然我没有展示代码中那些关于边界值的校验，通过两个代码片段，我们很清晰能看出，主要是调用`cloud.openapi.security.msgSecCheck`和`cloud.openapi.security.imgSecCheck`来进行安全校验的。这两个api都是`wx-server-sdk`提供的api。
+
+接入完后，我本地准备了一些涩图和邪教信息图，逐个做了校验。
+
+顺带一提，我以为接入完这个api后，就能正常上线了，事实也是给我上线了。不过在接下来的一两天，由于我盯公众号后台盯得紧，突然有一天我看到一个红点。点进去一看，告诉我要把隐私信息也给填了，不填就会给我下架。
+按照要求，我把这款小程序的隐私信息一一完善后，终于能安心迭代代码了。
+
+
+## 问题
+
+### 内容安全校验超出尺寸限制
+
+### 云函数sharp依赖报错
+
+## 总结
+微信开发者工具的使用体验不是很好，经常遇到页面不热更新，需要重启项目的问题。

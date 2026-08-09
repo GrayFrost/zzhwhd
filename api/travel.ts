@@ -3,7 +3,7 @@ import type { StaticImageData } from "next/image";
 
 import zhuhaiImage from "../public/images/travel/zhuhai/1.jpg";
 import changshaImage from "../public/images/travel/changsha/1.jpg";
-import chongqingImage from '../public/images/travel/chongqing/1.jpg';
+import chongqingImage from '../public/images/travel/chongqing/06.png';
 export interface TravelData {
   id: string;
   lngLat: [number, number];
@@ -29,10 +29,10 @@ const travelData: TravelData[] = [
     id: "chongqing",
     name: "重庆",
     lngLat: [106.54, 29.59],
-    image: "/images/travel/chongqing/1.jpg",
+    image: "/images/travel/chongqing/06.png",
     imageStatic: chongqingImage,
     postUrl: "/travel-chongqing",
-    time: dayjs("2024-08-02").toDate(),
+    time: dayjs("2021-04-10").toDate(),
   },
   {
     id: "chengdu",
