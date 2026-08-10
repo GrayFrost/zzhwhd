@@ -5,6 +5,7 @@ import zhuhaiImage from "../public/images/travel/zhuhai/1.jpg";
 import changshaImage from "../public/images/travel/changsha/1.jpg";
 import chongqingImage from '../public/images/travel/chongqing/06.png';
 import chengduImage from '../public/images/travel/chengdu/05.png';
+import wuhanImage from '../public/images/travel/wuhan/01.png';
 export interface TravelData {
   id: string;
   lngLat: [number, number];
@@ -43,6 +44,15 @@ const travelData: TravelData[] = [
     imageStatic: chengduImage,
     postUrl: "/travel-chengdu",
     time: dayjs("2024-04-06").toDate(),
+  },
+  {
+    id: "wuhan",
+    name: "武汉",
+    lngLat: [114.31, 30.52],
+    image: "/images/travel/wuhan/01.png",
+    imageStatic: wuhanImage,
+    postUrl: "/travel-wuhan",
+    time: dayjs("2021-05-01").toDate(),
   },
   {
     id: "fuzhou",
@@ -87,15 +97,6 @@ const travelData: TravelData[] = [
     image: "/images/travel/zhuhai/1.jpg",
     imageStatic: zhuhaiImage,
     postUrl: "/travel-guizhou",
-    time: dayjs("2024-08-02").toDate(),
-  },
-  {
-    id: "wuhan",
-    name: "武汉",
-    lngLat: [114.31, 30.52],
-    image: "/images/travel/zhuhai/1.jpg",
-    imageStatic: zhuhaiImage,
-    postUrl: "/travel-wuhan",
     time: dayjs("2024-08-02").toDate(),
   },
   {
