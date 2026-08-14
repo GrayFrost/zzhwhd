@@ -6,6 +6,9 @@ import changshaImage from "../public/images/travel/changsha/1.jpg";
 import chongqingImage from '../public/images/travel/chongqing/06.png';
 import chengduImage from '../public/images/travel/chengdu/05.png';
 import wuhanImage from '../public/images/travel/wuhan/01.png';
+import dongguanImage from '../public/images/travel/dongguan/03.png';
+import guangzhouImage from '../public/images/travel/guangzhou/01.png';
+
 export interface TravelData {
   id: string;
   lngLat: [number, number];
@@ -55,6 +58,24 @@ const travelData: TravelData[] = [
     time: dayjs("2021-05-01").toDate(),
   },
   {
+    id: "guangzhou",
+    name: "广州",
+    lngLat: [113.17, 23.08],
+    image: "/images/travel/guangzhou/01.png",
+    imageStatic: guangzhouImage,
+    postUrl: "/travel-guangzhou",
+    time: dayjs("2023-01-14").toDate(),
+  },
+  {
+    id: "dongguan",
+    name: "东莞",
+    lngLat: [113.75, 23.16],
+    image: "/images/travel/dongguan/03.png",
+    imageStatic: dongguanImage,
+    postUrl: "/travel-dongguan",
+    time: dayjs("2023-02-18").toDate(),
+  },
+  {
     id: "fuzhou",
     name: "福州",
     lngLat: [119.3, 26.08],
@@ -79,15 +100,6 @@ const travelData: TravelData[] = [
     image: "/images/travel/changsha/1.jpg",
     imageStatic: changshaImage,
     postUrl: "/travel-changsha",
-    time: dayjs("2024-08-02").toDate(),
-  },
-  {
-    id: "dongguan",
-    name: "东莞",
-    lngLat: [113.75, 23.16],
-    image: "/images/travel/zhuhai/1.jpg",
-    imageStatic: zhuhaiImage,
-    postUrl: "/travel-dongguan",
     time: dayjs("2024-08-02").toDate(),
   },
   {
