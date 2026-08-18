@@ -19,6 +19,7 @@ import languageLatex from "highlight.js/lib/languages/latex";
 import languageYaml from "highlight.js/lib/languages/yaml";
 import languageDockerfile from "highlight.js/lib/languages/dockerfile";
 import languageSwift from "highlight.js/lib/languages/swift";
+import languagePowerShell from "highlight.js/lib/languages/powershell";
 
 const components = {
   Image,
@@ -95,6 +96,7 @@ export default function Mdx({ source }: { source: string }) {
                   yaml: languageYaml,
                   dockerfile: languageDockerfile,
                   swift: languageSwift,
+                  powershell: languagePowerShell,
                 },
               },
             ],

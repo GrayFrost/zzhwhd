@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
@@ -69,11 +70,24 @@ export function AboutJournal() {
       meta="ZZH"
       maxWidth="wide"
       aside={
-        <div>
-          <div className="journal-label">{t("about.connect_title")}</div>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            {t("about.index_note")}
-          </p>
+        <div className="grid gap-4 sm:grid-cols-[9rem_minmax(0,1fr)] sm:items-center lg:block">
+          <figure className="mx-auto w-full max-w-56 overflow-hidden rounded-md border border-line bg-background sm:mx-0 sm:max-w-none">
+            <Image
+              src="/gary-frost-icon-2.png"
+              alt="Gary Frost"
+              width={1254}
+              height={1254}
+              priority
+              sizes="(min-width: 1024px) 148px, (min-width: 640px) 144px, 224px"
+              className="block h-auto w-full object-cover"
+            />
+          </figure>
+          <div className="border-t border-line pt-4 sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0 lg:mt-4 lg:border-l-0 lg:border-t lg:pl-0 lg:pt-4">
+            <div className="journal-label">{t("about.connect_title")}</div>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              {t("about.index_note")}
+            </p>
+          </div>
         </div>
       }
     >

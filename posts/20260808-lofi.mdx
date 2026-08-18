@@ -17,13 +17,49 @@ description: Luna Afterglow，欢迎关注。
 
 ## 创意
 
+通常我是在Pinterest上找创意图。我在Pinterest上发现了一张不错的图，然后让AI帮我生成一张人物IP图。
+
+![](/images/20260808lofi/02.png)
+
 ## 图片
 
+确定好整个频道的人物形象后，我会找我需要的场景图，比如黄昏、海滩、魔法少女等等。找到场景图后，把场景图和我上面的人物IP图一起提供给即梦或者ChatGPT，让AI把人物IP图里的人物替换进场景里面，于是就能得到一张我当前人物IP的场景图。
+
+![](/images/20260808lofi/03.png)
+
 ## 视频
+
+视频主要是由即梦完成的，我因为是想弄一个一个钟以上的视频，因为积分、时间、精力等问题，不可能制作多组不同的镜头，所以我的想法是，只要生成一到两个首尾帧一致的短视频，然后一直无缝拼接就行了。
+
+刚好即梦上有首尾帧视频生成的功能，这简直是天然满足我的需求。为了不排队，我甚至直接开通了会员。
+
+![](/images/20260808lofi/04.png)
+
+首尾帧的视频生成提示词是让gpt生成的，主要是以下这些提示词：
+```
+固定机位，静态构图，镜头完全锁定。严格以输入图片为唯一视觉基准，整个视频始终保持人物身份、面部五官、发型、服装、身体比例、初始姿势、背景布局、物体数量与位置、透视关系、色彩、光照和画风一致。
+
+只允许以下局部运动：[填写动作，例如头发和窗帘随微风轻轻摆动，人物只有极轻微的自然呼吸]。动作幅度很小、速度缓慢、连续平滑，并构成完整的往返周期。所有运动从输入图片的初始状态开始，在视频结束前平滑返回，尾帧精确恢复到初始位置、初始姿势、初始表情和初始光影。
+
+首帧与尾帧必须保持相同的画面构图、镜头位置、人物姿势、物体位置、轮廓、光影和细节，形成自然、稳定、可连续播放的无缝循环。除指定的局部周期运动外，画面中的所有内容完全静止，不发生任何场景演化。
+```
+
+关于负面限制的提示词如下：
+```
+禁止运镜、推镜、拉镜、摇镜、移镜、缩放、旋转、裁切变化、镜头抖动、焦距变化、透视变化和景深变化。
+
+禁止人物位移、身份变化、脸部变化、表情漂移、发型变化、服装变化、身体比例变化、姿势漂移、肢体变形、多余手指和错误肢体。
+
+禁止背景漂移、物体移动、物体增减、纹理闪烁、线条抖动、色彩漂移、亮度变化、阴影移动、天气变化和时间流逝。
+
+禁止新增人物、动物、文字、标志、水印、切镜和转场；禁止单向且无法回到初始状态的动作；禁止尾帧偏离首帧。
+```
 
 ## 音乐
 
 说到AI音乐，SUNO是一个绕不开的话题。没错，音乐都是使用SUNO来完成的，我给自己定的要求是每个视频尽可能在15首歌以上，因为按一首lofi音乐一两分钟来算，正常全部听完都需要三十分钟以上。三十分钟的时间，足以让听众不觉得无聊。
+
+![](/images/20260808lofi/05.png)
 
 可以看到，我这里有好多章节，每个都是对应了一个lofi视频里所使用到的音乐源。
 
@@ -35,19 +71,123 @@ description: Luna Afterglow，欢迎关注。
 
 ## 剪辑
 
+剪辑使用的是剪映，有手就行。
+
 ## 项目
+
+因为我不是只做一首歌一个视频，我是准备做长期项目，日后会有多个视频，所以我在做视频的初期，就已经想好了怎么管理视频。难的点在于怎么管理一大堆材料。
+
+经过上面的流程，会发现有一堆媒体资源：图片、视频、音乐等。如果不及早就开始资源管理，日后再想管理可得花不少功夫。
+
+经过和AI的沟通，已经准备好了如下的项目划分：
+
+![](/images/20260808lofi/06.png)
+
+- reference：参考来源
+- background：场景图
+- video：首尾帧视频
+- music：lofi音乐
+- edit：编辑过的视频
+- export：导出的资源
 
 ## 发布
 
 发布流程比较简单。唯一值得提的点是视频分段的功能。
 
-我注意到有些lofi频道，他们发的视频能够根据音乐来分段，网上搜了一番，了解到只需要在填写发布信息时，勾选上自动划分章节
+![](/images/20260808lofi/07.png)
+
+我注意到有些lofi频道，他们发的视频能够根据音乐来分段，网上搜了一番，了解到只需要在填写发布信息时，勾选上自动划分章节。
+
+![](/images/20260808lofi/08.png)
 
 然后在填写详细视频信息时，按时间节点来一一对应即可。这里需要注意的是，一定从00:00开始。
 
+![](/images/20260808lofi/09.png)
+
+等发布上线后，点击评论里的时间节点，便可自动跳转到对应章节。
+
+![](/images/20260808lofi/10.png)
+
 ### 时间节点
 
-因为我每个视频有十几首歌，我总不可能
+因为我每个视频有十几首歌，我总不可能一首一首去算对应的时间节点吧。于是我想，有没有脚本能实现这个功能呢？
+
+一问AI，好家伙，完全能够实现。
+
+```powershell
+param(
+    [Parameter(Mandatory = $true)]
+    [string]$MusicDirectory,
+
+    [string]$OutputPath,
+
+    [double]$StartOffsetSeconds = 0
+)
+
+$ErrorActionPreference = 'Stop'
+
+$musicPath = (Resolve-Path -LiteralPath $MusicDirectory).Path
+$audioExtensions = @('.mp3', '.wav', '.flac', '.m4a', '.aac', '.ogg', '.opus')
+$tracks = Get-ChildItem -LiteralPath $musicPath -File |
+    Where-Object { $audioExtensions -contains $_.Extension.ToLowerInvariant() } |
+    Sort-Object Name
+
+if ($tracks.Count -eq 0) {
+    throw "No supported audio files found in: $musicPath"
+}
+
+function Format-ChapterTime {
+    param([double]$Seconds)
+
+    $wholeSeconds = [Math]::Round($Seconds, 0, [MidpointRounding]::AwayFromZero)
+    $hours = [Math]::Floor($wholeSeconds / 3600)
+    $minutes = [Math]::Floor(($wholeSeconds % 3600) / 60)
+    $secondsPart = $wholeSeconds % 60
+
+    if ($hours -gt 0) {
+        return '{0}:{1:00}:{2:00}' -f $hours, $minutes, $secondsPart
+    }
+
+    return '{0}:{1:00}' -f $minutes, $secondsPart
+}
+
+$player = New-Object -ComObject WMPlayer.OCX
+$elapsed = $StartOffsetSeconds
+$chapters = foreach ($track in $tracks) {
+    $media = $player.newMedia($track.FullName)
+    $duration = [double]$media.duration
+    if ($duration -le 0) {
+        throw "Could not read audio duration: $($track.FullName)"
+    }
+
+    $title = [IO.Path]::GetFileNameWithoutExtension($track.Name) -replace '^\d+[\s._-]*', ''
+    '{0} {1}' -f (Format-ChapterTime $elapsed), $title
+    $elapsed += $duration
+}
+
+$chapters += '{0} Loop Play' -f (Format-ChapterTime $elapsed)
+
+$result = $chapters -join [Environment]::NewLine
+
+if ($OutputPath) {
+    $parent = Split-Path -Parent $OutputPath
+    if ($parent -and -not (Test-Path -LiteralPath $parent)) {
+        New-Item -ItemType Directory -Path $parent | Out-Null
+    }
+    Set-Content -LiteralPath $OutputPath -Value $result -Encoding utf8
+}
+
+$result
+
+```
+
+于是在每次生成好音乐保存到我对应的音乐资源目录之后，我再执行一下脚本，就能够得到音乐章节的信息。
+
+```powershell
+.\tools\generate-music-chapters.ps1 `
+  -MusicDirectory .\projects\2026_06_21_dusk\04_music\selected `
+  -OutputPath .\projects\2026_06_21_dusk\06_export\chapters.txt
+```
 
 ## 结尾
 目前粉丝数还不多，我没精力，也没金钱去运营和投流，顺其自然吧。
