@@ -136,7 +136,7 @@ const travelData: TravelData[] = [
     image: "/images/travel/zhuhai/1.jpg",
     imageStatic: zhuhaiImage,
     postUrl: "/travel-zhuhai",
-    time: dayjs("2024-08-02").toDate(),
+    time: dayjs("2023-06-22").toDate(),
   },
 ];
 
