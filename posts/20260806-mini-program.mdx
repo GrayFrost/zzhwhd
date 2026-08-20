@@ -227,7 +227,7 @@ async function checkImage(event) {
 按照要求，我把这款小程序的隐私信息一一完善后，终于能安心迭代代码了。
 
 
-## 问题
+## 解决问题
 
 ### 取名
 
@@ -242,7 +242,829 @@ async function checkImage(event) {
 
 ### 内容安全校验超出尺寸限制
 
+#### 问题
+在小程序生成图片时弹出失败提示：
+
+```text
+errCode: 40006
+errMsg: openapi.security.imgSecCheck:fail invalid media size
+```
+
+这个错误出现在图片生成、压缩、转换等功能真正执行前，因为这些入口会先调用 `assertImageSafety(sourceImage)` 做图片内容安全校验。
+
+当前图片安全校验链路如下：
+
+1. 页面调用 `assertImageSafety(sourceImage)`。
+2. `src/services/contentSafetyService.ts` 将图片上传到云存储。
+3. 云函数 `cloudfunctions/contentSecCheck/index.js` 下载该图片。
+4. 云函数调用微信 `cloud.openapi.security.imgSecCheck`。
+5. 微信接口发现传入媒体不符合限制，返回 `40006 invalid media size`。
+
+原因判断如下：  
+原实现会把用户选择的原图直接上传给 `imgSecCheck`：
+
+```ts
+await Taro.cloud.uploadFile({
+  cloudPath: `image-any/sec-check/...`,
+  filePath: image.path
+})
+```
+
+如果原图文件体积过大、像素尺寸过大，或媒体参数不符合微信接口的同步图片安全检测限制，微信接口会拒绝请求。由于错误直接透传到前端，用户看到的是底层 OpenAPI 错误。
+
+这里要注意：内容安全检测不需要使用最终输出质量的原图。只要用于检测的图片能保留主要视觉内容即可，实际生成/压缩/转换仍然应该继续使用原图。
+
+#### 解决
+
+解决思路如下：  
+安全检测前生成一张临时检测图，避免把超大原图直接传给 `imgSecCheck`。
+
+方案要点：
+
+1. 在客户端安全服务中判断原图是否过大。
+2. 对过大的图片使用 `Taro.compressImage` 生成临时压缩图。
+3. 逐步尝试不同最大边长和质量，优先压到安全检测上传阈值以内。
+4. 只把临时图上传给 `contentSecCheck`。
+5. 后续图片处理流程仍然使用原始 `sourceImage.path`，不改变用户最终输出效果。
+6. 云函数兜底识别 `40006 invalid media size`，返回用户可读的中文提示。
+
+已实施改动有：
+
+首先是前端安全校验：
+
+文件：`src/services/contentSafetyService.ts`
+
+新增逻辑：
+
+- 图片超过安全检测阈值时，先生成临时压缩图。
+- 临时图使用多组最大边长和质量参数尝试压缩。
+- 上传给云函数的 `format` 使用临时图检查后的格式。
+- 原图路径不被替换，实际业务处理不受影响。
+
+关键策略：
+
+```ts
+const SEC_CHECK_MAX_UPLOAD_SIZE = 800 * 1024
+const SEC_CHECK_MAX_EDGES = [750, 640, 512, 360]
+const SEC_CHECK_QUALITY_STEPS = [80, 60, 40, 25]
+```
+
+其次是云函数错误兜底：
+
+文件：`cloudfunctions/contentSecCheck/index.js`
+
+新增 `40006 invalid media size` 识别：
+
+```js
+function isInvalidMediaSizeError(error) {
+  const message = String(error?.errmsg || error?.errMsg || error?.message || '').toLowerCase()
+  return getErrCode(error) === 40006 && message.includes('invalid media size')
+}
+```
+
+命中后返回：
+
+```text
+图片过大或尺寸不符合内容安全接口限制，请先压缩图片后再试。
+```
+
+#### 效果
+
+对于常见的大图，内容安全校验会改用较小的临时图，从而避开 `imgSecCheck` 的媒体大小限制。用户最终生成的图片仍然基于原图处理，不会因为安全检测临时图而降低输出质量。
+
+如果临时压缩仍然失败，用户会看到明确的中文提示，而不是微信 OpenAPI 的底层错误。
+
+### sharp依赖加载失败
+
+#### 问题
+排查云函数在真机调试中出现 `sharp` 依赖加载失败。
+
+阶段一：真机调试提示 sharp 依赖加载失败
+
+最初真机调试时报错：
+
+```text
+云函数 sharp 依赖加载失败，请在云函数目录安装依赖后重新上传部署。
+```
+
+这个提示过于笼统，无法判断是以下哪一种问题：
+
+- 云函数没有重新部署。
+- 云端依赖没有安装成功。
+- 本地 Windows 依赖被上传到了 Linux 云函数。
+- Node.js 运行时和 `sharp` 版本不兼容。
+- 调用到的是本地云函数而不是云端云函数。
+
+处理方式：
+
+1. 在小程序页面增加 `DEV/PRD` 环境悬浮标识，确认前端包当前连接哪个云环境。
+2. 在云函数 `getSharp()` 失败时输出运行时信息：
+
+```text
+node=<version>; platform=<platform>; arch=<arch>
+```
+
+后续所有判断都以这个运行时信息为准。
+
+阶段二：确认 Node 16 与 sharp 0.33 不兼容
+
+日志曾出现：
+
+```text
+node=v16.13.1; platform=linux; arch=x64
+Please upgrade Node.js: Found 16.13.1 Requires ^18.17.0 || ^20.3.0 || >=21.0.0
+```
+
+结论：
+
+- 云端函数确实在 Linux 上运行。
+- 当时云函数运行环境是 Node.js 16.13.1。
+- `sharp@0.33.x` 不支持 Node.js 16，需要 Node.js 18.17+ 或 Node.js 20.3+。
+
+阶段性处理：
+
+- 曾尝试把 `sharp` 降到 `0.32.6`，因为 `sharp@0.32.x` 支持 Node.js 16。
+- 但后续发现云函数环境可以升级到 Node.js 20，因此最终方案不再停留在 `0.32.6`。
+
+最终结论：
+
+```text
+Node.js 20.19 + sharp 0.33.5 是更合适的组合。
+```
+
+阶段三：云端安装依赖缺少 Linux 原生包
+
+升级到 Node.js 20 后，日志变成：
+
+```text
+node=v20.19.3; platform=linux; arch=x64
+Cannot find module '../build/Release/sharp-linux-x64.node'
+```
+
+结论：
+
+- Node 版本已经正确。
+- 云函数已经在 Linux 云端运行。
+- 但 `sharp` 的 Linux x64 原生二进制没有安装进去。
+
+处理方式：
+
+1. 将云函数依赖固定为：
+
+```json
+"sharp": "0.33.5"
+```
+
+2. 在 `.npmrc` 中增加：
+
+```ini
+ignore-scripts=false
+include=optional
+```
+
+3. 重新选择 `上传并部署：云端安装依赖`。
+
+阶段四：optional dependencies 安装不完整
+
+后续日志又变成：
+
+```text
+Could not load the "sharp" module using the linux-x64 runtime
+ERR_DLOPEN_FAILED: libvips-cpp.so.42: cannot open shared object file
+```
+
+结论：
+
+- `@img/sharp-linux-x64` 已经出现了。
+- 但 `@img/sharp-libvips-linux-x64` 没有完整安装。
+- 微信云端安装依赖对 `sharp@0.33.x` 的 optional dependencies 处理不稳定。
+
+尝试过把 Linux 专用包放进 `dependencies`：
+
+```json
+"@img/sharp-linux-x64": "0.33.5",
+"@img/sharp-libvips-linux-x64": "1.0.4"
+```
+
+但这会导致 Windows 本地或微信开发者工具上传前校验失败，因为这两个包声明只支持 Linux x64。
+
+最终保留方式：
+
+```json
+"dependencies": {
+  "sharp": "0.33.5",
+  "wx-server-sdk": "^3.0.1"
+},
+"optionalDependencies": {
+  "@img/sharp-libvips-linux-x64": "1.0.4",
+  "@img/sharp-linux-x64": "0.33.5"
+}
+```
+
+阶段五：识别本地云函数误调用
+
+有一次真机调试弹窗显示：
+
+```text
+node=v16.13.1; platform=win32; arch=x64
+```
+
+这是关键判断点：
+
+```text
+platform=win32 一定不是云端云函数。
+```
+
+云端微信云函数应该是：
+
+```text
+platform=linux
+```
+
+结论：
+
+- 当时调用到了微信开发者工具的本地云函数运行环境。
+- 不是云端 Node.js 20 设置失效。
+- 也不是云环境 ID 配错。
+
+处理方式：
+
+1. 关闭云函数本地调试、本地运行、使用本地函数等选项。
+2. 确认开发者工具左侧不是 `本地版`。
+3. 用 `预览` 或重新打开 `真机调试` 验证。
+4. 高级日志里必须出现：
+
+```text
+node=v20.19.3; platform=linux; arch=x64
+```
+
+阶段六：改为上传所有文件
+
+由于云端安装依赖多次未完整安装 `sharp` optional dependencies，最终采用备用方案：
+
+1. 在本地准备 Linux x64 版本的 `sharp` 原生依赖。
+2. 确认存在：
+
+```text
+cloudfunctions/convertImage/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64.node
+cloudfunctions/convertImage/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.42
+```
+
+3. 在微信开发者工具中选择：
+
+```text
+上传并部署：所有文件
+```
+
+注意：这个阶段不要再选择 `上传并部署：云端安装依赖`，否则云端可能重新安装出不完整依赖。
+
+阶段七：函数超时
+
+依赖问题解决后，出现过：
+
+```text
+task timed out after 5 seconds
+```
+
+结论：
+
+- 这不是 `sharp` 加载失败。
+- 云函数配置中的超时时间已经生效。
+- 只是 5 秒仍然太短。
+
+`convertImage` 的完整流程包括：
+
+1. 下载云存储图片。
+2. 初始化 `sharp`。
+3. 读取原图元数据。
+4. 转换格式。
+5. 再次读取输出元数据。
+6. 上传输出文件到云存储。
+
+这些步骤对 3 秒或 5 秒都不友好，尤其是 TIFF、AVIF、GIF、WebP 等格式。
+
+最终建议配置：
+
+```text
+运行环境：Node.js 20.19
+运行内存：512MB 或 1024MB
+超时时间：30 秒或 60 秒
+```
+
+排障阶段建议直接使用：
+
+```text
+1024MB + 60 秒
+```
+
+确认功能稳定后，再根据实际耗时降低配置。
+
+常见日志判断表：  
+
+| 日志特征 | 含义 | 处理方式 |
+| --- | --- | --- |
+| `platform=win32` | 调用了本地云函数 | 关闭本地云函数调试，改调云端 |
+| `platform=linux` | 调用了云端云函数 | 继续看 Node 版本和 sharp 错误 |
+| `node=v16.13.1` + `Requires ^18.17.0` | Node 版本不支持 `sharp@0.33.x` | 升级云函数到 Node.js 20 |
+| `Cannot find module '../build/Release/sharp-linux-x64.node'` | 缺 Linux sharp 原生包 | 检查依赖安装或上传 Linux 依赖 |
+| `libvips-cpp.so.42: cannot open shared object file` | 缺 libvips Linux 运行库 | 上传 `@img/sharp-libvips-linux-x64` |
+| `task timed out after 5 seconds` | 依赖已进入执行阶段，但函数超时 | 增加超时时间和内存 |
+
+#### 解决
+最终结论是，这个问题不是单一原因，而是多个阶段连续暴露：
+
+1. 需要明确前端 dev/prd 环境和云函数部署环境。
+2. `sharp@0.33.5` 应配合 Node.js 20 使用。
+3. 微信云端安装依赖对 `sharp` 的 optional dependencies 不稳定。
+4. 如果日志显示 `platform=win32`，就是本地云函数，不是云端。
+5. 对 `sharp` 图片转换，云函数不能只配 3 秒或 5 秒。
+
+当前稳定方案：
+
+```text
+Node.js 20.19
+sharp 0.33.5
+上传所有文件，包含 Linux x64 sharp 原生依赖
+内存 512MB/1024MB
+超时 30s/60s
+```
+
 ### 云函数sharp依赖报错
+#### 问题
+依赖安装成功了，但调用云端sharp进行图片处理时，报以下错误：
+```text
+Could not load the "sharp" module using the linux-x64 runtime
+Cannot find module '../build/Release/sharp-linux-x64.node'
+libvips-cpp.so.42: cannot open shared object file
+```
+
+#### 解决 
+
+1. 首先是检查环境
+
+确认云函数运行环境为：
+```text
+node=v20.19.3; platform=linux; arch=x64
+```
+
+但仍然加载 `sharp` 失败时，说明云端依赖安装没有把 `sharp` 的 Linux 原生包装完整。
+
+2. 检查云函数依赖设置
+
+`cloudfunctions/convertImage/package.json` 中应保持：
+
+```json
+{
+  "dependencies": {
+    "sharp": "0.33.5",
+    "wx-server-sdk": "^3.0.1"
+  },
+  "optionalDependencies": {
+    "@img/sharp-libvips-linux-x64": "1.0.4",
+    "@img/sharp-linux-x64": "0.33.5"
+  }
+}
+```
+
+`.npmrc` 中应保持：
+
+```ini
+ignore-scripts=false
+include=optional
+```
+
+不要把 `@img/sharp-linux-x64` 和 `@img/sharp-libvips-linux-x64` 放进普通 `dependencies`。它们是 Linux 专用包，放进普通依赖后，Windows 本地和微信开发者工具可能因为平台不匹配而更新失败。
+
+3. 检查还存不存在旧的依赖
+
+在项目根目录执行：
+
+```powershell
+Get-ChildItem -Force cloudfunctions\convertImage
+```
+
+如果已经存在旧的 `node_modules`，并且里面是 Windows 版 `sharp-win32-x64.node`，不要直接上传。
+
+关键判断：
+
+```powershell
+Get-ChildItem -Recurse -Force cloudfunctions\convertImage\node_modules\sharp\build\Release -ErrorAction SilentlyContinue
+```
+
+如果看到：
+
+```text
+sharp-win32-x64.node
+```
+
+这不是云端要用的依赖。
+
+我在运行时看到了这个旧依赖，之后就删了。
+
+4. 安装完整依赖
+
+在项目根目录执行以下 PowerShell 脚本。它会先安装基础依赖，再下载两个 Linux x64 npm tarball，并解压到云函数的 `node_modules/@img` 目录。
+
+这个脚本会重建：
+
+```text
+cloudfunctions/convertImage/node_modules
+```
+
+执行前请先关闭微信开发者工具，并停止正在运行的 `npm run dev:weapp`，避免 Windows 文件占用导致删除失败。
+
+```powershell
+$root = Resolve-Path -LiteralPath 'E:\repo\image-any\cloudfunctions\convertImage'
+$nodeModules = Join-Path $root.Path 'node_modules'
+$imgRoot = Join-Path $root.Path 'node_modules\@img'
+
+if ($root.Path -ne 'E:\repo\image-any\cloudfunctions\convertImage') {
+  throw "Unexpected cloud function path: $($root.Path)"
+}
+
+if (Test-Path -LiteralPath $nodeModules) {
+  Remove-Item -LiteralPath $nodeModules -Recurse -Force
+}
+
+Push-Location $root.Path
+npm install --omit=dev --omit=optional --ignore-scripts
+npm pack @img/sharp-linux-x64@0.33.5 @img/sharp-libvips-linux-x64@1.0.4 --pack-destination $root.Path
+Pop-Location
+
+New-Item -ItemType Directory -Force -Path $imgRoot | Out-Null
+
+$packages = @(
+  @{ File = 'img-sharp-linux-x64-0.33.5.tgz'; Name = 'sharp-linux-x64' },
+  @{ File = 'img-sharp-libvips-linux-x64-1.0.4.tgz'; Name = 'sharp-libvips-linux-x64' }
+)
+
+foreach ($pkg in $packages) {
+  $tgz = Join-Path $root.Path $pkg.File
+  $extract = Join-Path $root.Path ('.extract-' + $pkg.Name)
+  $target = Join-Path $imgRoot $pkg.Name
+
+  if (Test-Path -LiteralPath $extract) {
+    Remove-Item -LiteralPath $extract -Recurse -Force
+  }
+
+  if (Test-Path -LiteralPath $target) {
+    Remove-Item -LiteralPath $target -Recurse -Force
+  }
+
+  New-Item -ItemType Directory -Force -Path $extract | Out-Null
+  tar -xzf $tgz -C $extract
+  Copy-Item -LiteralPath (Join-Path $extract 'package') -Destination $target -Recurse -Force
+  Remove-Item -LiteralPath $extract -Recurse -Force
+  Remove-Item -LiteralPath $tgz -Force
+}
+```
+
+5. 验证依赖是否安装成功
+
+执行：
+
+```powershell
+Test-Path cloudfunctions\convertImage\node_modules\@img\sharp-linux-x64\lib\sharp-linux-x64.node
+Test-Path cloudfunctions\convertImage\node_modules\@img\sharp-libvips-linux-x64\lib\libvips-cpp.so.42
+```
+
+两行都应该返回：
+
+```text
+True
+True
+```
+
+6. 上传部署  
+
+打开微信开发者工具：
+
+1. 确认当前云环境是目标环境。
+   - 开发环境
+   - 正式环境
+2. 右键 `cloudfunctions/convertImage`。
+3. 选择：
+
+```text
+上传并部署：所有文件
+```
+这是最关键的一点，需要把本地的依赖全都上传上去。
+
+这个流程下不要选择：
+
+```text
+上传并部署：云端安装依赖
+```
+
+原因是云端安装依赖可能重新生成不完整的 `sharp` optional dependencies，导致 `libvips-cpp.so.42` 或 `sharp-linux-x64.node` 再次缺失。
+
+7. 云函数配置建议
+
+之前我设置的超时是3秒，但经常会出现处理时间超过3秒的情景。所以我把我的云函数的配置调整如下：
+
+```text
+运行环境：Node.js 20.19
+运行内存：1024MB
+超时时间：60 秒
+```
+
+#### 效果
+通过上传本地依赖，以及优化云端配置，已经能正常调用。
+
+### 屏幕内容被遮挡
+
+#### 问题
+列表滚动到底部时，最后一项贴近底部安全区和手势条，看起来像被遮挡。
+
+#### 解决
+
+固定底部区域或半屏弹窗内的滚动列表，底部留白最好放到滚动内容内部，而不是只放在弹窗容器上。这样最后一项可以真正滚到安全区上方。
+
+在 `ScrollView` 内增加 `.spec-list-content` 包裹层，并给内容层设置底部 padding：
+
+```css 
+.spec-list-content {
+  padding-bottom: calc(116px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+```
+
+### 半屏弹窗出现滑动穿透
+
+#### 问题
+弹窗打开后，在弹层上滑动时，底层页面也可能跟着滚动。
+
+#### 解决 
+微信小程序弹层场景中，仅靠固定定位和遮罩不一定能阻止底层滚动。需要显式拦截触摸移动。
+
+在弹窗遮罩层添加 `catchMove`，拦截触摸移动：
+
+```xml
+<View className='spec-sheet-mask' catchMove>
+  ...
+</View>
+```
+
+### 搜索框清空后出现大块空白
+
+#### 问题
+在搜索框输入文字后再删除，半屏弹窗中搜索框附近会出现一大片白色空白，分类栏和列表被挤下去或遮住。
+
+#### 解决
+
+尝试过的方案：  
+
+1. 给搜索框加固定外层容器，让 `Input` 透明铺满。
+2. 设置 `adjustPosition={false}`，避免键盘自动顶起页面。
+3. 尝试 `alwaysEmbed`，希望强制同层渲染。
+4. 临时改成点击搜索框后使用系统 `showModal({ editable: true })` 输入。
+
+得到的结果：  
+
+- 固定容器和 `adjustPosition={false}` 有帮助，但没有彻底解决。
+- `alwaysEmbed` 在这个半屏弹层场景中反而更容易触发异常。
+- 系统输入弹窗最稳定，但增加了一步操作，不符合“直接输入搜索”的产品预期。
+
+最后使用：  
+
+恢复半屏内直接输入，但把搜索框从受控输入改为非受控输入：
+
+```typescript
+<Input
+  key={specSearchResetKey}
+  className='spec-search-input'
+  type='text'
+  placeholder='搜索：护照、一寸、考试'
+  defaultValue={specKeyword}
+  confirmType='search'
+  maxlength={20}
+  cursorSpacing={12}
+  adjustPosition={false}
+  onInput={(event) => {
+    const value = String(event.detail.value || '')
+    setSpecKeyword(value)
+    return value
+  }}
+  onFocus={() => setIsSpecSearchFocused(true)}
+  onBlur={() => setIsSpecSearchFocused(false)}
+/>
+```
+
+关键点在于：  
+
+- 使用 `defaultValue`，不使用 `value`，避免每次输入都把 React 状态反灌回原生输入框。
+- 仍然在 `onInput` 中更新 `specKeyword`，用于实时筛选列表。
+- 清空时通过 `specSearchResetKey` 重建输入框，让非受控输入框回到空值。
+- 输入框聚焦时临时禁用列表滚动：
+
+```xml
+<ScrollView className='spec-list' scrollY={!isSpecSearchFocused}>
+  ...
+</ScrollView>
+```
+
+经验：  
+微信小程序 `Input` 是原生组件。放在半屏弹窗、遮罩、`ScrollView` 等复杂层级里时，受控输入会增加原生层同步和重绘频率，容易出现白块、闪烁或布局残留。
+
+在这种场景下优先考虑：
+
+- 避免受控 `value`，改用 `defaultValue` + `onInput`。
+- 不要轻易使用 `alwaysEmbed`，它在某些弹层场景可能适得其反。
+- 输入聚焦期间减少周边 `ScrollView` 的交互和重绘。
+- 弹窗布局使用 flex，让列表吃剩余高度，避免用复杂 `calc` 猜高度。
+
+### PNG 压缩后文件变大问题记录
+#### 问题
+在图片压缩模块中，选择 PNG 图片压缩时，偶尔会出现压缩后的文件比原图更大的情况。
+
+用户感知是：
+
+- 操作显示压缩成功。
+- 输出文件大小反而增加。
+- 质量滑块对 PNG 体积变化不明显。
+
+#### 解决
+
+原来的压缩链路如下：  
+压缩页入口：
+
+```typescript
+const result = await compressImage(sourceImage, CANVAS_ID, quality)
+```
+
+PNG/JPG 原本都会被判定为本地压缩：
+
+```typescript
+if (LOCAL_OUTPUT_FORMATS.includes(format as LocalOutputFormat)) return 'local'
+```
+
+本地压缩实际分两步：
+
+```typescript
+const compressed = await compressLocalImage(asset, quality)
+const exported = await exportImageFromCanvas(...)
+```
+
+第一步调用 `Taro.compressImage`：
+
+```ts
+const compressed = await Taro.compressImage({
+  src: asset.path,
+  quality,
+  compressedWidth: boundedSize.width,
+  compressedHeight: boundedSize.height
+})
+```
+
+第二步通过 canvas 重新导出：
+
+```ts
+const exported = await Taro.canvasToTempFilePath({
+  canvasId: options.canvasId,
+  fileType: options.fileType,
+  quality: options.fileType === 'jpg' ? Math.max(0.1, options.quality / 100) : 1
+})
+```
+
+经过分析，原因可能有：
+
+1. PNG 的 quality 参数基本不生效
+
+`Taro.compressImage` 的类型注释说明：
+
+```typescript
+/** 压缩质量，范围0～100，数值越小，质量越低，压缩率越高（仅对jpg有效）。 */
+quality?: number
+```
+
+也就是说，质量滑块对 JPG 有意义，但对 PNG 不具备同样的有损压缩效果。
+
+`Taro.canvasToTempFilePath` 的类型注释也说明：
+
+```typescript
+/** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
+quality?: number
+```
+
+因此 PNG 导出时即使传入较低 quality，也不会按 JPG 那样降低质量和体积。
+
+2. Canvas 重新编码 PNG 可能丢失原图优化
+
+PNG 是无损格式。原图可能已经经过工具优化，例如调色板、压缩块、透明通道、元数据等都被处理过。
+
+本地 canvas 导出时会重新编码 PNG，但不会保证保留原图已有的优化策略。结果就是：
+
+- 原图已经很小。
+- canvas 重新导出了一份新的 PNG。
+- 新 PNG 的编码不如原图紧凑。
+- 文件体积反而变大。
+
+直接导致最终文件变大的 API 是 `Taro.canvasToTempFilePath` 的 PNG 重新导出；`Taro.compressImage` 对 PNG 的 quality 不生效是前置原因。
+
+解决思路如下：
+
+PNG 不再走本地 `Taro.compressImage + canvasToTempFilePath` 链路，改为上传到云函数，由云端 `sharp` 进行 PNG 优化。
+
+同时增加兜底：如果云端优化后的 PNG 仍然不小于原图，则直接返回原图，避免用户拿到更大的压缩结果。
+
+目前改动如下：   
+首先是调整前端压缩策略：
+
+文件：`src/services/imageCompressionService.ts`
+
+改动：
+
+- `png` 加入云端压缩格式。
+- `getCompressionMethod` 对 PNG 返回 `cloud`。
+- 压缩支持格式列表去重，避免页面重复显示 PNG。
+
+关键逻辑：
+
+```ts
+export const CLOUD_COMPRESS_FORMATS: OutputFormat[] = ['png', 'webp', 'avif', 'gif', 'tiff']
+
+export function getCompressionMethod(source: ImageAsset | null): CompressionMethod {
+  if (!source) return 'local'
+
+  const format = normalizeImageFormat(source.format)
+  if (format === 'png') return 'cloud'
+  if (LOCAL_OUTPUT_FORMATS.includes(format as LocalOutputFormat)) return 'local'
+  if (CLOUD_COMPRESS_FORMATS.includes(format as OutputFormat)) return 'cloud'
+  return 'unsupported'
+}
+```
+
+其次是调整云函数压缩策略：
+
+文件：`cloudfunctions/convertImage/index.js`
+
+改动：
+
+- `CLOUD_COMPRESS_FORMATS` 增加 `png`。
+- PNG 使用 `sharp.png` 做压缩优化。
+- 若压缩后不小于原图，直接返回原图文件。
+
+关键逻辑：
+
+```js
+const CLOUD_COMPRESS_FORMATS = new Set(['png', 'webp', 'avif', 'gif', 'tiff'])
+```
+
+```js
+pipeline = pipeline.png({
+  compressionLevel: 9,
+  adaptiveFiltering: true,
+  palette: options.quality < 100,
+  quality: options.quality,
+  effort: 10
+})
+```
+
+```js
+function shouldKeepOriginalCompressResult(options) {
+  return (
+    options.feature === 'batch-compress' &&
+    options.outputFormat === 'png' &&
+    options.outputBuffer.length >= options.inputBuffer.length
+  )
+}
+```
+
+命中兜底时返回：
+
+```text
+原图已是较优大小
+```
+
+同时需要关注对于云文件的清理：
+
+文件：`src/services/cloudImageService.ts`
+
+云端 PNG 压缩可能在“不变小”时返回原始上传文件的 `fileID`。前端 finally 中会清理源文件和结果文件，因此删除列表需要去重，避免同一个 `fileID` 重复删除。
+
+```ts
+const validFiles = Array.from(new Set(fileList.filter(Boolean)))
+```
+
+最终调整后：
+
+- JPG 仍走本地压缩，保持原有速度和体验。
+- PNG 改走云端 `sharp` 优化，避开小程序 canvas PNG 重新编码问题。
+- 如果 PNG 已经足够小，云端直接返回原图，不再产生更大的压缩结果。
+- 用户不会再因为 PNG 本地重编码拿到比原图更大的文件。
+
+#### 效果
+
+PNG 云端压缩需要上传图片，因此依赖：
+
+- 云开发能力可用。
+- `convertImage` 云函数已部署。
+- 云函数中的 `sharp` 依赖能在云端正常加载。
+
+如果云函数 `sharp` 依赖异常，前端会展示已有的云端处理错误提示。
+
+
+
 
 ## 总结
 微信开发者工具的使用体验不是很好，经常遇到页面不热更新，需要重启项目的问题。
