@@ -10,6 +10,7 @@ import dongguanImage from '../public/images/travel/dongguan/03.png';
 import guangzhouImage from '../public/images/travel/guangzhou/01.png';
 import zhanjiangImage from '../public/images/travel/zhanjiang/01.png';
 import shenzhenImage from '../public/images/travel/shenzhen/18.png';
+import xianggangImage from '../public/images/travel/xianggang/01.png';
 
 export interface TravelData {
   id: string;
@@ -94,6 +95,15 @@ const travelData: TravelData[] = [
     imageStatic: zhanjiangImage,
     postUrl: "/travel-zhanjiang",
     time: dayjs("2023-10-28").toDate(),
+  },
+  {
+    id: "xianggang",
+    name: "香港",
+    lngLat: [114.15, 22.27],
+    image: "/images/travel/xianggang/01.png",
+    imageStatic: xianggangImage,
+    postUrl: "/travel-xianggang",
+    time: dayjs("2023-11-12").toDate(),
   },
   {
     id: "fuzhou",
