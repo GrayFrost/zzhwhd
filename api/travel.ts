@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import type { StaticImageData } from "next/image";
 
-import zhuhaiImage from "../public/images/travel/zhuhai/1.jpg";
+import zhuhaiImage from "../public/images/travel/zhuhai/06.png";
 import changshaImage from "../public/images/travel/changsha/1.jpg";
 import chongqingImage from '../public/images/travel/chongqing/06.png';
 import chengduImage from '../public/images/travel/chengdu/05.png';
@@ -78,6 +78,15 @@ const travelData: TravelData[] = [
     time: dayjs("2023-02-18").toDate(),
   },
   {
+    id: "zhuhai",
+    name: "珠海",
+    lngLat: [113.09, 22.55],
+    image: "/images/travel/zhuhai/06.png",
+    imageStatic: zhuhaiImage,
+    postUrl: "/travel-zhuhai",
+    time: dayjs("2023-06-22").toDate(),
+  },
+  {
     id: "zhanjiang",
     name: "湛江",
     lngLat: [110.35, 21.27],
@@ -139,15 +148,6 @@ const travelData: TravelData[] = [
     imageStatic: zhuhaiImage,
     postUrl: "/travel-chaoshan",
     time: dayjs("2024-08-02").toDate(),
-  },
-  {
-    id: "zhuhai",
-    name: "珠海",
-    lngLat: [113.09, 22.55],
-    image: "/images/travel/zhuhai/1.jpg",
-    imageStatic: zhuhaiImage,
-    postUrl: "/travel-zhuhai",
-    time: dayjs("2023-06-22").toDate(),
   },
   {
     id: "shenzhen",
