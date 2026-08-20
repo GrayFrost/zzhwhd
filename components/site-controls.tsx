@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Monitor, Moon, Palette, Sun } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { useLanguage } from "@/components/language-provider";
 import { useSiteTheme } from "@/components/theme-provider";
@@ -52,6 +53,7 @@ export function SiteThemeToggle() {
     setPaletteId,
   } = useSiteTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
   const panelId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -106,13 +108,22 @@ export function SiteThemeToggle() {
         <Palette className="h-5 w-5" aria-hidden="true" />
       </button>
 
-      {mounted && isOpen && (
-        <div
-          id={panelId}
-          role="dialog"
-          aria-label={t("theme.title")}
-          className="absolute right-0 top-full z-50 mt-2 w-[min(22rem,calc(100vw-2rem))] rounded-lg border border-line bg-card p-4 text-card-foreground shadow-card"
-        >
+      <AnimatePresence initial={false}>
+        {mounted && isOpen && (
+          <motion.div
+            id={panelId}
+            role="dialog"
+            aria-label={t("theme.title")}
+            className="absolute right-0 top-full z-50 mt-2 w-[min(22rem,calc(100vw-2rem))] origin-top-right rounded-lg border border-line bg-card p-4 text-card-foreground shadow-card"
+            initial={reduceMotion ? false : { opacity: 0, y: -8, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -5, scale: 0.98 }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { duration: 0.24, ease: [0.22, 1, 0.36, 1] }
+            }
+          >
           <div className="border-b border-line pb-3">
             <div className="journal-label">{t("theme.title")}</div>
             <p className="mt-1 text-sm text-muted-foreground">{t("theme.description")}</p>
@@ -189,8 +200,9 @@ export function SiteThemeToggle() {
               })}
             </div>
           </fieldset>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

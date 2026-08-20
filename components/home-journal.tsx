@@ -1,9 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, BriefcaseBusiness, Images, Map, PencilLine } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useState } from "react";
 import { useLanguage } from "@/components/language-provider";
 import { LocalizedDate } from "@/components/localized-date";
+import { useSiteTheme } from "@/components/theme-provider";
 
 interface RecentPost {
   title: string;
@@ -36,8 +40,34 @@ const sectionCards = [
   },
 ];
 
+const FALLBACK_BANNER = "/banners/theme-01.png";
+
+function ThemeBanner({ src }: { src: string }) {
+  const [currentSrc, setCurrentSrc] = useState(src);
+
+  return (
+    <Image
+      src={currentSrc}
+      alt=""
+      fill
+      priority
+      sizes="(min-width: 1280px) 1020px, (min-width: 1024px) calc(100vw - 292px), calc(100vw - 32px)"
+      className="object-cover"
+      onError={() => {
+        if (currentSrc !== FALLBACK_BANNER) {
+          setCurrentSrc(FALLBACK_BANNER);
+        }
+      }}
+    />
+  );
+}
+
 export function HomeJournal({ recentPosts }: { recentPosts: RecentPost[] }) {
   const { t } = useLanguage();
+  const { paletteId, palettes } = useSiteTheme();
+  const reduceMotion = useReducedMotion();
+  const bannerSrc =
+    palettes.find((palette) => palette.id === paletteId)?.banner ?? FALLBACK_BANNER;
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:py-14 lg:px-8">
@@ -60,13 +90,26 @@ export function HomeJournal({ recentPosts }: { recentPosts: RecentPost[] }) {
         </aside>
 
         <div className="min-w-0">
-          <header className="border-b border-line pb-8">
-            <h1 className="journal-title max-w-4xl text-5xl leading-none text-foreground sm:text-6xl lg:text-7xl">
-              {t("home.title")}
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
-              {t("home.description")}
-            </p>
+          <header className="overflow-hidden border-b border-line pb-8">
+            <h1 className="sr-only">{t("home.title")}</h1>
+            <div className="relative overflow-hidden" style={{ aspectRatio: "3 / 1" }}>
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={bannerSrc}
+                  className="absolute inset-0"
+                  initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.995 }}
+                  transition={
+                    reduceMotion
+                      ? { duration: 0 }
+                      : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }
+                  }
+                >
+                  <ThemeBanner src={bannerSrc} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </header>
 
           <section className="grid gap-4 py-8 md:grid-cols-3" aria-label={t("home.sections")}>

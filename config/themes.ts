@@ -29,6 +29,7 @@ export type ThemePreviewToken = keyof Pick<
 export interface ThemePalette {
   id: string;
   labelKey: string;
+  banner: string;
   preview: readonly ThemePreviewToken[];
   light: ThemeTokens;
   dark: ThemeTokens;
@@ -38,6 +39,7 @@ export const themePalettes = [
   {
     id: "original",
     labelKey: "theme.original",
+    banner: "/banners/theme-01.png",
     preview: ["background", "card", "muted", "foreground", "accent"],
     light: {
       background: "#f4f1e8",
@@ -65,6 +67,7 @@ export const themePalettes = [
   {
     id: "american-retro",
     labelKey: "theme.american_retro",
+    banner: "/banners/theme-02.png",
     preview: ["background", "card", "muted", "foreground", "accent"],
     light: {
       background: "#f7f3e6",
@@ -92,6 +95,7 @@ export const themePalettes = [
   {
     id: "venice-blue",
     labelKey: "theme.venice_blue",
+    banner: "/banners/theme-03.png",
     preview: ["background", "card", "muted", "foreground", "accent"],
     light: {
       background: "#f5eedd",
@@ -117,8 +121,37 @@ export const themePalettes = [
     },
   },
   {
+    id: "ocean-sage",
+    labelKey: "theme.ocean_sage",
+    banner: "/banners/theme-04.png",
+    preview: ["background", "card", "muted", "foreground", "accent"],
+    light: {
+      background: "#e2e0c8",
+      foreground: "#344641",
+      card: "#f1efdc",
+      cardForeground: "#4e635e",
+      muted: "#a6b49e",
+      mutedForeground: "#344641",
+      accent: "#4e635e",
+      accentForeground: "#f1efdc",
+      line: "rgba(78, 99, 94, 0.24)",
+    },
+    dark: {
+      background: "#2f3d39",
+      foreground: "#e2e0c8",
+      card: "#4e635e",
+      cardForeground: "#f1efdc",
+      muted: "#40514c",
+      mutedForeground: "#c2c9b3",
+      accent: "#a6b49e",
+      accentForeground: "#2f3d39",
+      line: "rgba(226, 224, 200, 0.2)",
+    },
+  },
+  {
     id: "taro-pudding",
     labelKey: "theme.taro_pudding",
+    banner: "/banners/theme-05.png",
     preview: ["background", "card", "muted", "foreground", "accent"],
     light: {
       background: "#fcfbf7",
@@ -146,6 +179,7 @@ export const themePalettes = [
   {
     id: "midnight-plum",
     labelKey: "theme.midnight_plum",
+    banner: "/banners/theme-06.png",
     preview: ["card", "muted", "accent", "foreground", "accentForeground"],
     light: {
       background: "#fffaf7",
