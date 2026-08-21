@@ -16,16 +16,219 @@ description: 对于godot中如何接入steam。
 
 ### 后台配置
 
-配置是在Steamworks上进行配置，所以我们的前提就是需要注册好Steamworks，填写好必要的信息。
+配置是在Steamworks上进行配置，所以我们的前提就是需要注册好Steamworks，填写好必要的信息。通常我们需要提前交100美元来获取一个游戏发行位。
 
 #### 云存储
 
+准备就绪后，进入到我们的游戏后台主页面。
+
+![](/images/20260805steamCloud/03.png)
+
+主要填写几个地方。首先是为用户的存储文件分配空间，这个需要每个开发者自行斟酌，尽量不要太大，避免发生一些边界问题；也不要太小，导致存储功能失效。
+
+我的只是一个小游戏，所以我不用怎么为存储文件烦扰，随便设置了一个值。
+
+![](/images/20260805steamCloud/04.png)
+
+然后我在这里勾选了动态云同步。
+
+![](/images/20260805steamCloud/05.png)
+
+接着是出了第一步分配空间外，最为关键的地方，就是填写你自己存储文件保存的目录是在哪。
+
+![](/images/20260805steamCloud/06.png)
+
+我是只在windows系统上发行，所以只填写了windows上保存的目录。这里放一个对照图，就相当清晰明了了。
+
+![](/images/20260805steamCloud/07.png)
+
+其实如果实在不知道，直接问辅助你开发的AI就行了。
+
+#### 成就
+
+填写完云存储的配置，接着我们来到成就配置页面，就是刚才我们点击`设置云存档`的上一行的`成就`入口。
+
+![](/images/20260805steamCloud/08.png)
+
+API名称是给开发者在代码里使用的，显示名称是在Steam主页上提供给用户看的。
+
+![](/images/20260805steamCloud/09.png)
+
+需要注意的是，在制作成就图标时，每一个成就需要准备两份图，一个是成就激活的图，另一个是成就未激活时的图，通常是成就激活图的置灰版本。
+
 ### 安装插件
 
-最关键的是在Godot项目中安装GodotSteam插件。
+最关键的是在Godot项目中安装GodotSteam插件。在Assets选项页中，搜GDExtension，安装适合自己Godot引擎的版本。
+
+![](/images/20260805steamCloud/02.png)
+
+防止不生效的话，我们可以安装完重启下Godot客户端。
+
+安装完后，会发现`res://`目录下会多出一个`addons`目录。
 
 ### 核心代码
 
-## 问题
+#### 云存储
+
+云存储的接入可以参考[这篇文章](https://partner.steamgames.com/doc/features/cloud)
+
+只要我们在上面介绍的配置里配置正确后，Steam自动云会自动处理存储进度的问题，无需我们编写代码。
+
+这里主要讲一下怎么存文件。首先就是我们保存进度文件的地址：
+
+![](/images/20260805steamCloud/11.png)
+
+其实进度也就是个json文件，我们在代码中管理时，它也就是个json对象。
+
+```javascript
+static func _load_save_data() -> Dictionary:
+  if not FileAccess.file_exists(SAVE_PATH):
+    return _default_save_data()
+
+  var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
+  if file == null:
+    push_error("Unable to open save file for reading: %s" % SAVE_PATH)
+    return _default_save_data()
+
+  var parsed: Variant = JSON.parse_string(file.get_as_text())
+  if typeof(parsed) != TYPE_DICTIONARY:
+    return _default_save_data()
+
+  var save_data: Dictionary = parsed
+  if typeof(save_data.get("levels", {})) != TYPE_DICTIONARY:
+    save_data["levels"] = {}
+  if typeof(save_data.get("campaign", {})) != TYPE_DICTIONARY:
+    save_data["campaign"] = {}
+  return save_data
+```
+
+```javascript
+static func _write_save_data(save_data: Dictionary) -> bool:
+  var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+  if file == null:
+    push_error("Unable to open save file for writing: %s" % SAVE_PATH)
+    return false
+
+  file.store_string(JSON.stringify(save_data, "\t"))
+  return true
+```
+
+可以看到，读和写都是使用`FileAccess.open()`这个方法来实现的。
+
+#### 成就
+
+成就系统的接入可以参考[这篇文章](https://partner.steamgames.com/doc/features/achievements)
+
+Steam成就相关的代码，我们可以可以放到一个全局脚本中。创建的全局脚本会是一个单例，恰好接入Steam时，也需要使用到Steam的单例，同时在跨文件中，也需要使用到Steam的成就判断。
+
+
+![](/images/20260805steamCloud/10.png)
+
+在`_ready()`这个生命函数钩子里对Steam进行实例化：
+```javascript
+func _initialize_steam() -> void:
+  if not Engine.has_singleton("Steam"):
+    _log("Steam singleton not found. Check GodotSteam export files and launch from Steam or with steam_appid.txt.")
+    return
+
+  _steam = Engine.get_singleton("Steam")
+  if _steam == null:
+    _log("Steam singleton returned null.")
+    return
+
+  var init_result: Variant = null
+  var init_method := ""
+  if _steam.has_method("steamInitEx"):
+    init_method = "steamInitEx"
+    init_result = _steam.call("steamInitEx")
+  elif _steam.has_method("steamInit"):
+    init_method = "steamInit"
+    init_result = _steam.call("steamInit")
+  else:
+    _log("Steam singleton has no steamInitEx or steamInit method.")
+
+  _available = _steam != null and _steam.has_method("setAchievement")
+  if init_result != null:
+    _available = _available and _steam_init_succeeded(init_result)
+  _log("Steam init method='%s' app_id='%s' result=%s available=%s" % [
+    init_method,
+    _get_app_id_description(_available),
+    _variant_to_text(init_result),
+    str(_available)
+  ])
+  if _available:
+    _request_current_stats()
+```
+首先是判断GodotSteam GDExtension提供的Steam实例是不是存在，之后判断`SteamInitEx`这个初始化方法存不存在，至于`SteamInit`则是兜底兼容的处理，也是为初始化服务的。
+
+通过`Engine.get_singleton("Steam")`拿到实例后，执行初始化`_steam.call("steamInitEx")`。
+
+之后就是一些成就状态的判断了。
+
+```javascript
+func _is_achievement_unlocked(achievement_name: String) -> bool:
+  if _steam == null or not _steam.has_method("getAchievement"):
+    _log("Cannot check achievement '%s': getAchievement method unavailable." % achievement_name)
+    return false
+
+  var result: Variant = _steam.call("getAchievement", achievement_name)
+  _log("getAchievement '%s' result=%s" % [achievement_name, _variant_to_text(result)])
+  if result is bool:
+    return bool(result)
+  if result is Dictionary:
+    return bool((result as Dictionary).get("achieved", false))
+  return false
+
+func _set_achievement(achievement_name: String) -> bool:
+  if _steam == null or not _steam.has_method("setAchievement"):
+    _log("Cannot unlock achievement '%s': setAchievement method unavailable." % achievement_name)
+    return false
+
+  var result: Variant = _steam.call("setAchievement", achievement_name)
+  var success := _achievement_call_succeeded(result)
+  _log("setAchievement '%s' result=%s success=%s" % [achievement_name, _variant_to_text(result), str(success)])
+  if success:
+    _store_stats()
+  return success
+```
+
+比如我的游戏是以关卡作为游戏进度的，在通关之后，会获得成就，逻辑判断如下：
+```javascript
+func unlock_category_master(category_id: String) -> bool:
+  if not _available:
+    _log("Skipping achievement unlock for category '%s': Steam achievements unavailable." % category_id)
+    return false
+
+  var achievement_name := String(CATEGORY_ACHIEVEMENTS.get(category_id, ""))
+  if achievement_name.is_empty():
+    _log("Skipping achievement unlock: no Steam achievement mapped for category '%s'." % category_id)
+    return false
+
+  if _is_achievement_unlocked(achievement_name):
+    _log("Achievement already unlocked: %s" % achievement_name)
+    return true
+
+  return _set_achievement(achievement_name)
+```
+
+如果该成就没有解锁，则最终会走到自定义的`_set_chievement()`方法，它底层就是调Steam的`setAchievement`方法。
+
+至于成就名，在后台配置里已经介绍过了，就是成就API名称。
+
+```javascript
+const CATEGORY_ACHIEVEMENTS := {
+  "gold": "ACH_RESTORE_GOLD_MASTER",
+  "pottery": "ACH_RESTORE_POTTERY_MASTER",
+  "stone": "ACH_RESTORE_STONE_MASTER",
+  "bronze": "ACH_RESTORE_BRONZE_MASTER",
+  "jade": "ACH_RESTORE_JADE_MASTER",
+  "porcelain": "ACH_RESTORE_PORCELAIN_MASTER",
+  "textile": "ACH_RESTORE_TEXTILE_MASTER",
+  "painting": "ACH_RESTORE_PAINTING_MASTER",
+  "wood": "ACH_RESTORE_WOOD_MASTER"
+}
+```
 
 ## 结尾
+
+整体来说，接入不算太难。Steamworks虽然后台配置要填写一大堆繁琐的信息，但提供给开发者接入的API设计得倒是挺好的。
