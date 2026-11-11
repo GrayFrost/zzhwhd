@@ -20,6 +20,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const { locale, t } = useLanguage();
   const [hiddenForReading, setHiddenForReading] = useState(false);
+  const isPrivacyPolicy = pathname.split("/").includes("privacy");
   const usesReadingHeader =
     pathname === "/blog" ||
     pathname.startsWith("/blog/") ||
@@ -42,6 +43,10 @@ export function SiteHeader() {
       window.removeEventListener("scroll", updateHeaderVisibility);
     };
   }, [usesReadingHeader, pathname]);
+
+  if (isPrivacyPolicy) {
+    return null;
+  }
 
   return (
     <header

@@ -10,7 +10,7 @@ export default function FloatingOperations() {
   const router = useRouter();
   const { t } = useLanguage();
 
-  if (pathname === "/") {
+  if (pathname === "/" || pathname.split("/").includes("privacy")) {
     return null;
   }
 

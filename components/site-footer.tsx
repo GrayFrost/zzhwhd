@@ -1,10 +1,16 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/components/language-provider";
 
 export function SiteFooter() {
+  const pathname = usePathname();
   const { t } = useLanguage();
   const year = new Date().getFullYear();
+
+  if (pathname.split("/").includes("privacy")) {
+    return null;
+  }
 
   return (
     <footer className="border-t border-line bg-background/80">
