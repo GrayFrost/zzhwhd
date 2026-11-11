@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build"
+    "export": "next build",
+    "images:compress": "node scripts/compress-images.mjs",
+    "images:compress:dry": "node scripts/compress-images.mjs --dry-run",
+    "images:compress:preview": "node scripts/compress-images.mjs --preview"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.0",
@@ -50,6 +53,7 @@
     "eslint-config-next": "^16.0.8",
     "mdast-util-to-string": "^4.0.0",
     "postcss": "^8",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "unist-util-visit": "^5.0.0",
