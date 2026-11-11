@@ -5,8 +5,8 @@ export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'zh';
 
 // Import messages for client-side use
-import zhMessages from '../messages/zh.json';
-import enMessages from '../messages/en.json';
+import zhMessages from '../messages/ui-zh.json';
+import enMessages from '../messages/ui-en.json';
 
 export const messages = {
   zh: zhMessages,

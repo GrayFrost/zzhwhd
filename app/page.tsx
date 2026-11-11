@@ -1,15 +1,14 @@
-import { Home } from "../components/home";
-import { Footer } from "../components/footer";
+import { HomeJournal } from "@/components/home-journal";
+import { getAllPosts } from "@/api/posts";
 
-export default function HomePage() {
-  return (
-    <>
-      <main className="flex-1 min-h-screen bg-background transition-colors duration-700">
-        <div className="relative container mx-auto max-w-7xl py-12 md:py-20 px-6">
-          <Home />
-        </div>
-      </main>
-      <Footer />
-    </>
-  );
+export default async function HomePage() {
+  const { posts } = await getAllPosts();
+  const recentPosts = posts.slice(0, 4).map((post) => ({
+    title: String(post.metadata.title ?? post.id),
+    description: String(post.metadata.description ?? ""),
+    date: String(post.metadata.date ?? ""),
+    href: post.url,
+  }));
+
+  return <HomeJournal recentPosts={recentPosts} />;
 }

@@ -6,21 +6,23 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./layouts/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        brand: {
-          cream: "#F5E6D3",
-          yellow: "#E9AF44",
-          black: "#1A1A1A",
-          white: "#FFFFFF",
-          beige: "#FDF6EC",
-          "yellow-light": "#F3D092",
-        }
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        card: "var(--card)",
+        "card-foreground": "var(--card-foreground)",
+        muted: "var(--muted)",
+        "muted-foreground": "var(--muted-foreground)",
+        accent: "var(--accent)",
+        "accent-foreground": "var(--accent-foreground)",
+        line: "var(--line)",
       },
       boxShadow: {
-        card: ".4em .4em .8em #99b5d2, -.4em -.4em .8em #fff",
+        card: "0 16px 40px color-mix(in srgb, var(--foreground) 8%, transparent)",
       },
     },
   },

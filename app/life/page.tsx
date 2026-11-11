@@ -1,7 +1,7 @@
 import { getTravelData } from "@/api/travel";
-import Map from "@/components/map";
+import { LifeJournal } from "@/components/life-journal";
 
 export default async function Page() {
   const { data: travelData } = await getTravelData();
-  return <Map travelData={travelData} />;
+  return <LifeJournal travelData={travelData} />;
 }

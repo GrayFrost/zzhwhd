@@ -45,14 +45,14 @@ export function Project() {
         const CardContent = (
           <div className={`
             group relative h-full p-8 rounded-[2rem]
-            bg-brand-white dark:bg-brand-black/40
-            border border-brand-black/5 dark:border-brand-cream/10
-            hover:border-brand-yellow transition-all duration-500
+            bg-card/80
+            border border-line
+            hover:border-accent transition-all duration-500
             flex flex-col
           `}>
             <div className="flex items-start justify-between mb-8">
               {project.iconPath && (
-                <div className="relative w-16 h-16 rounded-2xl overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 border border-brand-black/5">
+                <div className="relative w-16 h-16 rounded-2xl overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 border border-line">
                   <Image
                     src={project.iconPath}
                     alt={project.title}
@@ -63,7 +63,7 @@ export function Project() {
               )}
               <div className="flex gap-2">
                 {project.tags.map(tag => (
-                  <span key={tag} className="text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full bg-brand-black/5 dark:bg-brand-cream/5 text-muted-foreground group-hover:text-brand-yellow transition-colors">
+                  <span key={tag} className="text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full bg-muted/50 text-muted-foreground group-hover:text-accent transition-colors">
                     {tag}
                   </span>
                 ))}
@@ -71,10 +71,10 @@ export function Project() {
             </div>
 
             <div className="flex-1">
-              <h2 className="text-3xl font-black text-brand-black dark:text-brand-cream mb-2 group-hover:text-brand-yellow transition-colors italic tracking-tighter">
+              <h2 className="text-3xl font-black text-foreground mb-2 group-hover:text-accent transition-colors italic tracking-tighter">
                 {project.title}
               </h2>
-              <h3 className="text-sm font-bold text-brand-yellow/80 mb-4 tracking-wide uppercase">
+              <h3 className="text-sm font-bold text-accent/80 mb-4 tracking-wide uppercase">
                 {project.subtitle}
               </h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -82,7 +82,7 @@ export function Project() {
               </p>
             </div>
 
-            <div className="mt-8 flex items-center text-sm font-black tracking-widest uppercase group-hover:text-brand-yellow transition-colors">
+            <div className="mt-8 flex items-center text-sm font-black tracking-widest uppercase group-hover:text-accent transition-colors">
               <span>Explore Project</span>
               <svg className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />

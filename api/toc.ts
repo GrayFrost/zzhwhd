@@ -3,7 +3,7 @@ import { visit } from "unist-util-visit";
 import { remark } from "remark";
 import type { Node } from "unist";
 import type { VFile } from "vfile";
-import { createHeaderId } from "@/utils/h-id";
+import { createUniqueHeaderId } from "@/utils/h-id";
 import { getPostDetails } from '@/api/posts';
 
 interface HeadingNode {
@@ -52,12 +52,14 @@ function transformNode(
   }
 }
 function addID(node: HeadingNode, nodes: Record<string, number>) {
-  const id = node.children.map((c) => c.value).join("");
+  const text = toString(node);
+  const id = createUniqueHeaderId(text, nodes);
 
-  nodes[id] = (nodes[id] || 0) + 1;
-  node.data = node.data || {
+  node.data = {
+    ...node.data,
     hProperties: {
-      id: createHeaderId(`${id}${nodes[id] > 1 ? ` ${nodes[id] - 1}` : ""}`),
+      ...node.data?.hProperties,
+      id,
     },
   };
 }

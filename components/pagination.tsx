@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArrowBigRightDash, ArrowBigLeftDash } from "lucide-react";
+import { useLanguage } from "@/components/language-provider";
 
 interface PaginationProps {
   totalPages: number;
@@ -14,12 +15,13 @@ export default function Pagination({
   currentPage,
   basePath,
 }: PaginationProps) {
+  const { t } = useLanguage();
   // const basePath = pathname.split("/")[1];
   const prevPage = currentPage - 1 > 0;
   const nextPage = currentPage + 1 <= totalPages;
 
   return (
-    <div className="space-y-2 pb-8 pt-12 md:space-y-5">
+    <div className="space-y-2 pb-8 pt-8 md:space-y-5">
       <nav className="flex items-center justify-between">
         <div className="flex-1">
           {prevPage && (
@@ -30,20 +32,20 @@ export default function Pagination({
                   : `/${basePath}/page/${currentPage - 1}`
               }
               rel="prev"
-              className="inline-flex items-center space-x-2 text-sm font-bold tracking-widest uppercase hover:text-brand-yellow transition-colors duration-300 group"
+              className="surface-link inline-flex h-10 items-center gap-2 rounded-md border border-line bg-card/70 px-3 text-sm font-bold"
             >
-              <ArrowBigLeftDash className="group-hover:-translate-x-1 transition-transform duration-300" />
-              <span>Prev</span>
+              <ArrowBigLeftDash className="h-4 w-4" />
+              <span>{t("blog.prev")}</span>
             </Link>
           )}
         </div>
         
         <div className="flex items-center justify-center gap-4 text-xs font-black tracking-widest uppercase">
-          <div className="w-10 h-10 rounded-full border border-brand-black/10 dark:border-brand-cream/10 flex items-center justify-center bg-brand-white/50 dark:bg-brand-black/50">
+          <div className="w-10 h-10 rounded-md border border-line flex items-center justify-center bg-card/80">
             {currentPage}
           </div>
           <span className="text-muted-foreground">/</span>
-          <div className="w-10 h-10 rounded-full border border-brand-black/10 dark:border-brand-cream/10 flex items-center justify-center text-muted-foreground">
+          <div className="w-10 h-10 rounded-md border border-line flex items-center justify-center text-muted-foreground">
             {totalPages}
           </div>
         </div>
@@ -53,10 +55,10 @@ export default function Pagination({
             <Link 
               href={`/${basePath}/page/${currentPage + 1}`} 
               rel="next"
-              className="inline-flex items-center space-x-2 text-sm font-bold tracking-widest uppercase hover:text-brand-yellow transition-colors duration-300 group"
+              className="surface-link inline-flex h-10 items-center gap-2 rounded-md border border-line bg-card/70 px-3 text-sm font-bold"
             >
-              <span>Next</span>
-              <ArrowBigRightDash className="group-hover:translate-x-1 transition-transform duration-300" />
+              <span>{t("blog.next")}</span>
+              <ArrowBigRightDash className="h-4 w-4" />
             </Link>
           )}
         </div>

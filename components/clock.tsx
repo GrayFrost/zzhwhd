@@ -41,10 +41,10 @@ export default function Clock() {
   return (
     <div className="
       w-16 h-16
-      bg-brand-white dark:bg-brand-black/40
+      bg-card/80
       rounded-2xl
       relative
-      border border-brand-black/5 dark:border-brand-cream/10
+      border border-line
       transition-all duration-300
       shadow-sm
     ">
@@ -55,7 +55,7 @@ export default function Clock() {
           className="absolute top-1/2 left-1/2 w-[1px] h-full py-1"
           style={{ transform: `translate(-50%, -50%) rotate(${angle}deg)` }}
         >
-          <div className="w-[1px] h-1.5 bg-brand-black/10 dark:bg-brand-cream/10 rounded-full" />
+          <div className="w-[1px] h-1.5 bg-foreground/10 rounded-full" />
         </div>
       ))}
 
@@ -65,7 +65,7 @@ export default function Clock() {
         className="absolute w-full h-full flex justify-center items-center"
         style={{ transformOrigin: 'center' }}
       >
-        <div className="w-1 h-4 bg-brand-black dark:bg-brand-cream rounded-full mb-4" />
+        <div className="w-1 h-4 bg-foreground rounded-full mb-4" />
       </div>
 
       {/* 分针 */}
@@ -74,7 +74,7 @@ export default function Clock() {
         className="absolute w-full h-full flex justify-center items-center"
         style={{ transformOrigin: 'center' }}
       >
-        <div className="w-0.5 h-6 bg-brand-black/60 dark:bg-brand-cream/60 rounded-full mb-6" />
+        <div className="w-0.5 h-6 bg-foreground/60 rounded-full mb-6" />
       </div>
 
       {/* 秒针 */}
@@ -83,14 +83,14 @@ export default function Clock() {
         className="absolute w-full h-full flex justify-center items-center"
         style={{ transformOrigin: 'center' }}
       >
-        <div className="w-px h-6 bg-brand-yellow rounded-full mb-6" />
+        <div className="w-px h-6 bg-accent rounded-full mb-6" />
       </div>
 
       {/* 中心圆点 */}
       <div className="
         absolute top-1/2 left-1/2 
         w-1 h-1
-        bg-brand-black dark:bg-brand-cream
+        bg-foreground
         rounded-full 
         transform -translate-x-1/2 -translate-y-1/2
         z-10

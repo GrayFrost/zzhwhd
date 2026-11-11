@@ -4,13 +4,21 @@ import "@/styles/globals.css";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-import BottomOperations from "@/components/bottom-operations";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/components/language-provider";
+import FloatingOperations from "@/components/floating-operations";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { RouteScrollReset } from "@/components/route-scroll-reset";
+import {
+  buildThemePaletteBootScript,
+  buildThemePaletteCss,
+  DEFAULT_PALETTE_ID,
+} from "@/config/themes";
 
 export const metadata: Metadata = {
-  title: "Garlic Garlic | 蒜头蒜",
-  description: "静谧之旅 —— 行止由心",
+  title: "Gary Frost | Engineering Field Notes",
+  description: "Code, travel, projects, and personal field notes.",
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -28,7 +36,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh" suppressHydrationWarning>
+    <html lang="zh" data-palette={DEFAULT_PALETTE_ID} suppressHydrationWarning>
+      <head>
+        <style
+          id="theme-palette-tokens"
+          dangerouslySetInnerHTML={{ __html: buildThemePaletteCss() }}
+        />
+        <script
+          id="theme-palette-init"
+          dangerouslySetInnerHTML={{ __html: buildThemePaletteBootScript() }}
+        />
+      </head>
       <body className={`antialiased`}>
         <LanguageProvider>
           <ThemeProvider
@@ -39,8 +57,11 @@ export default function RootLayout({
             storageKey="theme"
           >
             <div className="relative min-h-screen flex flex-col bg-background text-foreground">
-              <BottomOperations />
+              <RouteScrollReset />
+              <SiteHeader />
+              <FloatingOperations />
               {children}
+              <SiteFooter />
             </div>
           </ThemeProvider>
         </LanguageProvider>

@@ -79,8 +79,8 @@ export function About() {
     <div className="w-full max-w-4xl mx-auto">
       {/* 顶部介绍区域 */}
       <header className="mb-24 space-y-8">
-        <h1 className="text-4xl md:text-7xl font-black text-brand-black dark:text-brand-cream tracking-tight italic">
-          {t('about.title')} <span className="text-brand-yellow">{t('about.name')}</span>
+        <h1 className="text-4xl md:text-7xl font-black text-foreground tracking-tight italic">
+          {t('about.title')} <span className="text-accent">{t('about.name')}</span>
         </h1>
 
         <div className="space-y-6 text-xl md:text-2xl text-muted-foreground leading-relaxed font-medium">
@@ -95,7 +95,7 @@ export function About() {
 
       {/* 社交媒体列表 - 简约风格 */}
       <section className="mb-24">
-        <h2 className="text-xs font-black tracking-[0.4em] uppercase text-brand-black/30 dark:text-brand-cream/30 mb-10">
+        <h2 className="text-xs font-black tracking-[0.4em] uppercase text-muted-foreground mb-10">
           {t('about.connect_title')}
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -105,12 +105,12 @@ export function About() {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center justify-center p-8 rounded-3xl bg-brand-white dark:bg-brand-black/40 border border-brand-black/5 dark:border-brand-cream/10 hover:border-brand-yellow/50 transition-all duration-500"
+              className="group flex flex-col items-center justify-center p-8 rounded-3xl bg-card/80 border border-line hover:border-accent/50 transition-all duration-500"
             >
-              <div className="text-brand-black dark:text-brand-cream group-hover:text-brand-yellow transition-colors duration-300 w-8 h-8 flex items-center justify-center mb-4">
+              <div className="text-foreground group-hover:text-accent transition-colors duration-300 w-8 h-8 flex items-center justify-center mb-4">
                 {social.icon}
               </div>
-              <span className="text-xs font-bold tracking-widest uppercase text-muted-foreground group-hover:text-brand-black dark:group-hover:text-brand-cream transition-colors duration-300">
+              <span className="text-xs font-bold tracking-widest uppercase text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                 {social.label}
               </span>
             </Link>
@@ -119,12 +119,12 @@ export function About() {
       </section>
 
       {/* 底部装饰 */}
-      <div className="pt-12 border-t border-brand-black/5 dark:border-brand-cream/5 flex justify-between items-center text-[10px] font-black tracking-widest uppercase text-muted-foreground">
+      <div className="pt-12 border-t border-line flex justify-between items-center text-[10px] font-black tracking-widest uppercase text-muted-foreground">
         <span>Curiosity Driven</span>
         <div className="flex space-x-2">
-          <div className="w-1 h-1 bg-brand-yellow rounded-full"></div>
-          <div className="w-1 h-1 bg-brand-yellow rounded-full opacity-50"></div>
-          <div className="w-1 h-1 bg-brand-yellow rounded-full opacity-20"></div>
+          <div className="w-1 h-1 bg-accent rounded-full"></div>
+          <div className="w-1 h-1 bg-accent rounded-full opacity-50"></div>
+          <div className="w-1 h-1 bg-accent rounded-full opacity-20"></div>
         </div>
         <span>Code with Passion</span>
       </div>
